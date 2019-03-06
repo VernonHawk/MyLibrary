@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">MyLibrary</string>
+
+    <string name="sign_in_activity_label">Sign In</string>
+
+    <string name="landing_heading1">Welcome to MyLibrary!</string>
+    <string name="landing_heading2">Tell us a bit about yourself</string>
+    <string name="landing_roles_group_label">I am a</string>
+    <string name="landing_continue">Continue</string>
+
+    <string name="role_reader">Reader</string>
+    <string name="role_librarian">Librarian</string>
+    <string name="role_archivist">Archivist</string>
 </resources>
