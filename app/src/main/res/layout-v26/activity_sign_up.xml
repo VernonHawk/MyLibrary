@@ -6,44 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/hello_user_role"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/not_a_user_role"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="396dp"
-        android:layout_height="574dp"
+        android:layout_width="382dp"
+        android:layout_height="715dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textPhone"
+            android:id="@+id/textName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/name"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Enter your name"
+            android:inputType="text"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textSuename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Surname"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/inputSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Enter your surname"
+            android:inputType="text"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textPhoneReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -52,17 +67,17 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPhone"
+            android:id="@+id/inputPhoneReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_phone_number"
             android:inputType="phone"
-            android:textSize="24sp"
-            android:autofillHints="" />
+            android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textPaasword"
+            android:id="@+id/textPaaswordReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -71,22 +86,41 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPassword"
+            android:id="@+id/inputPasswordReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_password"
             android:inputType="textPassword"
-            android:textSize="24sp"
-            android:autofillHints="" />
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textPaaswordReg2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/password"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/inputPasswordReg2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/enter_your_password"
+            android:inputType="textPassword"
+            android:textSize="24sp" />
 
         <Button
-            android:id="@+id/signin_btn"
+            android:id="@+id/signup_btn_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@color/colorSuccess"
-            android:text="@string/sign_in"
+            android:text="Sign up"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
@@ -96,17 +130,19 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/signin_btn_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="200dp"
-            android:text="@string/sign_up"
+            android:layout_marginBottom="16dp"
+            android:text="Sign in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView6" />
@@ -117,8 +153,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="210dp"
-            android:text="@string/don_t_have_an_account"
+            android:layout_marginBottom="24dp"
+            android:text="Already nave an account? "
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             android:textColorHighlight="@color/colorPrimaryDark"

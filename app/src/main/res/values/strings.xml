@@ -11,4 +11,18 @@
     <string name="role_reader">Reader</string>
     <string name="role_librarian">Librarian</string>
     <string name="role_archivist">Archivist</string>
+    <string name="hello_user_role">Hello, %User_role%</string>
+    <string name="not_a_user_role">Not a %User_role%?</string>
+    <string name="phone_number">Phone number</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="name">Name</string>
+    <string name="sign_in">sign_in</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="surname">Surname</string>
+    <string name="enter_your_surname">Enter your surname</string>
+    <string name="already_nave_an_account">Already nave an account?</string>
 </resources>
