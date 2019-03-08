@@ -1,6 +1,6 @@
 # MyLibrary
 
-Mobile Client for a Library App for Android. It's a University project.
+Mobile Client for a Library App for Android. It's a University project.  
 Server for this app is built with Ruby and can be found on [GitLab](https://gitlab.com/pavlozahozhenko/ruby-course-2019/tree/team-u_project-dev/students/team-u).
 
 ## Versioning
