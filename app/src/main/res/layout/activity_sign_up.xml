@@ -7,14 +7,14 @@
     tools:context=".SignInActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linear_layout"
         android:layout_width="382dp"
         android:layout_height="715dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_layout_for_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,17 +29,16 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputName"
+            android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_name"
             android:inputType="text"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textSuename"
+            android:id="@+id/text_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -48,17 +47,16 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputSurname"
+            android:id="@+id/input_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_surname"
             android:inputType="text"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textPhoneReg"
+            android:id="@+id/text_phone_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -67,17 +65,16 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPhoneReg"
+            android:id="@+id/input_phone_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_phone_number"
             android:inputType="phone"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textPaaswordReg"
+            android:id="@+id/text_password_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -86,31 +83,29 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPasswordReg"
+            android:id="@+id/input_password_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/enter_your_password"
             android:inputType="textPassword"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textPaaswordReg2"
+            android:id="@+id/text_paasword_reg2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/password"
+            android:text="@string/repeat_password"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPasswordReg2"
+            android:id="@+id/input_password_reg2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
-            android:hint="@string/enter_your_password"
+            android:hint="@string/repeat_your_password"
             android:inputType="textPassword"
             android:textSize="24sp" />
 
@@ -127,7 +122,7 @@
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linear_layout_for_signin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="24dp"
@@ -145,10 +140,10 @@
             android:text="@string/sign_in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView6" />
+            app:layout_constraintStart_toEndOf="@+id/label_for_signin" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/label_for_signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
