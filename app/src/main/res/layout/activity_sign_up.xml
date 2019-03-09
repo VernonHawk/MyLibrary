@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity">
+    tools:context=".SignUpActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -149,7 +149,8 @@
                     android:text="@string/sign_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/label_for_signin" />
+                    app:layout_constraintStart_toEndOf="@+id/label_for_signin"
+                    android:onClick="onSignIn"/>
 
                 <TextView
                     android:id="@+id/label_for_signin"
