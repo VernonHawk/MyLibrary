@@ -10,7 +10,7 @@
         android:id="@+id/hello_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:text="@string/hello_user_role"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,24 +27,22 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/linear_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hello_label"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintTop_toBottomOf="@+id/hello_label" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="365dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textPhone"
+            android:id="@+id/text_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -53,7 +51,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/inputPhone"
+            android:id="@+id/input_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -97,18 +95,16 @@
         android:id="@+id/linear_layout_for_signin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/signin_btn_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="88dp"
+            android:layout_marginBottom="36dp"
             android:text="@string/sign_up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="96dp"
+            android:layout_marginBottom="44dp"
             android:text="@string/don_t_have_an_account"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
