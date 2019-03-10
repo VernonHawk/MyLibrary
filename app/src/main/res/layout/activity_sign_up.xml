@@ -131,7 +131,7 @@
                 android:textSize="24sp" />
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/linear_layout_for_signin"
+                android:id="@+id/constraint_layout_for_signin"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
@@ -150,7 +150,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/label_for_signin"
-                    android:onClick="onSignIn"/>
+                    android:onClick="onToSignIn"/>
 
                 <TextView
                     android:id="@+id/label_for_signin"

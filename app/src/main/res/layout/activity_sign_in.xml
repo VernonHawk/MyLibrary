@@ -90,7 +90,7 @@
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/linear_layout_for_signup"
+        android:id="@+id/constraint_layout_for_signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_for_signup"
-            android:onClick="onSignUp"/>
+            android:onClick="onToSignUp"/>
 
         <TextView
             android:id="@+id/label_for_signup"

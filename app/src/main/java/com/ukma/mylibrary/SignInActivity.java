@@ -16,7 +16,7 @@ class SignInActivity extends AppCompatActivity {
         // use passed role
     }
 
-    public void onSignUp(View view) {
+    public void onToSignUp(View view) {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
