@@ -1,6 +1,5 @@
 package com.ukma.mylibrary;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,8 +13,8 @@ class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
-    public void onToSignIn(View view) {
-        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-        startActivity(intent);
+    public
+    void onToSignIn(final View view) {
+        finish();
     }
 }

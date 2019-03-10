@@ -21,10 +21,14 @@
         android:id="@+id/label_not_user_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:text="@string/not_a_user_role"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
+        android:focusable="true"
+        android:clickable="true"
+        android:onClick="onToLanding"
         app:layout_constraintBottom_toTopOf="@+id/linear_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hello_label" />
@@ -87,44 +91,43 @@
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraint_layout_for_signup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/signup_btn_reg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="36dp"
-            android:text="@string/sign_up"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_layout_for_signup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_for_signup"
-            android:onClick="onToSignUp"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/label_for_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="44dp"
-            android:text="@string/don_t_have_an_account"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textColorHighlight="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/signup_btn_reg"
-            app:layout_constraintStart_toStartOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/signup_btn_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="onToSignUp"
+                android:text="@string/sign_up"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/label_for_signup" />
+
+            <TextView
+                android:id="@+id/label_for_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/don_t_have_an_account"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                android:textColorHighlight="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/signup_btn_reg"
+                app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
