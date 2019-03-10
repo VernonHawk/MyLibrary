@@ -23,18 +23,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onToLanding"
         android:text="@string/not_a_user_role"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        android:focusable="true"
-        android:clickable="true"
-        android:onClick="onToLanding"
-        app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+        app:layout_constraintBottom_toTopOf="@+id/form_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hello_label" />
 
     <LinearLayout
-        android:id="@+id/linear_layout"
+        android:id="@+id/form_layout"
         android:layout_width="0dp"
         android:layout_height="365dp"
         android:layout_marginStart="8dp"
@@ -92,7 +92,7 @@
             android:textSize="24sp" />
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_layout_for_signup"
+            android:id="@+id/to_sign_up_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -128,6 +128,4 @@
                 app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-
-
 </android.support.constraint.ConstraintLayout>

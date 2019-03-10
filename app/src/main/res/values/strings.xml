@@ -13,8 +13,8 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
 
-    <string name="hello_user_role">Hello, %User_role%!</string>
-    <string name="not_a_user_role"><u>Not a %User_role%?</u></string>
+    <string name="hello_user_role">Hello, %s!</string>
+    <string name="not_a_user_role"><u>Not a %s?</u></string>
 
     <string name="name">Name</string>
     <string name="enter_your_name">Enter your name</string>
