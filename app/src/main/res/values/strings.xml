@@ -14,7 +14,8 @@
     <string name="sign_up">Sign Up</string>
 
     <string name="hello_user_role">Hello, %s!</string>
-    <string name="not_a_user_role"><u>Not a %s?</u></string>
+    <string name="not_a_user_role">Not a %s?</string>
+    <string name="not_an_user_role">Not an %s?</string>
 
     <string name="name">Name</string>
     <string name="enter_your_name">Enter your name</string>
