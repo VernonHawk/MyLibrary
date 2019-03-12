@@ -12,7 +12,7 @@
 
         <activity
             android:name=".SignInActivity"
-            android:label="@string/sign_in_activity_label"
+            android:label="@string/sign_in"
             android:parentActivityName=".MainActivity" />
 
         <activity

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/linear_layout"
+            android:id="@+id/form_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -131,34 +131,33 @@
                 android:textSize="24sp" />
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraint_layout_for_signin"
+                android:id="@+id/to_sign_in_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <Button
                     android:id="@+id/signin_btn_reg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:onClick="onToSignIn"
                     android:text="@string/sign_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/label_for_signin"
-                    android:onClick="onToSignIn"/>
+                    app:layout_constraintStart_toEndOf="@+id/label_for_signin" />
 
                 <TextView
                     android:id="@+id/label_for_signin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginBottom="32dp"
                     android:text="@string/already_nave_an_account"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
@@ -170,9 +169,6 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
-
         </LinearLayout>
-
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>
