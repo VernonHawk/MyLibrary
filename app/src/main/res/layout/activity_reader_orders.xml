@@ -25,9 +25,10 @@
                 android:id="@+id/switch_actual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp"
                 android:switchPadding="12dp"
-                android:text="@string/actual_switch" />
+                android:text="@string/actual_switch"
+                tools:checked="true" />
 
             <Switch
                 android:id="@+id/switch_reserved"
@@ -41,7 +42,7 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:cacheColorHint="#00000000"
             android:divider="#000"
@@ -55,17 +56,20 @@
 
             <Button
                 android:id="@+id/prev"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Prev" />
+                android:text="@string/prev_btn" />
 
             <Button
                 android:id="@+id/next"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Next" />
+                android:text="@string/next_btn" />
+
         </LinearLayout>
 
         <TextView

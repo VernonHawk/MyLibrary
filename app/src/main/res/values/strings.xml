@@ -35,4 +35,7 @@
     <string name="reserved_switch">Reserved</string>
     <string name="return_date">Return date:</string>
     <string name="issue_date">Issue date:</string>
+    <string name="cancel_reservation">Cancel</string>
+    <string name="prev_btn">Prev</string>
+    <string name="next_btn">Next</string>
 </resources>

@@ -17,7 +17,7 @@ class SignInActivity extends AppCompatActivity {
     }
 
     public void onToSignUp(View view) {
-        Intent intent = new Intent(SignInActivity.this,  SignUpActivity.class); //ReaderActivity.class);
+        Intent intent = new Intent(SignInActivity.this,  ReaderActivity.class); //SignUpActivity.class);
         startActivity(intent);
     }
 }

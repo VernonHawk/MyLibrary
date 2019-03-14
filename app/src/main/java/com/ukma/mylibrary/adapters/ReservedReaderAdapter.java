@@ -12,16 +12,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.R;
-import com.ukma.mylibrary.components.ActualReaderItem;
+import com.ukma.mylibrary.components.ReservedReaderItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderAdapter extends ArrayAdapter<ActualReaderItem> {
+public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
     private Context mContext;
-    private List<ActualReaderItem> itemList;
+    private List<ReservedReaderItem> itemList;
 
-    public ReaderAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<ActualReaderItem> list) {
+    public ReservedReaderAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<ReservedReaderItem> list) {
         super(context, 0, list);
         mContext = context;
         itemList = list;
@@ -32,18 +32,15 @@ public class ReaderAdapter extends ArrayAdapter<ActualReaderItem> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_actual, parent, false);
 
-        ActualReaderItem currentItem = itemList.get(position);
+        ReservedReaderItem currentItem = itemList.get(position);
 
         TextView name = listItem.findViewById(R.id.textView_name);
         name.setText(currentItem.getItemName());
 
-        TextView issueDate = listItem.findViewById(R.id.textView_issueDate);
-        issueDate.setText(currentItem.getItemIssueDate());
-
-        TextView returnDate = listItem.findViewById(R.id.textView_returnDate);
-        returnDate.setText(currentItem.getItemReturnDate());
+        TextView reservationDate = listItem.findViewById(R.id.textView_reservationDate);
+        reservationDate.setText(currentItem.getItemReservationDate().toString());
 
         return listItem;
     }
