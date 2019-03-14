@@ -21,16 +21,20 @@
         android:id="@+id/label_not_user_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onToLanding"
         android:text="@string/not_a_user_role"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+        app:layout_constraintBottom_toTopOf="@+id/form_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hello_label" />
 
     <LinearLayout
-        android:id="@+id/linear_layout"
+        android:id="@+id/form_layout"
         android:layout_width="0dp"
         android:layout_height="365dp"
         android:layout_marginStart="8dp"
@@ -42,89 +46,102 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/text_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="24dp"
             android:text="@string/phone_number"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/input_phone"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_phone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/enter_your_phone_number"
-            android:inputType="phone"
-            android:textSize="24sp" />
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/input_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/input_number_hint"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:textSize="24sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id="@+id/text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="24dp"
             android:text="@string/password"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/input_password"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/enter_your_password"
-            android:inputType="textPassword"
-            android:textSize="24sp" />
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/input_password_hint"
+                android:inputType="textPassword"
+                android:textSize="24sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/signin_btn"
+            android:id="@+id/sign_in_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@color/colorSuccess"
+            android:onClick="onSignIn"
             android:text="@string/sign_in"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraint_layout_for_signup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/signup_btn_reg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="36dp"
-            android:text="@string/sign_up"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/to_sign_up_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_for_signup"
-            android:onClick="onToSignUp"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/label_for_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="44dp"
-            android:text="@string/don_t_have_an_account"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textColorHighlight="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/signup_btn_reg"
-            app:layout_constraintStart_toStartOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/to_sign_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="onToSignUp"
+                android:text="@string/sign_up"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/label_for_sign_up" />
 
+            <TextView
+                android:id="@+id/label_for_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/don_t_have_an_account"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                android:textColorHighlight="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/to_sign_up_btn"
+                app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
