@@ -24,8 +24,6 @@
             android:name=".ReaderActivity"
             android:label="Reader"
             android:parentActivityName=".SignInActivity" />
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
-
 
         <activity android:name=".MainActivity">
             <intent-filter>
