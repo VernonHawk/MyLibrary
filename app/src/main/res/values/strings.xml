@@ -27,4 +27,12 @@
     <string name="hello_user_role">Hello, %User_role%</string>
     <string name="repeat_your_password">Repeat your password</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="orders">Orders</string>
+    <string name="library">Library</string>
+    <string name="username">%username%</string>
+    <string name="exit">Exit</string>
+    <string name="actual_switch">Actual</string>
+    <string name="reserved_switch">Reserved</string>
+    <string name="return_date">Return date:</string>
+    <string name="issue_date">Issue date:</string>
 </resources>

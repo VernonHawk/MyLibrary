@@ -20,6 +20,13 @@
             android:label="@string/sign_up"
             android:parentActivityName=".SignInActivity" />
 
+        <activity
+            android:name=".ReaderActivity"
+            android:label="Reader"
+            android:parentActivityName=".SignInActivity" />
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,5 +37,4 @@
         </activity>
 
     </application>
-
 </manifest>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/name_reader"
+        android:title="@string/username"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_reader"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/exit"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_orders"
+        android:title="@string/orders"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_library"
+        android:title="@string/library"
+        app:showAsAction="ifRoom" />
+
+</menu>

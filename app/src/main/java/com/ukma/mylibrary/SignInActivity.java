@@ -8,8 +8,8 @@ import android.view.View;
 public
 class SignInActivity extends AppCompatActivity {
 
-    @Override protected
-    void onCreate(final Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
@@ -17,7 +17,7 @@ class SignInActivity extends AppCompatActivity {
     }
 
     public void onToSignUp(View view) {
-        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        Intent intent = new Intent(SignInActivity.this,  SignUpActivity.class); //ReaderActivity.class);
         startActivity(intent);
     }
 }
