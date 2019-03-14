@@ -24,108 +24,140 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="4dp"
                 android:text="@string/name"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input_name"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/reg_input_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_your_name"
-                android:inputType="text"
-                android:textSize="24sp" />
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/reg_input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_name_hint"
+                    android:inputType="text"
+                    android:textSize="24sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/text_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/surname"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input_surname"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/reg_input_surname_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_your_surname"
-                android:inputType="text"
-                android:textSize="24sp" />
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/reg_input_surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_surname_hint"
+                    android:inputType="text"
+                    android:textSize="24sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/text_phone_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/phone_number"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input_phone_reg"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/reg_input_phone_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_your_phone_number"
-                android:inputType="phone"
-                android:textSize="24sp" />
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/reg_input_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_number_hint"
+                    android:inputType="phone"
+                    android:maxLength="20"
+                    android:textSize="24sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/text_password_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/password"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input_password_reg"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/reg_input_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_your_password"
-                android:inputType="textPassword"
-                android:textSize="24sp" />
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/reg_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_password_hint"
+                    android:inputType="textPassword"
+                    android:textSize="24sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/text_password_reg2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/repeat_password"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/input_password_reg2"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/reg_input_password_repeat_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/repeat_your_password"
-                android:inputType="textPassword"
-                android:textSize="24sp" />
+                app:hintEnabled="false">
+
+                <EditText
+                    android:id="@+id/reg_input_password_repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_password_repeat_hint"
+                    android:inputType="textPassword"
+                    android:textSize="24sp" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/signup_btn_reg"
+                android:id="@+id/sign_up_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:background="@color/colorSuccess"
+                android:onClick="onSignUp"
                 android:text="@string/sign_up"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
@@ -140,7 +172,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <Button
-                    android:id="@+id/signin_btn_reg"
+                    android:id="@+id/to_sign_in_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -149,10 +181,10 @@
                     android:text="@string/sign_in"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/label_for_signin" />
+                    app:layout_constraintStart_toEndOf="@+id/label_for_sign_in" />
 
                 <TextView
-                    android:id="@+id/label_for_signin"
+                    android:id="@+id/label_for_sign_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -165,7 +197,7 @@
                     android:textSize="22sp"
                     android:textStyle="italic"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/signin_btn_reg"
+                    app:layout_constraintEnd_toStartOf="@+id/to_sign_in_btn"
                     app:layout_constraintStart_toStartOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
