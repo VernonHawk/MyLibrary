@@ -3,7 +3,7 @@ package com.ukma.mylibrary.managers;
 import android.app.Activity;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
 import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
@@ -13,8 +13,9 @@ import org.json.JSONObject;
 
 
 public class AuthManager {
-    private static final String SIGN_UP_URL = "http://192.168.1.4:3000/register";
-    private static final String SIGN_IN_URL = "http://192.168.1.4:3000/login";
+    private static final String SIGN_UP_URL = "/register";
+    private static final String SIGN_IN_URL = "/login";
+
     private static AuthManager authManager = null;
     private User currentUser;
 
@@ -43,23 +44,17 @@ public class AuthManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                SIGN_IN_URL,
-                requestObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EntityFactory entityFactory = new EntityFactory();
-                        currentUser = (User) entityFactory.getEntity(response, User.class);
-                        responseListener.onResponse(response);
-                    }
-                },
-                responseErrorListener
+        API.call(context, SIGN_IN_URL, Request.Method.POST, requestObject,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    EntityFactory entityFactory = new EntityFactory();
+                    currentUser = (User) entityFactory.getEntity(response, User.class);
+                    responseListener.onResponse(response);
+                }
+            },
+            responseErrorListener
         );
-        RequestQueueManager.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     public void signUp(Activity context, User user, Response.Listener<JSONObject> responseListener,
@@ -72,15 +67,14 @@ public class AuthManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                SIGN_UP_URL,
-                requestObject,
-                responseListener,
-                responseErrorListener
+        API.call(
+            context,
+            SIGN_UP_URL,
+            Request.Method.POST,
+            requestObject,
+            responseListener,
+            responseErrorListener
         );
-        RequestQueueManager.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     public void signOut(Activity context, Response.Listener<JSONObject> responseListener,
