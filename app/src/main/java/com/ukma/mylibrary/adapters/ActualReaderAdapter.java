@@ -14,14 +14,16 @@ import android.widget.TextView;
 import com.ukma.mylibrary.R;
 import com.ukma.mylibrary.components.ActualReaderItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ActualReaderAdapter extends ArrayAdapter<ActualReaderItem> {
     private Context mContext;
     private List<ActualReaderItem> itemList;
 
-    public ActualReaderAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<ActualReaderItem> list) {
+    public ActualReaderAdapter(@NonNull Context context, ArrayList<ActualReaderItem> list) {
         super(context, 0, list);
         mContext = context;
         itemList = list;
@@ -30,6 +32,8 @@ public class ActualReaderAdapter extends ArrayAdapter<ActualReaderItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
         View listItem = convertView;
         if (listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_actual, parent, false);
@@ -40,10 +44,10 @@ public class ActualReaderAdapter extends ArrayAdapter<ActualReaderItem> {
         name.setText(currentItem.getItemName());
 
         TextView issueDate = listItem.findViewById(R.id.textView_issueDate);
-        issueDate.setText(currentItem.getItemIssueDate().toString());
+        issueDate.setText(sdf.format(currentItem.getItemIssueDate()));
 
         TextView returnDate = listItem.findViewById(R.id.textView_returnDate);
-        returnDate.setText(currentItem.getItemReturnDate().toString());
+        returnDate.setText(sdf.format(currentItem.getItemReturnDate()));
 
         return listItem;
     }

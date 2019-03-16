@@ -7,7 +7,7 @@ public class ReservedReaderItem {
     private String itemName;
     private Date itemReservationDate;
 
-    // Constructor that is used to create an instance of the Movie object
+    // Constructor that is used to create an instance of the ReaderItem object
     public ReservedReaderItem(String itemName, Date itemReservationDate) {
         this.itemName = itemName;
         this.itemReservationDate = itemReservationDate;

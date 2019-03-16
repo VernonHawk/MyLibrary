@@ -8,7 +8,7 @@ public class ActualReaderItem {
     private Date itemIssueDate;
     private Date itemReturnDate;
 
-    // Constructor that is used to create an instance of the Movie object
+    // Constructor that is used to create an instance of the ReaderItem object
     public ActualReaderItem(String itemName, Date itemIssueDate, Date itemReturnDate) {
         this.itemName = itemName;
         this.itemIssueDate = itemIssueDate;

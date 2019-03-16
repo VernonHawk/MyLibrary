@@ -19,16 +19,16 @@ import java.util.Locale;
 
 public class ReaderActivity extends AppCompatActivity {
     public int TOTAL_LIST_ITEMS = 10;
-    public int NUM_ITEMS_PAGE = 4;
+    static final private int NUM_ITEMS_PAGE = 4;
     private ListView listView;
     private TextView title;
-    private Switch sw_actual;
-    private Switch sw_reserved;
-    private Button btn_prev;
-    private Button btn_next;
+    private Switch swActual;
+    private Switch swReserved;
+    private Button btnPrev;
+    private Button btnNext;
     private ArrayList<ActualReaderItem> data;
     private int pageCount;
-    private int increment = 0;
+    private int currentPage = 0;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,13 +42,13 @@ public class ReaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reader_orders);
 
         listView = findViewById(R.id.list);
-        btn_prev = findViewById(R.id.prev);
-        btn_next = findViewById(R.id.next);
+        btnPrev = findViewById(R.id.prev);
+        btnNext = findViewById(R.id.next);
         title = findViewById(R.id.title);
-        sw_actual = findViewById(R.id.switch_actual);
-        sw_reserved = findViewById(R.id.switch_reserved);
+        swActual = findViewById(R.id.switch_actual);
+        swReserved = findViewById(R.id.switch_reserved);
 
-        sw_actual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swActual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -58,7 +58,7 @@ public class ReaderActivity extends AppCompatActivity {
                 }
             }
         });
-        sw_reserved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swReserved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -69,7 +69,7 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
-        btn_prev.setEnabled(false);
+        btnPrev.setEnabled(false);
         data = new ArrayList<>();
 
         //this block is for checking the number of pages
@@ -81,17 +81,17 @@ public class ReaderActivity extends AppCompatActivity {
             data.add(new ActualReaderItem("Book " + (i + 1), new Date(), new Date()));
         loadList(0);
 
-        btn_next.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                increment++;
-                loadList(increment);
+                currentPage++;
+                loadList(currentPage);
                 CheckEnable();
             }
         });
-        btn_prev.setOnClickListener(new View.OnClickListener() {
+        btnPrev.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                increment--;
-                loadList(increment);
+                currentPage--;
+                loadList(currentPage);
                 CheckEnable();
             }
         });
@@ -101,31 +101,30 @@ public class ReaderActivity extends AppCompatActivity {
      * Method for enabling and disabling Buttons
      */
     private void CheckEnable() {
-        if (increment + 1 == pageCount)
-            btn_next.setEnabled(false);
-        else if (increment == 0)
-            btn_prev.setEnabled(false);
+        if (currentPage + 1 == pageCount)
+            btnNext.setEnabled(false);
+        else if (currentPage == 0)
+            btnPrev.setEnabled(false);
         else {
-            btn_prev.setEnabled(true);
-            btn_next.setEnabled(true);
+            btnPrev.setEnabled(true);
+            btnNext.setEnabled(true);
         }
     }
 
     /**
      * Method for loading data in listview
      *
-     * @param number
+     * @param pageNum
      */
-    private void loadList(int number) {
+    private void loadList(int pageNum) {
         ArrayList<ActualReaderItem> sort = new ArrayList<>();
-        title.setText(String.format(Locale.ENGLISH, "Page %d of %d", number + 1, pageCount));
+        title.setText(String.format(Locale.getDefault(), "Page %d of %d", pageNum + 1, pageCount));
 
-        int start = number * NUM_ITEMS_PAGE;
-        for (int i = start; i < (start) + NUM_ITEMS_PAGE; i++) {
-            if (i < data.size())
-                sort.add(data.get(i));
-            else
+        int start = pageNum * NUM_ITEMS_PAGE;
+        for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
+            if (i >= data.size())
                 break;
+            sort.add(data.get(i));
         }
         ActualReaderAdapter rAdapter = new ActualReaderAdapter(this, sort);
         listView.setAdapter(rAdapter);

@@ -14,14 +14,16 @@ import android.widget.TextView;
 import com.ukma.mylibrary.R;
 import com.ukma.mylibrary.components.ReservedReaderItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
     private Context mContext;
     private List<ReservedReaderItem> itemList;
 
-    public ReservedReaderAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<ReservedReaderItem> list) {
+    public ReservedReaderAdapter(@NonNull Context context, ArrayList<ReservedReaderItem> list) {
         super(context, 0, list);
         mContext = context;
         itemList = list;
@@ -30,6 +32,8 @@ public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
         View listItem = convertView;
         if (listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_actual, parent, false);
@@ -40,7 +44,7 @@ public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
         name.setText(currentItem.getItemName());
 
         TextView reservationDate = listItem.findViewById(R.id.textView_reservationDate);
-        reservationDate.setText(currentItem.getItemReservationDate().toString());
+        reservationDate.setText(sdf.format(currentItem.getItemReservationDate()));
 
         return listItem;
     }

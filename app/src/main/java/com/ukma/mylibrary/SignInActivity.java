@@ -43,7 +43,7 @@ class SignInActivity extends AppCompatActivity {
     }
 
     public void onToSignUp(final View view) {
-        startActivity(new Intent(SignInActivity.this, SignUpActivity.class)); //ReaderActivity.class);
+        startActivity(new Intent(SignInActivity.this, SignUpActivity.class)); //ReaderActivity.class));
     }
 
     public void onToLanding(final View view) {
