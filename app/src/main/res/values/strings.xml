@@ -42,4 +42,9 @@
     <string name="cancel_reservation">Cancel</string>
     <string name="prev_btn">Prev</string>
     <string name="next_btn">Next</string>
+    <string name="book_icon_content">book</string>
+    <string name="total_copies_title">Total copies:</string>
+    <string name="item_state">State:</string>
+    <string name="reservation_date">Reservation date:</string>
+    <string name="item_info">Info</string>
 </resources>

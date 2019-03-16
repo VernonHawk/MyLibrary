@@ -6,12 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="toolbarStyle">@style/CustomToolBarStyle</item>
+        <!--<item name="toolbarStyle">@style/CustomToolBarStyle</item>-->
     </style>
-    <style name="CustomToolBarStyle" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="titleTextColor">@color/white</item>
-    </style>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-    </style>
+    <!--<style name="CustomToolBarStyle" parent="@style/Widget.AppCompat.Toolbar">-->
+        <!--<item name="titleTextColor">@color/white</item>-->
+    <!--</style>-->
 </resources>
