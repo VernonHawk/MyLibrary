@@ -14,16 +14,16 @@ public class API<E extends Entity> {
 
     public APIRequest call(Route route) {
         return new APIRequest(
-            normalizeRoutePath(APIRoutes.getRoutePath(route)),
-            APIRoutes.getMethodType(route)
+                normalizeRoutePath(APIRoutes.getRoutePath(route)),
+                APIRoutes.getMethodType(route)
         );
     }
 
     public APIRequest call(Route route, Class c) {
         return new APIRequest<E>(
-            normalizeRoutePath(APIRoutes.getRoutePath(route)),
-            APIRoutes.getMethodType(route),
-            c
+                normalizeRoutePath(APIRoutes.getRoutePath(route)),
+                APIRoutes.getMethodType(route),
+                c
         );
     }
 }

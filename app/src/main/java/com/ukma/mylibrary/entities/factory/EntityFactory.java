@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class EntityFactory implements IEntityFactory {
-    public EntityFactory() {}
+    public EntityFactory() {
+    }
 
     @Override
     public Entity getEntity(JSONObject jsonObject, Class c) {

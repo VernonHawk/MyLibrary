@@ -5,23 +5,15 @@ import android.content.SharedPreferences;
 
 import com.android.volley.Response;
 import com.ukma.mylibrary.api.API;
-import com.ukma.mylibrary.api.APIRequest;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
-import com.ukma.mylibrary.entities.Entity;
-import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
 import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class AuthManager {
@@ -33,7 +25,8 @@ public class AuthManager {
     private Context context;
     private SharedPreferences sPref;
 
-    private AuthManager() {}
+    private AuthManager() {
+    }
 
     private void loadToken() {
         sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, context.MODE_PRIVATE);
@@ -71,23 +64,23 @@ public class AuthManager {
             requestObject.put("user", userCredentialsObject);
 
             new API().call(Route.SignIn)
-                .body(requestObject)
-                .then(new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EntityFactory entityFactory = new EntityFactory();
-                        try {
-                            String token = (String) response.get("access_token");
-                            saveToken(token);
-                            CURRENT_USER = (User) entityFactory.getEntity(response.getString("user"), User.class);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    .body(requestObject)
+                    .then(new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            EntityFactory entityFactory = new EntityFactory();
+                            try {
+                                String token = (String) response.get("access_token");
+                                saveToken(token);
+                                CURRENT_USER = (User) entityFactory.getEntity(response.getString("user"), User.class);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            responseListener.onResponse(CURRENT_USER);
                         }
-                        responseListener.onResponse(CURRENT_USER);
-                    }
-                })
-                .catchError(responseErrorListener)
-                .executeWithContext(context);
+                    })
+                    .catchError(responseErrorListener)
+                    .executeWithContext(context);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (APIRequestNoListenerSpecifiedException e) {
@@ -104,9 +97,9 @@ public class AuthManager {
             requestObject.put("user", userJSONObject);
 
             new API().call(Route.SignUp)
-                .then(responseListener)
-                .catchError(responseErrorListener)
-                .executeWithContext(context);
+                    .then(responseListener)
+                    .catchError(responseErrorListener)
+                    .executeWithContext(context);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (APIRequestNoListenerSpecifiedException e) {

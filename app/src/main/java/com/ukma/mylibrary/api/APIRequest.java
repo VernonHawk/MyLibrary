@@ -44,14 +44,7 @@ public class APIRequest<T extends Entity> {
     }
 
     public APIRequest(String path, int method, Class entityClass) {
-        this.path = path;
-        this.method = method;
-        this.errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                apiResponseErrorListener.onErrorResponse(error);
-            }
-        };
+        this(path, method);
         this.entityClass = entityClass;
     }
 
@@ -136,50 +129,50 @@ public class APIRequest<T extends Entity> {
         final String finalPath = generatePath();
         if (this.responseObjectListener != null) {
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
-                this.method,
-                finalPath,
-                this.requestObject,
-                this.responseObjectListener,
-                this.errorListener
+                    this.method,
+                    finalPath,
+                    this.requestObject,
+                    this.responseObjectListener,
+                    this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonObjectRequest);
         } else if (this.responseArrayListener != null) {
             APIJsonArrayRequest apiJsonArrayRequest = new APIJsonArrayRequest(
-                this.method,
-                finalPath,
-                this.requestArray,
-                this.responseArrayListener,
-                this.errorListener
+                    this.method,
+                    finalPath,
+                    this.requestArray,
+                    this.responseArrayListener,
+                    this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonArrayRequest);
         } else if (this.apiResponseObjectListener != null) {
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
-                this.method,
-                finalPath,
-                this.requestObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        T entity = (T) new EntityFactory().getEntity(response, entityClass);
-                        apiResponseObjectListener.onResponse(entity);
-                    }
-                },
-                this.errorListener
+                    this.method,
+                    finalPath,
+                    this.requestObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            T entity = (T) new EntityFactory().getEntity(response, entityClass);
+                            apiResponseObjectListener.onResponse(entity);
+                        }
+                    },
+                    this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonObjectRequest);
         } else if (this.apiResponseArrayListener != null) {
             APIJsonArrayRequest apiJsonArrayRequest = new APIJsonArrayRequest(
-                this.method,
-                finalPath,
-                this.requestArray,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<T> entities = (List<T>) new EntityFactory().getEntityList(response, entityClass);
-                        apiResponseArrayListener.onResponse(entities);
-                    }
-                },
-                this.errorListener
+                    this.method,
+                    finalPath,
+                    this.requestArray,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            List<T> entities = (List<T>) new EntityFactory().getEntityList(response, entityClass);
+                            apiResponseArrayListener.onResponse(entities);
+                        }
+                    },
+                    this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonArrayRequest);
         } else {

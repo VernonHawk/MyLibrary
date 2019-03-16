@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public interface IEntityJSONFactory {
-    public JSONObject getEntityJSON(Entity entity);
-    public JSONArray getEntityJSONArray(List<Entity> entities);
+    JSONObject getEntityJSON(Entity entity);
+
+    JSONArray getEntityJSONArray(List<Entity> entities);
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 public enum Role {
     Reader, Librarian, Archivist;
 
-    private static Map<Role, RoleObject> rolesMap = new HashMap<Role, RoleObject>(3);
+    private static Map<Role, RoleObject> rolesMap = new HashMap<>(3);
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class RoleObject implements Entity {
@@ -20,7 +20,8 @@ public enum Role {
         @JsonProperty("name")
         private String name;
 
-        public RoleObject() {}
+        public RoleObject() {
+        }
 
         public RoleObject(long id, String name) {
             this.id = id;

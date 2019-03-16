@@ -12,11 +12,14 @@ import org.json.JSONArray;
 import java.util.Map;
 
 public class APIJsonArrayRequest extends JsonArrayRequest {
-    public APIJsonArrayRequest(String url, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {
+    public APIJsonArrayRequest(String url, Response.Listener<JSONArray> listener,
+                               @Nullable Response.ErrorListener errorListener) {
         super(url, listener, errorListener);
     }
 
-    public APIJsonArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {
+    public APIJsonArrayRequest(int method, String url, @Nullable JSONArray jsonRequest,
+                               Response.Listener<JSONArray> listener,
+                               @Nullable Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);
     }
 

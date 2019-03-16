@@ -18,7 +18,8 @@ public class User implements Entity {
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private String password;
 
-    public User() {}
+    public User() {
+    }
 
     public User(long id, String name, String surname, String phoneNum, Role role) {
         this.id = id;

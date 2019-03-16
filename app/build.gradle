@@ -27,8 +27,8 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.android.volley:volley:1.1.1'
-    compile (
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation (
             [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.8'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8']
