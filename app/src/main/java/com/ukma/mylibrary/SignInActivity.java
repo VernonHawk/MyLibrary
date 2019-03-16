@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.Tools.PhoneNumberHelper;
+import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
@@ -77,14 +78,12 @@ class SignInActivity extends AppCompatActivity {
         final String password = mUserPasswordEditText.getText().toString();
 
         AuthManager authManager = AuthManager.getManager(this);
-        authManager.signIn(phoneNumber, password, new Response.Listener<JSONObject>() {
+        authManager.signIn(phoneNumber, password, new APIResponse.Listener<User>() {
             @Override
-            public void onResponse(JSONObject response) {
-                EntityFactory entityFactory = new EntityFactory();
-                User user = (User) entityFactory.getEntity(response, User.class);
+            public void onResponse(User user) {
                 System.out.println(user);
             }
-        }, new Response.ErrorListener() {
+        }, new APIResponse.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);

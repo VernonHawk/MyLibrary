@@ -6,13 +6,22 @@ import android.content.SharedPreferences;
 import com.android.volley.Response;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequest;
+import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
+import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
+import com.ukma.mylibrary.entities.Entity;
+import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
 import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class AuthManager {
@@ -43,7 +52,8 @@ public class AuthManager {
         if (authManager == null) {
             authManager = new AuthManager();
             authManager.context = context;
-            authManager.loadToken();
+            // TODO
+//            authManager.loadToken();
             return authManager;
         }
         authManager.context = context;
@@ -51,8 +61,8 @@ public class AuthManager {
     }
 
     public void signIn(String phone_num, String password,
-                       final Response.Listener<JSONObject> responseListener,
-                       Response.ErrorListener responseErrorListener) {
+                       final APIResponse.Listener<User> responseListener,
+                       APIResponse.ErrorListener responseErrorListener) {
         JSONObject requestObject = new JSONObject();
         JSONObject userCredentialsObject = new JSONObject();
         try {
@@ -60,7 +70,7 @@ public class AuthManager {
             userCredentialsObject.put("password", password);
             requestObject.put("user", userCredentialsObject);
 
-            API.call(Route.SignIn)
+            new API().call(Route.SignIn)
                 .body(requestObject)
                 .then(new Response.Listener<JSONObject>() {
                     @Override
@@ -73,33 +83,33 @@ public class AuthManager {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        responseListener.onResponse(response);
+                        responseListener.onResponse(CURRENT_USER);
                     }
                 })
                 .catchError(responseErrorListener)
                 .executeWithContext(context);
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (APIRequest.APIRequestNoListenerSpecifiedException e) {
+        } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         }
     }
 
-    public void signUp(User user, Response.Listener<JSONObject> responseListener,
-                       Response.ErrorListener responseErrorListener) {
+    public void signUp(User user, APIResponse.Listener<User> responseListener,
+                       APIResponse.ErrorListener responseErrorListener) {
         EntityJSONFactory entityJSONFactory = new EntityJSONFactory();
         JSONObject userJSONObject = entityJSONFactory.getEntityJSON(user);
         JSONObject requestObject = new JSONObject();
         try {
             requestObject.put("user", userJSONObject);
 
-            API.call(Route.SignUp)
+            new API().call(Route.SignUp)
                 .then(responseListener)
                 .catchError(responseErrorListener)
                 .executeWithContext(context);
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (APIRequest.APIRequestNoListenerSpecifiedException e) {
+        } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         }
     }

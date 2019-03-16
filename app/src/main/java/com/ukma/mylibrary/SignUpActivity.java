@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.Tools.PhoneNumberHelper;
+import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.managers.AuthManager;
@@ -56,13 +57,12 @@ class SignUpActivity extends AppCompatActivity {
         AuthManager authManager = AuthManager.getManager(this);
         User user = new User(userName, userSurname, userPhoneNumber, Role.Reader, userPassword);
 
-        authManager.signUp(user, new Response.Listener<JSONObject>() {
+        authManager.signUp(user, new APIResponse.Listener<User>() {
             @Override
-            public void onResponse(JSONObject response) {
-                System.out.println(response);
-                finish();
+            public void onResponse(User receivedUser) {
+                System.out.println(receivedUser);
             }
-        }, new Response.ErrorListener() {
+        }, new APIResponse.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error);
