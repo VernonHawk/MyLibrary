@@ -76,8 +76,8 @@ class SignInActivity extends AppCompatActivity {
         final String phoneNumber = PhoneNumberHelper.normalize(mPhoneEditText.getText());
         final String password = mUserPasswordEditText.getText().toString();
 
-        AuthManager authManager = AuthManager.getManager();
-        authManager.signIn(this, phoneNumber, password, new Response.Listener<JSONObject>() {
+        AuthManager authManager = AuthManager.getManager(this);
+        authManager.signIn(phoneNumber, password, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 EntityFactory entityFactory = new EntityFactory();

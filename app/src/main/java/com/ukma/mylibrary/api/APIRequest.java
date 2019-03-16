@@ -1,11 +1,8 @@
 package com.ukma.mylibrary.api;
 
-import android.app.Activity;
+import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.ukma.mylibrary.managers.RequestQueueManager;
 
 import org.json.JSONArray;
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class APIRequest {
-    private Activity context;
     private String path;
     private int method;
     private Map<String, String> routeParams = null;
@@ -71,25 +67,25 @@ public class APIRequest {
         return this;
     }
 
-    public void executeWithContext(Activity context) throws APIRequestNoListenerSpecifiedException {
+    public void executeWithContext(Context context) throws APIRequestNoListenerSpecifiedException {
         if (this.responseObjectListener != null) {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
                     this.method,
                     this.path,
                     this.requestObject,
                     this.responseObjectListener,
                     this.responseErrorListener
             );
-            RequestQueueManager.getInstance(context).addToRequestQueue(jsonObjectRequest);
+            RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonObjectRequest);
         } else if (this.responseArrayListener != null) {
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+            APIJsonArrayRequest apiJsonArrayRequest = new APIJsonArrayRequest(
                     this.method,
                     this.path,
                     this.requestArray,
                     this.responseArrayListener,
                     this.responseErrorListener
             );
-            RequestQueueManager.getInstance(context).addToRequestQueue(jsonArrayRequest);
+            RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonArrayRequest);
         } else {
             throw new APIRequestNoListenerSpecifiedException("No listener specified!!! Use `then` or `thenWithArray` method.");
         }

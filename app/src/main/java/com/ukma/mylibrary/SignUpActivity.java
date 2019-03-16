@@ -53,10 +53,10 @@ class SignUpActivity extends AppCompatActivity {
         final String userSurname = mUserSurnameEditText.getText().toString();
         final String userPhoneNumber = PhoneNumberHelper.normalize(mUserPhoneEditText.getText());
 
-        AuthManager authManager = AuthManager.getManager();
+        AuthManager authManager = AuthManager.getManager(this);
         User user = new User(userName, userSurname, userPhoneNumber, Role.Reader, userPassword);
 
-        authManager.signUp(this, user, new Response.Listener<JSONObject>() {
+        authManager.signUp(user, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println(response);

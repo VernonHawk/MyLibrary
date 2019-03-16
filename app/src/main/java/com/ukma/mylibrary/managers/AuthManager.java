@@ -1,6 +1,8 @@
 package com.ukma.mylibrary.managers;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.android.volley.Response;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequest;
@@ -15,22 +17,44 @@ import org.json.JSONObject;
 
 public class AuthManager {
     private static AuthManager authManager = null;
+    private static final String S_PREF_TOKEN_ID = "com.ukma.mylibrary.S_PREF_TOKEN_ID";
+    private static final String TOKEN_KEY = "TOKEN_KEY";
+    public static String JWT_TOKEN;
+    private Context context;
     private User currentUser;
+    private SharedPreferences sPref;
 
     private AuthManager() {}
+
+    private void loadToken() {
+        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, context.MODE_PRIVATE);
+        JWT_TOKEN = sPref.getString(TOKEN_KEY, null);
+    }
+
+    private void saveToken(String token) {
+        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putString(TOKEN_KEY, token);
+        ed.commit();
+        JWT_TOKEN = token;
+    }
 
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public static AuthManager getManager() {
+    public static AuthManager getManager(Context context) {
         if (authManager == null) {
             authManager = new AuthManager();
+            authManager.context = context;
+            authManager.loadToken();
+            return authManager;
         }
+        authManager.context = context;
         return authManager;
     }
 
-    public void signIn(Activity context, String phone_num, String password,
+    public void signIn(String phone_num, String password,
                        final Response.Listener<JSONObject> responseListener,
                        Response.ErrorListener responseErrorListener) {
         JSONObject requestObject = new JSONObject();
@@ -46,7 +70,13 @@ public class AuthManager {
                     @Override
                     public void onResponse(JSONObject response) {
                         EntityFactory entityFactory = new EntityFactory();
-                        currentUser = (User) entityFactory.getEntity(response, User.class);
+                        try {
+                            String token = (String) response.get("access_token");
+                            saveToken(token);
+                            currentUser = (User) entityFactory.getEntity(response.getString("user"), User.class);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         responseListener.onResponse(response);
                     }
                 })
@@ -59,7 +89,7 @@ public class AuthManager {
         }
     }
 
-    public void signUp(Activity context, User user, Response.Listener<JSONObject> responseListener,
+    public void signUp(User user, Response.Listener<JSONObject> responseListener,
                        Response.ErrorListener responseErrorListener) {
         EntityJSONFactory entityJSONFactory = new EntityJSONFactory();
         JSONObject userJSONObject = entityJSONFactory.getEntityJSON(user);
@@ -78,7 +108,7 @@ public class AuthManager {
         }
     }
 
-    public void signOut(Activity context, Response.Listener<JSONObject> responseListener,
+    public void signOut(Response.Listener<JSONObject> responseListener,
                         Response.ErrorListener responseErrorListener) {
         // TODO ...
     }
