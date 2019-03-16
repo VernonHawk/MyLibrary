@@ -19,9 +19,9 @@ public class AuthManager {
     private static AuthManager authManager = null;
     private static final String S_PREF_TOKEN_ID = "com.ukma.mylibrary.S_PREF_TOKEN_ID";
     private static final String TOKEN_KEY = "TOKEN_KEY";
+    public static User CURRENT_USER;
     public static String JWT_TOKEN;
     private Context context;
-    private User currentUser;
     private SharedPreferences sPref;
 
     private AuthManager() {}
@@ -37,10 +37,6 @@ public class AuthManager {
         ed.putString(TOKEN_KEY, token);
         ed.commit();
         JWT_TOKEN = token;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     public static AuthManager getManager(Context context) {
@@ -73,7 +69,7 @@ public class AuthManager {
                         try {
                             String token = (String) response.get("access_token");
                             saveToken(token);
-                            currentUser = (User) entityFactory.getEntity(response.getString("user"), User.class);
+                            CURRENT_USER = (User) entityFactory.getEntity(response.getString("user"), User.class);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
