@@ -12,6 +12,7 @@ import com.ukma.mylibrary.managers.RequestQueueManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,8 @@ public class APIRequest<T extends Entity> {
     private Class entityClass = null;
     private String path;
     private int method;
-    private Map<String, String> routeParams = null;
-    private Map<String, String> queryParams = null;
+    private Map<String, String> routeParams = new HashMap<>();
+    private Map<String, String> queryParams = new HashMap<>();
     private JSONObject requestObject = null;
     private JSONArray requestArray = null;
     private APIResponse.Listener<T> apiResponseObjectListener = null;
@@ -54,10 +55,25 @@ public class APIRequest<T extends Entity> {
         this.entityClass = entityClass;
     }
 
-    public APIRequest params(Map<String, String> routeParams) {
+    private String generatePath() {
+        String generatedPath = this.path;
+        generatedPath += "?";
         for (Map.Entry<String, String> entry : routeParams.entrySet()) {
-            this.path = this.path.replaceFirst("\\{" + entry.getKey() + "\\}", entry.getValue());
+            generatedPath = generatedPath.replaceFirst("\\{" + entry.getKey() + "\\}", entry.getValue());
         }
+        for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+            generatedPath += entry.getKey() + "=" + entry.getValue() + "&";
+        }
+        return generatedPath.substring(0, generatedPath.length() - 1);
+    }
+
+    public APIRequest params(Map<String, String> routeParams) {
+        this.routeParams.putAll(routeParams);
+        return this;
+    }
+
+    public APIRequest params(String key, String value) {
+        this.routeParams.put(key, value);
         return this;
     }
 
@@ -82,11 +98,12 @@ public class APIRequest<T extends Entity> {
     }
 
     public APIRequest query(Map<String, String> queryParams) {
-        this.path += "?";
-        for (Map.Entry<String, String> entry : queryParams.entrySet()) {
-            this.path += entry.getKey() + "=" + entry.getValue() + "&";
-        }
-        this.path = this.path.substring(0, this.path.length() - 1);
+        this.queryParams.putAll(queryParams);
+        return this;
+    }
+
+    public APIRequest query(String key, String value) {
+        this.queryParams.put(key, value);
         return this;
     }
 
@@ -116,28 +133,29 @@ public class APIRequest<T extends Entity> {
     }
 
     public void executeWithContext(Context context) throws APIRequestNoListenerSpecifiedException {
+        final String finalPath = generatePath();
         if (this.responseObjectListener != null) {
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
-                    this.method,
-                    this.path,
-                    this.requestObject,
-                    this.responseObjectListener,
-                    this.errorListener
+                this.method,
+                finalPath,
+                this.requestObject,
+                this.responseObjectListener,
+                this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonObjectRequest);
         } else if (this.responseArrayListener != null) {
             APIJsonArrayRequest apiJsonArrayRequest = new APIJsonArrayRequest(
-                    this.method,
-                    this.path,
-                    this.requestArray,
-                    this.responseArrayListener,
-                    this.errorListener
+                this.method,
+                finalPath,
+                this.requestArray,
+                this.responseArrayListener,
+                this.errorListener
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonArrayRequest);
         } else if (this.apiResponseObjectListener != null) {
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
                 this.method,
-                this.path,
+                finalPath,
                 this.requestObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -152,7 +170,7 @@ public class APIRequest<T extends Entity> {
         } else if (this.apiResponseArrayListener != null) {
             APIJsonArrayRequest apiJsonArrayRequest = new APIJsonArrayRequest(
                 this.method,
-                this.path,
+                finalPath,
                 this.requestArray,
                 new Response.Listener<JSONArray>() {
                     @Override
