@@ -10,6 +10,7 @@ import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
 import com.ukma.mylibrary.managers.RequestQueueManager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public class APIRequest {
     private int method;
     private Map<String, String> routeParams = new HashMap<>();
     private Map<String, String> queryParams = new HashMap<>();
+    private Map<String, JSONObject> bodyObjectParams = new HashMap<>();
+    private Map<String, JSONArray> bodyArrayParams = new HashMap<>();
     private JSONObject requestObject = null;
     private JSONArray requestArray = null;
     private APIResponse.Listener<Entity> apiResponseObjectListener = null;
@@ -60,6 +63,24 @@ public class APIRequest {
         return generatedPath.substring(0, generatedPath.length() - 1);
     }
 
+    private void generateRequestObject() {
+        this.requestObject = new JSONObject();
+        for (Map.Entry<String, JSONObject> entry : bodyObjectParams.entrySet()) {
+            try {
+                requestObject.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Map.Entry<String, JSONArray> entry : bodyArrayParams.entrySet()) {
+            try {
+                requestObject.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public APIRequest params(Map<String, String> routeParams) {
         this.routeParams.putAll(routeParams);
         return this;
@@ -70,8 +91,8 @@ public class APIRequest {
         return this;
     }
 
-    public APIRequest body(Entity entity) {
-        this.requestObject = new EntityJSONFactory().getEntityJSON(entity);
+    public APIRequest body(String key, Entity entity) {
+        this.bodyObjectParams.put(key, new EntityJSONFactory().getEntityJSON(entity));
         return this;
     }
 
@@ -80,13 +101,23 @@ public class APIRequest {
         return this;
     }
 
-    public APIRequest body(JSONObject requestObject) {
-        this.requestObject = requestObject;
+    public APIRequest body(String key, List<Entity> entities) {
+        this.bodyArrayParams.put(key, new EntityJSONFactory().getEntityJSONArray(entities));
+        return this;
+    }
+
+    public APIRequest body(String key, JSONObject requestObject) {
+        this.bodyObjectParams.put(key, requestObject);
         return this;
     }
 
     public APIRequest body(JSONArray requestArray) {
         this.requestArray = requestArray;
+        return this;
+    }
+
+    public APIRequest body(String key, JSONArray requestArray) {
+        this.bodyArrayParams.put(key, requestArray);
         return this;
     }
 
@@ -127,8 +158,8 @@ public class APIRequest {
 
     public void executeWithContext(Context context) throws APIRequestNoListenerSpecifiedException {
         final String finalPath = generatePath();
-        System.out.println("BODY");
         if (this.responseObjectListener != null) {
+            this.generateRequestObject();
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
                     this.method,
                     finalPath,
@@ -147,6 +178,7 @@ public class APIRequest {
             );
             RequestQueueManager.getInstance(context).addToRequestQueue(apiJsonArrayRequest);
         } else if (this.apiResponseObjectListener != null) {
+            this.generateRequestObject();
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
                     this.method,
                     finalPath,

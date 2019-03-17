@@ -56,15 +56,13 @@ public class AuthManager {
     public void signIn(String phone_num, String password,
                        final APIResponse.Listener<User> responseListener,
                        APIResponse.ErrorListener responseErrorListener) {
-        JSONObject requestObject = new JSONObject();
         JSONObject userCredentialsObject = new JSONObject();
         try {
             userCredentialsObject.put("phone_num", phone_num);
             userCredentialsObject.put("password", password);
-            requestObject.put("user", userCredentialsObject);
 
             API.call(Route.SignIn)
-                    .body(requestObject)
+                    .body("user", userCredentialsObject)
                     .then(new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -90,21 +88,13 @@ public class AuthManager {
 
     public void signUp(User user, APIResponse.Listener<User> responseListener,
                        APIResponse.ErrorListener responseErrorListener) {
-        EntityJSONFactory entityJSONFactory = new EntityJSONFactory();
-        JSONObject userJSONObject = entityJSONFactory.getEntityJSON(user);
-        JSONObject requestObject = new JSONObject();
         try {
-            requestObject.put("user", userJSONObject);
-
             API.call(Route.SignUp, User.class)
-                    .body(requestObject)
+                    .body("user", user)
                     .then(responseListener)
                     .catchError(responseErrorListener)
                     .executeWithContext(context);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        catch (APIRequestNoListenerSpecifiedException e) {
+        } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         }
     }
