@@ -1,4 +1,4 @@
-package com.ukma.mylibrary;
+package com.ukma.mylibrary.Tools;
 
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 /**
  Quality of life class for working with phone numbers.
  */
-class PhoneNumberHelper {
+public class PhoneNumberHelper {
     public static
     void addFormatting(final TextView view) {
         view.addTextChangedListener(new PhoneNumberFormattingTextWatcher());

@@ -8,12 +8,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.ukma.mylibrary.Tools.PhoneNumberHelper;
+import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.entities.Role;
+import com.ukma.mylibrary.entities.User;
+import com.ukma.mylibrary.entities.factory.EntityFactory;
+import com.ukma.mylibrary.managers.AuthManager;
+
+import org.json.JSONObject;
+
 public
 class SignInActivity extends AppCompatActivity {
 
     private Role mUserRole;
 
     private EditText mPhoneEditText;
+    private EditText mUserPasswordEditText;
 
     @Override protected
     void onCreate(final Bundle savedInstanceState) {
@@ -21,6 +33,7 @@ class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         mUserRole = (Role) getIntent().getSerializableExtra(MainActivity.EXTRA_MESSAGE);
+        mUserPasswordEditText = findViewById(R.id.input_password);
 
         if (mUserRole != Role.Reader)
             findViewById(R.id.to_sign_up_layout).setVisibility(View.GONE);
@@ -62,7 +75,19 @@ class SignInActivity extends AppCompatActivity {
     public
     void onSignIn(final View view) {
         final String phoneNumber = PhoneNumberHelper.normalize(mPhoneEditText.getText());
+        final String password = mUserPasswordEditText.getText().toString();
 
-        // ...
+        AuthManager authManager = AuthManager.getManager(this);
+        authManager.signIn(phoneNumber, password, new APIResponse.Listener<User>() {
+            @Override
+            public void onResponse(User user) {
+                System.out.println(user);
+            }
+        }, new APIResponse.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        });
     }
 }
