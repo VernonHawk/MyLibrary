@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
+import com.ukma.mylibrary.entities.Entity;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
 import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
@@ -25,7 +27,9 @@ public class AuthManager {
     private Context context;
     private SharedPreferences sPref;
 
-    private AuthManager() {
+    private AuthManager(Context context) {
+        this.context = context;
+        loadToken();
     }
 
     private void loadToken() {
@@ -43,14 +47,40 @@ public class AuthManager {
 
     public static AuthManager getManager(Context context) {
         if (authManager == null) {
-            authManager = new AuthManager();
-            authManager.context = context;
-            // TODO
-//            authManager.loadToken();
+            authManager = new AuthManager(context);
             return authManager;
         }
+        if (CURRENT_USER == null && JWT_TOKEN != null) {
+            authManager.fetchCurrentUser();
+        }
         authManager.context = context;
+
         return authManager;
+    }
+
+    public boolean isAuthenticated() {
+        return CURRENT_USER != null && JWT_TOKEN != null;
+    }
+
+    public void fetchCurrentUser() {
+        try {
+            API.call(Route.GetCurrentUser, User.class)
+                    .then(new APIResponse.Listener<User>() {
+                        @Override
+                        public void onResponse(User user) {
+                            CURRENT_USER = user;
+                        }
+                    })
+                    .catchError(new APIResponse.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            throw new Error("Cannot fetch user!");
+                        }
+                    })
+                    .executeWithContext(context);
+        } catch (APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void signIn(String phone_num, String password,
@@ -86,12 +116,22 @@ public class AuthManager {
         }
     }
 
-    public void signUp(User user, APIResponse.Listener<User> responseListener,
-                       APIResponse.ErrorListener responseErrorListener) {
+    public void signUp(final User user, final APIResponse.Listener<User> responseListener,
+                       final APIResponse.ErrorListener responseErrorListener) {
         try {
-            API.call(Route.SignUp, User.class)
+            API.call(Route.SignUp)
                     .body("user", user)
-                    .then(responseListener)
+                    .then(new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            signIn(
+                                user.getPhoneNum(),
+                                user.getPassword(),
+                                responseListener,
+                                responseErrorListener
+                            );
+                        }
+                    })
                     .catchError(responseErrorListener)
                     .executeWithContext(context);
         } catch (APIRequestNoListenerSpecifiedException e) {
@@ -99,8 +139,21 @@ public class AuthManager {
         }
     }
 
-    public void signOut(Response.Listener<JSONObject> responseListener,
-                        Response.ErrorListener responseErrorListener) {
-        // TODO ...
+    public void signOut(final APIResponse.Listener responseListener,
+                        APIResponse.ErrorListener responseErrorListener) {
+        try {
+            API.call(Route.SignOut)
+                    .then(new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            saveToken(null);
+                            responseListener.onResponse(response);
+                        }
+                    })
+                    .catchError(responseErrorListener)
+                    .executeWithContext(context);
+        } catch (APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
     }
 }

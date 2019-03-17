@@ -11,6 +11,8 @@ public class APIRoutes {
     static {
         routes.put(Route.SignUp, new RouteData(Request.Method.POST, "/register"));
         routes.put(Route.SignIn, new RouteData(Request.Method.POST, "/login"));
+        routes.put(Route.SignOut, new RouteData(Request.Method.DELETE, "/logout"));
+        routes.put(Route.GetCurrentUser, new RouteData(Request.Method.GET, "/users/current"));
     }
 
     public static String getRoutePath(Route route) {
