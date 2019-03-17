@@ -63,7 +63,7 @@ public class AuthManager {
             userCredentialsObject.put("password", password);
             requestObject.put("user", userCredentialsObject);
 
-            new API().call(Route.SignIn)
+            API.call(Route.SignIn)
                     .body(requestObject)
                     .then(new Response.Listener<JSONObject>() {
                         @Override
@@ -96,13 +96,15 @@ public class AuthManager {
         try {
             requestObject.put("user", userJSONObject);
 
-            new API().call(Route.SignUp)
+            API.call(Route.SignUp, User.class)
+                    .body(requestObject)
                     .then(responseListener)
                     .catchError(responseErrorListener)
                     .executeWithContext(context);
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (APIRequestNoListenerSpecifiedException e) {
+        }
+        catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         }
     }
@@ -111,5 +113,4 @@ public class AuthManager {
                         Response.ErrorListener responseErrorListener) {
         // TODO ...
     }
-
 }

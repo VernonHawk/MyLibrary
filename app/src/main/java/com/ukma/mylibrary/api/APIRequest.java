@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class APIRequest<T extends Entity> {
+public class APIRequest {
     private Class entityClass = null;
     private String path;
     private int method;
@@ -24,8 +24,8 @@ public class APIRequest<T extends Entity> {
     private Map<String, String> queryParams = new HashMap<>();
     private JSONObject requestObject = null;
     private JSONArray requestArray = null;
-    private APIResponse.Listener<T> apiResponseObjectListener = null;
-    private APIResponse.Listener<List<T>> apiResponseArrayListener = null;
+    private APIResponse.Listener<Entity> apiResponseObjectListener = null;
+    private APIResponse.Listener<List<Entity>> apiResponseArrayListener = null;
     private APIResponse.ErrorListener apiResponseErrorListener = null;
 
     private Response.Listener<JSONObject> responseObjectListener = null;
@@ -70,13 +70,13 @@ public class APIRequest<T extends Entity> {
         return this;
     }
 
-    public APIRequest body(T entity) {
+    public APIRequest body(Entity entity) {
         this.requestObject = new EntityJSONFactory().getEntityJSON(entity);
         return this;
     }
 
-    public APIRequest body(List<T> entities) {
-        this.requestArray = new EntityJSONFactory().getEntityJSONArray((List<Entity>) entities);
+    public APIRequest body(List<Entity> entities) {
+        this.requestArray = new EntityJSONFactory().getEntityJSONArray(entities);
         return this;
     }
 
@@ -100,13 +100,13 @@ public class APIRequest<T extends Entity> {
         return this;
     }
 
-    public APIRequest then(APIResponse.Listener<T> apiResponseObjectListener) {
-        this.apiResponseObjectListener = apiResponseObjectListener;
+    public <E extends Entity> APIRequest then(APIResponse.Listener<E> apiResponseObjectListener) {
+        this.apiResponseObjectListener = (APIResponse.Listener<Entity>) apiResponseObjectListener;
         return this;
     }
 
-    public APIRequest thenWithArray(APIResponse.Listener<List<T>> apiResponseArrayListener) {
-        this.apiResponseArrayListener = apiResponseArrayListener;
+    public <E extends Entity, L extends List<E>> APIRequest thenWithArray(APIResponse.Listener<L> apiResponseArrayListener) {
+        this.apiResponseArrayListener = (APIResponse.Listener<List<Entity>>) apiResponseArrayListener;
         return this;
     }
 
@@ -127,6 +127,7 @@ public class APIRequest<T extends Entity> {
 
     public void executeWithContext(Context context) throws APIRequestNoListenerSpecifiedException {
         final String finalPath = generatePath();
+        System.out.println("BODY");
         if (this.responseObjectListener != null) {
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(
                     this.method,
@@ -153,7 +154,7 @@ public class APIRequest<T extends Entity> {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            T entity = (T) new EntityFactory().getEntity(response, entityClass);
+                            Entity entity = new EntityFactory().getEntity(response, entityClass);
                             apiResponseObjectListener.onResponse(entity);
                         }
                     },
@@ -168,7 +169,7 @@ public class APIRequest<T extends Entity> {
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
-                            List<T> entities = (List<T>) new EntityFactory().getEntityList(response, entityClass);
+                            List<Entity> entities = new EntityFactory().getEntityList(response, entityClass);
                             apiResponseArrayListener.onResponse(entities);
                         }
                     },
