@@ -1,19 +1,17 @@
 package com.ukma.mylibrary;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.Tools.PhoneNumberHelper;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.managers.AuthManager;
-
-import org.json.JSONObject;
 
 public
 class SignUpActivity extends AppCompatActivity {
@@ -47,7 +45,9 @@ class SignUpActivity extends AppCompatActivity {
         final String userPasswordConfirmation = mUserPasswordConfirmationEditText.getText().toString();
 
         if (userPassword.compareTo(userPasswordConfirmation) != 0) {
-            // TODO ...
+            TextInputLayout repeatPasswordTil = findViewById(R.id.reg_input_password_repeat_layout);
+            repeatPasswordTil.setError("Those passwords didn't match. Try again.");
+            return;
         }
 
         final String userName = mUserNameEditText.getText().toString();
