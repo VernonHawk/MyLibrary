@@ -1,8 +1,6 @@
 package com.ukma.mylibrary.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -36,7 +34,7 @@ public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
 
         View listItem = convertView;
         if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_actual, parent, false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_reserved, parent, false);
 
         ReservedReaderItem currentItem = itemList.get(position);
 

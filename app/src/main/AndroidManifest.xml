@@ -23,7 +23,12 @@
 
         <activity
             android:name=".ReaderActivity"
-            android:label="Reader"
+            android:label=""
+            android:parentActivityName=".SignInActivity" />
+
+        <activity
+            android:name=".LibraryActivity"
+            android:label=""
             android:parentActivityName=".SignInActivity" />
 
         <activity android:name=".MainActivity">

@@ -47,4 +47,7 @@
     <string name="item_state">State:</string>
     <string name="reservation_date">Reservation date:</string>
     <string name="item_info">Info</string>
+    <string name="actual_switch_text">Actual</string>
+    <string name="reserved_switch_text">Reserved</string>
+    <string name="btn_take">Take</string>
 </resources>

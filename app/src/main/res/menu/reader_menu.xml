@@ -7,11 +7,11 @@
         android:title="@string/username"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_reader"
-        android:icon="@drawable/ic_account_box_black_24dp"
-        android:title="@string/exit"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/action_reader"-->
+        <!--android:icon="@drawable/ic_account_box_black_24dp"-->
+        <!--android:title="@string/exit"-->
+        <!--app:showAsAction="ifRoom" />-->
 
     <item
         android:id="@+id/action_orders"

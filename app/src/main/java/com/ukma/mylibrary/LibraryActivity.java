@@ -4,21 +4,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.ukma.mylibrary.adapters.ActualReaderAdapter;
-import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
+import com.ukma.mylibrary.adapters.ItemUtils;
+import com.ukma.mylibrary.adapters.LibraryAdapter;
 import com.ukma.mylibrary.components.AbstractReaderItem;
-import com.ukma.mylibrary.components.ActualReaderItem;
-import com.ukma.mylibrary.components.ReservedReaderItem;
-
+import com.ukma.mylibrary.components.LibraryItem;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
-public class ReaderActivity extends ToolbarActivity {
+public class LibraryActivity extends ToolbarActivity {
     static final private int NUM_ITEMS_PAGE = 4;
     public int TOTAL_LIST_ITEMS = 10;
     private ListView listView;
@@ -28,12 +24,11 @@ public class ReaderActivity extends ToolbarActivity {
     private ArrayList<AbstractReaderItem> data;
     private int pageCount;
     private int currentPage = 0;
-    private int currentCheckId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reader_orders);
+        setContentView(R.layout.activity_reader_library);
 
         listView = findViewById(R.id.list);
         btnPrev = findViewById(R.id.prev);
@@ -42,19 +37,22 @@ public class ReaderActivity extends ToolbarActivity {
 
         data = new ArrayList<>();
 
-        //this block is for checking the number of pages
         int val = TOTAL_LIST_ITEMS % NUM_ITEMS_PAGE;
         val = val == 0 ? 0 : 1;
         pageCount = TOTAL_LIST_ITEMS / NUM_ITEMS_PAGE + val;
-        // The ArrayList data contains all the list items
-        RadioGroup radioGroup = findViewById(R.id.toggle);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setActiveItem(checkedId);
-            }
-        });
-        setActiveItem(R.id.rb_actual);
+        data.clear();
+        for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
+            data.add(new LibraryItem(
+                    "Book " + (i + 1),
+                    i,
+                    i % 2 == 0 ? ItemUtils.BookState.FREE : ItemUtils.BookState.RESERVED,
+                    i % 2 == 0 ? ItemUtils.ItemType.BOOK : ItemUtils.ItemType.COLLECTION)
+            );
+        currentPage = 0;
+        btnPrev.setEnabled(false);
+        btnNext.setEnabled(true);
+        loadList(0);
+        CheckEnable();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,32 +68,15 @@ public class ReaderActivity extends ToolbarActivity {
                 CheckEnable();
             }
         });
+
+//        listView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //todo on click action
+//            }
+//        });
     }
 
-    private void setActiveItem(int checkedId) {
-        data.clear();
-        switch (checkedId) {
-            case R.id.rb_actual:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ActualReaderItem("Book " + (i + 1), new Date(), new Date()));
-                currentCheckId = 0;
-                break;
-            case R.id.rb_reserved:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ReservedReaderItem("Book " + (i + 1), new Date()));
-                currentCheckId = 1;
-                break;
-        }
-        currentPage = 0;
-        btnPrev.setEnabled(false);
-        btnNext.setEnabled(true);
-        loadList(0);
-        CheckEnable();
-    }
-
-    /**
-     * Method for enabling and disabling Buttons
-     */
     private void CheckEnable() {
         if (currentPage + 1 == pageCount)
             btnNext.setEnabled(false);
@@ -107,11 +88,6 @@ public class ReaderActivity extends ToolbarActivity {
         }
     }
 
-    /**
-     * Method for loading data in listview
-     *
-     * @param pageNum
-     */
     private void loadList(int pageNum) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();
         title.setText(String.format(Locale.getDefault(), "Page %d of %d", pageNum + 1, pageCount));
@@ -122,7 +98,6 @@ public class ReaderActivity extends ToolbarActivity {
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(currentCheckId == 0 ?
-                new ActualReaderAdapter(this, sort) : new ReservedReaderAdapter(this, sort));
+        listView.setAdapter(new LibraryAdapter(this, sort));
     }
 }
