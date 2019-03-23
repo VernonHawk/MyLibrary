@@ -30,4 +30,27 @@
 
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="already_nave_an_account">Already nave an account?</string>
+
+    <string name="orders">Orders</string>
+    <string name="library">Library</string>
+    <string name="username">%username%</string>
+    <string name="exit">Exit</string>
+    <string name="actual_switch">Actual</string>
+    <string name="reserved_switch">Reserved</string>
+    <string name="return_date">Return date:</string>
+    <string name="issue_date">Issue date:</string>
+    <string name="cancel_reservation">Cancel</string>
+    <string name="prev_btn">Prev</string>
+    <string name="next_btn">Next</string>
+    <string name="book_icon_content">book</string>
+    <string name="total_copies_title">Total copies:</string>
+    <string name="item_state">State:</string>
+    <string name="reservation_date">Reservation date:</string>
+    <string name="item_info">Info</string>
+    <string name="actual_switch_text">Actual</string>
+    <string name="reserved_switch_text">Reserved</string>
+    <string name="btn_take">Take</string>
+    <string name="btn_order">Order</string>
+    <string name="book_tooltip">Book</string>
+    <string name="collection_tooltip">Collection</string>
 </resources>

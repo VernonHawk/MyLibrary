@@ -93,6 +93,7 @@
                 android:ems="10"
                 android:hint="@string/input_password_hint"
                 android:inputType="textPassword"
+                android:maxLength="30"
                 android:textSize="24sp" />
         </android.support.design.widget.TextInputLayout>
 
