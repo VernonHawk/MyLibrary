@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
+import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
 import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.ActualReaderItem;
@@ -28,7 +29,7 @@ public class ReaderActivity extends ToolbarActivity {
     private ArrayList<AbstractReaderItem> data;
     private int pageCount;
     private int currentPage = 0;
-    private int currentCheckId = -1;
+    private ItemUtils.OrderType orderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +79,18 @@ public class ReaderActivity extends ToolbarActivity {
             case R.id.rb_actual:
                 for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
                     data.add(new ActualReaderItem("Book " + (i + 1), new Date(), new Date()));
-                currentCheckId = 0;
+                orderType = ItemUtils.OrderType.ACTUAL;
                 break;
             case R.id.rb_reserved:
                 for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
                     data.add(new ReservedReaderItem("Book " + (i + 1), new Date()));
-                currentCheckId = 1;
+                orderType = ItemUtils.OrderType.RESERVED;
                 break;
         }
         currentPage = 0;
         btnPrev.setEnabled(false);
         btnNext.setEnabled(true);
-        loadList(0);
+        loadList(currentPage);
         CheckEnable();
     }
 
@@ -110,19 +111,19 @@ public class ReaderActivity extends ToolbarActivity {
     /**
      * Method for loading data in listview
      *
-     * @param pageNum
+     * @param currentPage
      */
-    private void loadList(int pageNum) {
+    private void loadList(int currentPage) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", pageNum + 1, pageCount));
+        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
 
-        int start = pageNum * NUM_ITEMS_PAGE;
+        int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
             if (i >= data.size())
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(currentCheckId == 0 ?
+        listView.setAdapter(orderType == ItemUtils.OrderType.ACTUAL ?
                 new ActualReaderAdapter(this, sort) : new ReservedReaderAdapter(this, sort));
     }
 }

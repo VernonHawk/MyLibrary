@@ -62,7 +62,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/copies_layout">
+        android:layout_below="@+id/copies_layout"
+        android:layout_marginBottom="8dp">
 
         <TextView
             android:id="@+id/state_caption"
@@ -109,12 +110,4 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/reservationDate_layout"
-        android:layout_marginBottom="8dp"
-        android:background="@color/darkerGrey"
-        android:visibility="visible" />
 </RelativeLayout>

@@ -50,4 +50,7 @@
     <string name="actual_switch_text">Actual</string>
     <string name="reserved_switch_text">Reserved</string>
     <string name="btn_take">Take</string>
+    <string name="btn_order">Order</string>
+    <string name="book_tooltip">Book</string>
+    <string name="collection_tooltip">Collection</string>
 </resources>

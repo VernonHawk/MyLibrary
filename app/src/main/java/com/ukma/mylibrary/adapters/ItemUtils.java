@@ -10,4 +10,9 @@ public class ItemUtils {
         BOOK,
         COLLECTION
     }
+
+    public enum OrderType {
+        ACTUAL,
+        RESERVED
+    }
 }

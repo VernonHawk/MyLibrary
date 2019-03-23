@@ -49,9 +49,7 @@ public class LibraryActivity extends ToolbarActivity {
                     i % 2 == 0 ? ItemUtils.ItemType.BOOK : ItemUtils.ItemType.COLLECTION)
             );
         currentPage = 0;
-        btnPrev.setEnabled(false);
-        btnNext.setEnabled(true);
-        loadList(0);
+        loadList(currentPage);
         CheckEnable();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -88,11 +86,11 @@ public class LibraryActivity extends ToolbarActivity {
         }
     }
 
-    private void loadList(int pageNum) {
+    private void loadList(int currentPage) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", pageNum + 1, pageCount));
+        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
 
-        int start = pageNum * NUM_ITEMS_PAGE;
+        int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
             if (i >= data.size())
                 break;
