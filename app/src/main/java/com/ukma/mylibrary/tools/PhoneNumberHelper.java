@@ -1,4 +1,4 @@
-package com.ukma.mylibrary.Tools;
+package com.ukma.mylibrary.tools;
 
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;

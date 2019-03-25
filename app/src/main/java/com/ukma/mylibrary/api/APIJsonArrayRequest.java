@@ -2,10 +2,9 @@ package com.ukma.mylibrary.api;
 
 import android.support.annotation.Nullable;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.ukma.mylibrary.Tools.JWTHeaderHelper;
+import com.ukma.mylibrary.tools.JWTHeaderHelper;
 
 import org.json.JSONArray;
 
@@ -24,7 +23,7 @@ public class APIJsonArrayRequest extends JsonArrayRequest {
     }
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() {
         return JWTHeaderHelper.createHeader();
     }
 }

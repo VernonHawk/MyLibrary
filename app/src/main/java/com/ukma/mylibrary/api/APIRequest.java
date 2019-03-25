@@ -55,7 +55,8 @@ public class APIRequest {
         String generatedPath = this.path;
         generatedPath += "?";
         for (Map.Entry<String, String> entry : routeParams.entrySet()) {
-            generatedPath = generatedPath.replaceFirst("\\{" + entry.getKey() + "\\}", entry.getValue());
+            generatedPath =
+                generatedPath.replaceFirst("\\{" + entry.getKey() + '}', entry.getValue());
         }
         for (Map.Entry<String, String> entry : queryParams.entrySet()) {
             generatedPath += entry.getKey() + "=" + entry.getValue() + "&";

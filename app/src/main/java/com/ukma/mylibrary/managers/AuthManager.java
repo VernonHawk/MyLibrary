@@ -9,10 +9,8 @@ import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
-import com.ukma.mylibrary.entities.Entity;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.entities.factory.EntityFactory;
-import com.ukma.mylibrary.entities.factory.EntityJSONFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,12 +31,12 @@ public class AuthManager {
     }
 
     private void loadToken() {
-        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, Context.MODE_PRIVATE);
         JWT_TOKEN = sPref.getString(TOKEN_KEY, null);
     }
 
     private void saveToken(String token) {
-        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(S_PREF_TOKEN_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         ed.putString(TOKEN_KEY, token);
         ed.commit();
