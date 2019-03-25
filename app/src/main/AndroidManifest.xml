@@ -26,11 +26,13 @@
         <activity
             android:name=".ReaderActivity"
             android:label=""
+            android:launchMode="singleTop"
             android:parentActivityName=".SignInActivity" />
 
         <activity
             android:name=".LibraryActivity"
             android:label=""
+            android:launchMode="singleTop"
             android:parentActivityName=".SignInActivity" />
 
         <activity android:name=".ToolbarActivity" />

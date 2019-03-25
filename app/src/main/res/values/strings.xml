@@ -67,9 +67,9 @@
     <string name="some_error_message">An error occurred</string>
     <string name="auth_fail_message">Authorization failed</string>
     <string name="internal_error_message">Internal server error occurred</string>
-    <string name="entity_not_found_message">This %s was not found in database</string>
+    <string name="entity_not_found_message">%s was not found in database</string>
     <string name="password_invalid_message">Provided password is invalid</string>
-    <string name="log_out_error_message">Couldn\'t log you out</string>
+    <string name="sign_out_error_message">Couldn\'t sign you out</string>
 
     <string name="blank_text_validation_error">%s can\'t be blank</string>
     <string name="too_long_validation_error">%s is too long</string>

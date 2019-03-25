@@ -44,13 +44,13 @@ public class ToolbarActivity extends AppCompatActivity {
     private void signOut() {
         AuthManager.getManager(this).signOut(new APIResponse.Listener<JSONObject>() {
             @Override
-            public void onResponse(final JSONObject _) {
+            public void onResponse(@SuppressWarnings("unused") final JSONObject __) {
                 finish();
             }
         }, new APIResponse.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                ToastHelper.show(ToolbarActivity.this, R.string.log_out_error_message);
+                ToastHelper.show(ToolbarActivity.this, R.string.sign_out_error_message);
             }
         });
     }

@@ -137,8 +137,9 @@ public class AuthManager {
         }
     }
 
-    public void signOut(final APIResponse.Listener responseListener,
-                        APIResponse.ErrorListener responseErrorListener) {
+    public void signOut(
+        final APIResponse.Listener<JSONObject> responseListener,
+        APIResponse.ErrorListener responseErrorListener) {
         try {
             API.call(Route.SignOut)
                     .then(new Response.Listener<JSONObject>() {

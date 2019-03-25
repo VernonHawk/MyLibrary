@@ -4,6 +4,7 @@ import com.android.volley.Request;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class APIRoutes {
     private static Map<Route, RouteData> routes = new HashMap<>();
@@ -16,11 +17,11 @@ public class APIRoutes {
     }
 
     public static String getRoutePath(Route route) {
-        return routes.get(route).getPath();
+        return Objects.requireNonNull(routes.get(route)).getPath();
     }
 
     public static int getMethodType(Route route) {
-        return routes.get(route).getMethod();
+        return Objects.requireNonNull(routes.get(route)).getMethod();
     }
 
     private static class RouteData {
