@@ -70,6 +70,8 @@
     <string name="entity_not_found_message">%s was not found in database</string>
     <string name="password_invalid_message">Provided password is invalid</string>
     <string name="sign_out_error_message">Couldn\'t sign you out</string>
+    <string name="bad_request_message">Bad request</string>
+    <string name="already_exists_message">%s with this %s already exists</string>
 
     <string name="blank_text_validation_error">%s can\'t be blank</string>
     <string name="too_long_validation_error">%s is too long</string>

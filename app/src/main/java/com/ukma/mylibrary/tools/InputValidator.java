@@ -6,6 +6,8 @@ import android.util.Pair;
 
 import com.ukma.mylibrary.R;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class InputValidator {
@@ -38,12 +40,87 @@ public class InputValidator {
 
     private static final Range PhoneNumberRange = new Range<>(8, 20);
 
+    // region areInputsValid
+    /**
+     Validates all passed inputs as text inputs
+
+     @param inputToLayout Inputs bound to their TextInputLayouts
+     @param texts         Inputs and their values to be validated as text
+     @param errorListener listener to call when an input is invalid
+
+     @return are all passed inputs valid
+     */
     public static boolean areInputsValid(
         @NonNull final Map<Input, TextInputLayout> inputToLayout,
-        final Map<Input, String> textInputs,
-        final Map<Input, String> phoneNumberInputs,
-        final Map<Input, String> passwordInputs,
-        final Map<Pair<Input, Input>, String> passwordConfirmationInputs,
+        final Map<Input, String> texts,
+        final InvalidInputListener errorListener
+    ) {
+        Map<Input, String>              phoneNumbers          = Collections.emptyMap();
+        Map<Input, String>              passwords             = Collections.emptyMap();
+        Map<Pair<Input, Input>, String> passwordConfirmations = Collections.emptyMap();
+
+        return areInputsValid(
+            inputToLayout, texts, phoneNumbers, passwords, passwordConfirmations, errorListener
+        );
+    }
+
+    /**
+     Validates all passed inputs accordingly to their types
+
+     @param inputToLayout Inputs bound to their TextInputLayouts
+     @param texts         Inputs and their values to be validated as text
+     @param phoneNumber   Input and it's value to be validated as phone number
+     @param password      Input and it's value to be validated as password
+     @param passwordConfirmation Pair of password and confirmation Inputs and confirmation value
+                                 to be validated as password confirmation
+     @param errorListener listener to call when an input is invalid
+
+     @return are all passed inputs valid
+     */
+    public static boolean areInputsValid(
+        @NonNull final Map<Input, TextInputLayout> inputToLayout,
+        @NonNull final Map<Input, String> texts,
+        @NonNull final Pair<Input, String> phoneNumber,
+        @NonNull final Pair<Input, String> password,
+        @NonNull final Pair<Input, String> passwordConfirmation,
+        final InvalidInputListener errorListener
+    ) {
+        Map<Input, String> phoneNumbers = new HashMap<Input, String>() {{
+            put(phoneNumber.first, phoneNumber.second);
+        }};
+
+        Map<Input, String> passwords = new HashMap<Input, String>() {{
+            put(password.first, password.second);
+        }};
+
+        Map<Pair<Input, Input>, String> passwordConfirmations = new HashMap<Pair<Input, Input>, String>() {{
+            put(new Pair<>(password.first, passwordConfirmation.first), passwordConfirmation.second);
+        }};
+
+        return areInputsValid(
+            inputToLayout, texts, phoneNumbers, passwords, passwordConfirmations, errorListener
+        );
+    }
+
+    /**
+     Validates all passed inputs accordingly to their types
+
+     @param inputToLayout Inputs bound to their TextInputLayouts
+     @param texts         Inputs and their values to be validated as text
+     @param phoneNumbers  Inputs and their values to be validated as phone number
+     @param passwords     Inputs and their values to be validated as password
+     @param passwordConfirmations Pairs of password and confirmation Inputs and confirmation values
+                                  to be validated as password confirmation
+     @param errorListener listener to call when an Inputs is invalid
+
+     @return are all passed inputs valid
+     */
+    public static boolean areInputsValid(
+        @NonNull final Map<Input, TextInputLayout> inputToLayout,
+        final Map<Input, String> texts,
+        final Map<Input, String> phoneNumbers,
+        final Map<Input, String> passwords,
+        final Map<Pair<Input, Input>, String> passwordConfirmations,
         final InvalidInputListener errorListener
     ) {
         // clear errors
@@ -52,35 +129,35 @@ public class InputValidator {
 
         boolean isValid = true;
 
-        for (final Input input : textInputs.keySet()) {
-            int error = InputValidator.validateText(textInputs.get(input));
+        for (final Input input : texts.keySet()) {
+            final int error = validateText(texts.get(input));
             if (error != 0) {
                 errorListener.processError(input, error);
                 isValid = false;
             }
         }
 
-        for (final Input input : phoneNumberInputs.keySet()) {
-            int error = InputValidator.validatePhoneNumber(phoneNumberInputs.get(input));
+        for (final Input input : phoneNumbers.keySet()) {
+            final int error = validatePhoneNumber(phoneNumbers.get(input));
             if (error != 0) {
                 errorListener.processError(input, error);
                 isValid = false;
             }
         }
 
-        for (final Input input : passwordInputs.keySet()) {
-            int error = InputValidator.validatePassword(passwordInputs.get(input));
+        for (final Input input : passwords.keySet()) {
+            final int error = validatePassword(passwords.get(input));
             if (error != 0) {
                 errorListener.processError(input, error);
                 isValid = false;
             }
         }
 
-        for (final Pair<Input, Input> pair : passwordConfirmationInputs.keySet()) {
-            final String password = passwordInputs.get(pair.first);
-            final String confirmation = passwordConfirmationInputs.get(pair);
+        for (final Pair<Input, Input> pair : passwordConfirmations.keySet()) {
+            final String password = passwords.get(pair.first);
+            final String confirmation = passwordConfirmations.get(pair);
 
-            int error = InputValidator.validatePasswordConfirmation(password, confirmation);
+            final int error = validatePasswordConfirmation(password, confirmation);
             if (error != 0) {
                 errorListener.processError(pair.second, error);
                 isValid = false;
@@ -89,7 +166,9 @@ public class InputValidator {
 
         return isValid;
     }
+    // endregion
 
+    // region Validators
     public static int validateText(final String text) {
         if (text == null || text.trim().isEmpty())
             return R.string.blank_text_validation_error;
@@ -123,4 +202,5 @@ public class InputValidator {
 
         return 0;
     }
+    // endregion
 }

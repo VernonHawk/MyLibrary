@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import com.ukma.mylibrary.tools.PhoneNumberHelper;
 import com.ukma.mylibrary.tools.StringHelper;
 import com.ukma.mylibrary.tools.ToastHelper;
 
-import java.util.Collections;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -101,60 +101,59 @@ class SignInActivity extends AppCompatActivity {
         }
 
         AuthManager.getManager(this).signIn(phoneNumber, password,
-                                            new APIResponse.Listener<User>() {
+         new APIResponse.Listener<User>() {
             @Override
-            public void onResponse(User user) {
+            public void onResponse(final User __) {
+                startActivity(new Intent(
+                    SignInActivity.this, (Class) mRoleToActivity.get(mUserRole)
+                ));
                 signInBtn.setEnabled(true);
-                startActivity(
-                    new Intent(SignInActivity.this, (Class) mRoleToActivity.get(mUserRole)));
             }
         }, new APIResponse.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                final APIResponse.Error err = APIResponse.handleError(SignInActivity.this, error);
+                Log.e(SignInActivity.class.getSimpleName(), error.getMessage(), error);
 
-                if (err == null)
-                    return;
+                APIResponse.handleError(error, new APIResponse.ErrorIdentifiedListener() {
+                    @Override
+                    public void onErrorIdentified(final APIResponse.Error error, final int msgId) {
+                        signInBtn.setEnabled(true);
 
-                if (err.detail().has("phone_num")) {
-                    ToastHelper.show(SignInActivity.this, String.format(
-                        getString(R.string.entity_not_found_message), "Phone number")
-                    );
-                } else if (err.detail().has("password")) {
-                    ToastHelper.show(SignInActivity.this, R.string.password_invalid_message);
-                }
+                        if (error == null || error.status() != HttpURLConnection.HTTP_UNAUTHORIZED) {
+                            ToastHelper.show(SignInActivity.this, msgId);
+                            return;
+                        }
+
+                        if (error.detail().has("phone_num")) {
+                            ToastHelper.show(SignInActivity.this, String.format(
+                                getString(R.string.entity_not_found_message), "Phone number")
+                            );
+                        } else if (error.detail().has("password")) {
+                            ToastHelper.show(SignInActivity.this, R.string.password_invalid_message);
+                        }
+                    }
+                });
             }
         });
-
-        signInBtn.setEnabled(true);
     }
 
     private boolean isInputValid(final String phoneNumber, final String password) {
-        Map<InputValidator.Input, String> textInputs =
+        final Map<InputValidator.Input, String> textInputs =
             new HashMap<InputValidator.Input, String>() {{
                 put(Input.PhoneNumber, phoneNumber);
                 put(Input.Password, password);
             }};
 
-        Map<InputValidator.Input, String> phoneNumberInputs = Collections.emptyMap();
-        Map<InputValidator.Input, String> passwordInputs = Collections.emptyMap();
-        Map<Pair<InputValidator.Input, InputValidator.Input>, String> passwordConfirmationInputs =
-            Collections.emptyMap();
-
         return InputValidator.areInputsValid(
             mInputToLayout,
             textInputs,
-            phoneNumberInputs,
-            passwordInputs,
-            passwordConfirmationInputs,
             new InputValidator.InvalidInputListener() {
                 @Override public void processError(
                     final InputValidator.Input input, final int errStringId
                 ) {
-                    Objects.requireNonNull(mInputToLayout.get(input)).setError(
-                        String.format(
-                            getString(errStringId), StringHelper.camelCaseToWords(input.toString()))
-                    );
+                    Objects.requireNonNull(mInputToLayout.get(input)).setError(String.format(
+                        getString(errStringId), StringHelper.camelCaseToWords(input.toString())
+                    ));
                 }
             }
         );

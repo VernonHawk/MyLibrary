@@ -1,12 +1,10 @@
 package com.ukma.mylibrary.api;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.R;
-import com.ukma.mylibrary.tools.ToastHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,24 +33,32 @@ public class APIResponse {
         void onErrorResponse(VolleyError error);
     }
 
-    public static Error handleError(final Context context, final VolleyError error) {
-        Log.e(context.getClass().getSimpleName(), "", error);
+    public interface ErrorIdentifiedListener {
+        /**
+         * Callback method that an error has been identified Error object and error message id
+         */
+        void onErrorIdentified(Error error, int msgId);
+    }
 
-        final APIResponse.Error err = APIResponse.getError(error.networkResponse);
+
+    public static void handleError(
+        final VolleyError error, final ErrorIdentifiedListener listener
+    ) {
+        final Error err = APIResponse.getError(error.networkResponse);
 
         switch (error.networkResponse.statusCode) {
             case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                ToastHelper.show(context, R.string.internal_error_message);
+                listener.onErrorIdentified(err, R.string.internal_error_message);
                 break;
             case HttpURLConnection.HTTP_UNAUTHORIZED:
-                if (err == null)
-                    ToastHelper.show(context, R.string.auth_fail_message);
+                listener.onErrorIdentified(err, R.string.auth_fail_message);
+                break;
+            case HttpURLConnection.HTTP_BAD_REQUEST:
+                listener.onErrorIdentified(err, R.string.bad_request_message);
                 break;
             default:
-                ToastHelper.show(context, R.string.some_error_message);
+                listener.onErrorIdentified(err, R.string.some_error_message);
         }
-
-        return err;
     }
 
     public static Error getError(final NetworkResponse response) {
@@ -69,17 +75,21 @@ public class APIResponse {
     }
 
     public static class Error {
-        private String status;
+        private int status;
         private String title;
         private JSONObject detail;
 
         Error(final JSONObject error) throws JSONException {
-            status = error.getString("status");
-            title = error.getString("title");
+            try {
+                status = Integer.parseInt(error.getString("status"));
+            } catch (final NumberFormatException nfe) {
+                status = -1;
+            }
+            title  = error.getString("title");
             detail = error.getJSONObject("detail");
         }
 
-        public String status() {
+        public int status() {
             return status;
         }
 
