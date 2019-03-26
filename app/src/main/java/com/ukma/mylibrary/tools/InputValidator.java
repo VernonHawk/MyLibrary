@@ -32,7 +32,16 @@ public class InputValidator {
         }
     }
 
-    public interface Input {}
+    /**
+     * Interface representing a form input
+     */
+    public interface Input {
+
+        /**
+         @return name suitable for displaying to a user
+         */
+        String canonicalName();
+    }
 
     public interface InvalidInputListener {
         void processError(final Input input, final int errStringId);

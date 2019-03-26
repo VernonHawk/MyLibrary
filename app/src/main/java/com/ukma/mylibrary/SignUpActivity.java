@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.tools.InputValidator;
 import com.ukma.mylibrary.tools.PhoneNumberHelper;
-import com.ukma.mylibrary.tools.StringHelper;
 import com.ukma.mylibrary.tools.ToastHelper;
 
 import java.net.HttpURLConnection;
@@ -35,7 +35,14 @@ public class SignUpActivity extends AppCompatActivity {
     private static HashMap<InputValidator.Input, TextInputLayout> mInputToLayout = null;
 
     private enum Input implements InputValidator.Input {
-        Name, Surname, PhoneNumber, Password, PasswordConfirmation
+        Name, Surname, PhoneNumber, Password, PasswordConfirmation;
+
+        @Override public String canonicalName() {
+            // splits CamelCase into words (Camel Case)
+            return TextUtils.join(
+                " ", name().split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")
+            );
+        }
     }
 
     @Override
@@ -131,9 +138,9 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override public void processError(
                     final InputValidator.Input input, final int errStringId
                 ) {
-                    Objects.requireNonNull(mInputToLayout.get(input)).setError(String.format(
-                        getString(errStringId), StringHelper.camelCaseToWords(input.toString())
-                    ));
+                    Objects.requireNonNull(mInputToLayout.get(input)).setError(
+                        String.format(getString(errStringId), input.canonicalName())
+                    );
                 }
             }
         );
