@@ -156,6 +156,7 @@ public class AuthManager {
                     @Override
                     public void onResponse(JSONObject response) {
                         saveToken(null);
+                        CURRENT_USER = null;
                         responseListener.onResponse(response);
                     }
                 })

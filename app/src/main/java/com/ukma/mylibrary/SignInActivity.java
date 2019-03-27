@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -120,28 +121,26 @@ class SignInActivity extends AppCompatActivity {
             }
         }, new APIResponse.ErrorListener() {
             @Override
-            public void onErrorResponse(final VolleyError error) {
-                Log.e(SignInActivity.class.getSimpleName(), error.getMessage(), error);
+            public void onErrorResponse(final VolleyError reqError) {
+                Log.e(SignInActivity.class.getSimpleName(), reqError.getMessage(), reqError);
 
-                APIResponse.handleError(error, new APIResponse.ErrorIdentifiedListener() {
-                    @Override
-                    public void onErrorIdentified(final APIResponse.Error error, final int msgId) {
-                        signInBtn.setEnabled(true);
+                final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(reqError);
+                final APIResponse.Error err = errWithMsg.first;
 
-                        if (error == null || error.status() != HttpURLConnection.HTTP_UNAUTHORIZED) {
-                            ToastHelper.show(SignInActivity.this, msgId);
-                            return;
-                        }
+                signInBtn.setEnabled(true);
 
-                        if (error.detail().has("phone_num")) {
-                            ToastHelper.show(SignInActivity.this, String.format(
-                                getString(R.string.entity_not_found_message), Input.PhoneNumber.canonicalName())
-                            );
-                        } else if (error.detail().has("password")) {
-                            ToastHelper.show(SignInActivity.this, R.string.password_invalid_message);
-                        }
-                    }
-                });
+                if (err == null || err.status() != HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    ToastHelper.show(SignInActivity.this, errWithMsg.second);
+                    return;
+                }
+
+                if (err.detail().has("phone_num")) {
+                    ToastHelper.show(SignInActivity.this, String.format(
+                        getString(R.string.entity_not_found_message), Input.PhoneNumber.canonicalName())
+                    );
+                } else if (err.detail().has("password")) {
+                    ToastHelper.show(SignInActivity.this, R.string.password_invalid_message);
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.ukma.mylibrary.api;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.TimeoutError;
@@ -34,45 +35,27 @@ public class APIResponse {
         void onErrorResponse(VolleyError error);
     }
 
-    public interface ErrorIdentifiedListener {
-        /**
-         * Callback method that an error has been identified Error object and error message id
-         */
-        void onErrorIdentified(Error error, int msgId);
-    }
-
-
-    public static void handleError(
-        final VolleyError error, final ErrorIdentifiedListener listener
-    ) {
-        if (error.networkResponse == null) {
-            listener.onErrorIdentified(null, R.string.some_error_message);
-            return;
-        }
+    public static Pair<Error, Integer> handleError(final VolleyError error) {
+        if (error.networkResponse == null)
+            return new Pair<>(null, R.string.some_error_message);
 
         final Error err = APIResponse.getError(error.networkResponse);
 
         // TimeoutError has networkResponse null so has to be processed independently
-        if (error instanceof TimeoutError) {
-            listener.onErrorIdentified(err, R.string.time_out_message);
-            return;
-        }
+        if (error instanceof TimeoutError)
+            return new Pair<>(err, R.string.time_out_message);
 
         switch (error.networkResponse.statusCode) {
             case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                listener.onErrorIdentified(err, R.string.internal_error_message);
-                break;
+                return new Pair<>(err, R.string.internal_error_message);
             case HttpURLConnection.HTTP_UNAVAILABLE:
-                listener.onErrorIdentified(err, R.string.server_unavailable_message);
-                break;
+                return new Pair<>(err, R.string.server_unavailable_message);
             case HttpURLConnection.HTTP_UNAUTHORIZED:
-                listener.onErrorIdentified(err, R.string.auth_fail_message);
-                break;
+                return new Pair<>(err, R.string.auth_fail_message);
             case HttpURLConnection.HTTP_BAD_REQUEST:
-                listener.onErrorIdentified(err, R.string.bad_request_message);
-                break;
+                return new Pair<>(err, R.string.bad_request_message);
             default:
-                listener.onErrorIdentified(err, R.string.some_error_message);
+                return new Pair<>(err, R.string.some_error_message);
         }
     }
 

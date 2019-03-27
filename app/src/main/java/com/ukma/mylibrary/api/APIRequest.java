@@ -52,15 +52,17 @@ public class APIRequest {
     }
 
     private String generatePath() {
-        String generatedPath = this.path;
-        generatedPath += "?";
+        String generatedPath = this.path + '?';
+
         for (Map.Entry<String, String> entry : routeParams.entrySet()) {
             generatedPath =
-                generatedPath.replaceFirst("\\{" + entry.getKey() + '}', entry.getValue());
+                generatedPath.replaceFirst("\\{" + entry.getKey() + "\\}", entry.getValue());
         }
+
         for (Map.Entry<String, String> entry : queryParams.entrySet()) {
             generatedPath += entry.getKey() + "=" + entry.getValue() + "&";
         }
+
         return generatedPath.substring(0, generatedPath.length() - 1);
     }
 
@@ -159,6 +161,7 @@ public class APIRequest {
 
     public void executeWithContext(Context context) throws APIRequestNoListenerSpecifiedException {
         final String finalPath = generatePath();
+
         if (this.responseObjectListener != null) {
             this.generateRequestObject();
             APIJsonObjectRequest apiJsonObjectRequest = new APIJsonObjectRequest(

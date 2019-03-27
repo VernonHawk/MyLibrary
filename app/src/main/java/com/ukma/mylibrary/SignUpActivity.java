@@ -95,26 +95,25 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }, new APIResponse.ErrorListener() {
             @Override
-            public void onErrorResponse(final VolleyError error) {
-                Log.e(SignUpActivity.class.getSimpleName(), error.getMessage(), error);
+            public void onErrorResponse(final VolleyError reqError) {
+                Log.e(SignUpActivity.class.getSimpleName(), reqError.getMessage(), reqError);
+
+                final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(reqError);
+                final APIResponse.Error err = errWithMsg.first;
+
                 signUpBtn.setEnabled(true);
 
-                APIResponse.handleError(error, new APIResponse.ErrorIdentifiedListener() {
-                    @Override
-                    public void onErrorIdentified(final APIResponse.Error error, final int msgId) {
-                        if (error == null || error.status() != HttpURLConnection.HTTP_BAD_REQUEST) {
-                            ToastHelper.show(SignUpActivity.this, msgId);
-                            return;
-                        }
+                if (err == null || err.status() != HttpURLConnection.HTTP_BAD_REQUEST) {
+                    ToastHelper.show(SignUpActivity.this, errWithMsg.second);
+                    return;
+                }
 
-                        if (error.detail().has("phone_num")) {
-                            ToastHelper.show(SignUpActivity.this, String.format(
-                                getString(R.string.already_exists_message),
-                                "User", Input.PhoneNumber.canonicalName()
-                            ));
-                        }
-                    }
-                });
+                if (err.detail().has("phone_num")) {
+                    ToastHelper.show(SignUpActivity.this, String.format(
+                        getString(R.string.already_exists_message),
+                        "User", Input.PhoneNumber.canonicalName()
+                    ));
+                }
             }
         });
     }
