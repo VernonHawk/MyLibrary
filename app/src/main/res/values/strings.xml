@@ -72,6 +72,8 @@
     <string name="sign_out_error_message">Couldn\'t sign you out</string>
     <string name="bad_request_message">Bad request</string>
     <string name="already_exists_message">%s with this %s already exists</string>
+    <string name="server_unavailable_message">Server currently unavailable, try again later</string>
+    <string name="time_out_message">The request timed out, try again later, please</string>
 
     <string name="blank_text_validation_error">%s can\'t be blank</string>
     <string name="too_long_validation_error">%s is too long</string>

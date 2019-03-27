@@ -3,6 +3,7 @@ package com.ukma.mylibrary.api;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.R;
 
@@ -44,11 +45,25 @@ public class APIResponse {
     public static void handleError(
         final VolleyError error, final ErrorIdentifiedListener listener
     ) {
+        if (error.networkResponse == null) {
+            listener.onErrorIdentified(null, R.string.some_error_message);
+            return;
+        }
+
         final Error err = APIResponse.getError(error.networkResponse);
+
+        // TimeoutError has networkResponse null so has to be processed independently
+        if (error instanceof TimeoutError) {
+            listener.onErrorIdentified(err, R.string.time_out_message);
+            return;
+        }
 
         switch (error.networkResponse.statusCode) {
             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                 listener.onErrorIdentified(err, R.string.internal_error_message);
+                break;
+            case HttpURLConnection.HTTP_UNAVAILABLE:
+                listener.onErrorIdentified(err, R.string.server_unavailable_message);
                 break;
             case HttpURLConnection.HTTP_UNAUTHORIZED:
                 listener.onErrorIdentified(err, R.string.auth_fail_message);
@@ -62,6 +77,9 @@ public class APIResponse {
     }
 
     public static Error getError(final NetworkResponse response) {
+        if (response == null)
+            return null;
+
         try {
             return new Error(parseBody(response).getJSONArray("errors").getJSONObject(0));
         } catch (final JSONException e) {

@@ -135,7 +135,7 @@ class SignInActivity extends AppCompatActivity {
 
                         if (error.detail().has("phone_num")) {
                             ToastHelper.show(SignInActivity.this, String.format(
-                                getString(R.string.entity_not_found_message), "Phone number")
+                                getString(R.string.entity_not_found_message), Input.PhoneNumber.canonicalName())
                             );
                         } else if (error.detail().has("password")) {
                             ToastHelper.show(SignInActivity.this, R.string.password_invalid_message);

@@ -109,8 +109,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if (error.detail().has("phone_num")) {
                             ToastHelper.show(SignUpActivity.this, String.format(
-                                getString(R.string.already_exists_message), "User", "Phone number")
-                            );
+                                getString(R.string.already_exists_message),
+                                "User", Input.PhoneNumber.canonicalName()
+                            ));
                         }
                     }
                 });
