@@ -5,6 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.VolleyError;
+import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.managers.AuthManager;
+import com.ukma.mylibrary.tools.ToastHelper;
+
+import org.json.JSONObject;
+
 public class ToolbarActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -21,6 +28,9 @@ public class ToolbarActivity extends AppCompatActivity {
             case R.id.action_library:
                 startActivity(new Intent(this, LibraryActivity.class));
                 return true;
+            case android.R.id.home:
+                signOut();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -28,6 +38,20 @@ public class ToolbarActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        signOut();
+    }
+
+    private void signOut() {
+        AuthManager.getManager(this).signOut(new APIResponse.Listener<JSONObject>() {
+            @Override
+            public void onResponse(@SuppressWarnings("unused") final JSONObject __) {
+                finish();
+            }
+        }, new APIResponse.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                ToastHelper.show(ToolbarActivity.this, R.string.sign_out_error_message);
+            }
+        });
     }
 }

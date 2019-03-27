@@ -14,7 +14,6 @@ import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -88,30 +87,22 @@ public class ReaderActivity extends ToolbarActivity {
                 break;
         }
         currentPage = 0;
-        btnPrev.setEnabled(false);
-        btnNext.setEnabled(true);
         loadList(currentPage);
         CheckEnable();
     }
 
     /**
-     * Method for enabling and disabling Buttons
+     * Method for enabling and disabling pagination Buttons
      */
     private void CheckEnable() {
-        if (currentPage + 1 == pageCount)
-            btnNext.setEnabled(false);
-        else if (currentPage == 0)
-            btnPrev.setEnabled(false);
-        else {
-            btnPrev.setEnabled(true);
-            btnNext.setEnabled(true);
-        }
+        btnPrev.setEnabled(currentPage > 0);
+        btnNext.setEnabled(currentPage + 1 < pageCount);
     }
 
     /**
      * Method for loading data in listview
      *
-     * @param currentPage
+     * @param currentPage page to load data for
      */
     private void loadList(int currentPage) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();

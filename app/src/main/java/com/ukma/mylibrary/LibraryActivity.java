@@ -75,15 +75,12 @@ public class LibraryActivity extends ToolbarActivity {
 //        });
     }
 
+    /**
+     Method for enabling and disabling pagination Buttons
+     */
     private void CheckEnable() {
-        if (currentPage + 1 == pageCount)
-            btnNext.setEnabled(false);
-        else if (currentPage == 0)
-            btnPrev.setEnabled(false);
-        else {
-            btnPrev.setEnabled(true);
-            btnNext.setEnabled(true);
-        }
+        btnPrev.setEnabled(currentPage > 0);
+        btnNext.setEnabled(currentPage + 1 < pageCount);
     }
 
     private void loadList(int currentPage) {

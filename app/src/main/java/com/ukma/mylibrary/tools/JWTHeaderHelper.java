@@ -1,4 +1,4 @@
-package com.ukma.mylibrary.Tools;
+package com.ukma.mylibrary.tools;
 
 import com.ukma.mylibrary.managers.AuthManager;
 

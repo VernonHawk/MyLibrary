@@ -33,24 +33,51 @@
 
     <string name="orders">Orders</string>
     <string name="library">Library</string>
+
     <string name="username">%username%</string>
     <string name="exit">Exit</string>
+
     <string name="actual_switch">Actual</string>
     <string name="reserved_switch">Reserved</string>
+
     <string name="return_date">Return date:</string>
     <string name="issue_date">Issue date:</string>
+
     <string name="cancel_reservation">Cancel</string>
+
     <string name="prev_btn">Prev</string>
     <string name="next_btn">Next</string>
+
     <string name="book_icon_content">book</string>
     <string name="total_copies_title">Total copies:</string>
     <string name="item_state">State:</string>
     <string name="reservation_date">Reservation date:</string>
+
     <string name="item_info">Info</string>
+
     <string name="actual_switch_text">Actual</string>
     <string name="reserved_switch_text">Reserved</string>
+
     <string name="btn_take">Take</string>
     <string name="btn_order">Order</string>
+
     <string name="book_tooltip">Book</string>
     <string name="collection_tooltip">Collection</string>
+
+    <string name="some_error_message">An error occurred</string>
+    <string name="auth_fail_message">Authorization failed</string>
+    <string name="internal_error_message">Internal server error occurred</string>
+    <string name="entity_not_found_message">%s was not found in database</string>
+    <string name="password_invalid_message">Provided password is invalid</string>
+    <string name="sign_out_error_message">Couldn\'t sign you out</string>
+    <string name="bad_request_message">Bad request</string>
+    <string name="already_exists_message">%s with this %s already exists</string>
+    <string name="server_unavailable_message">Server currently unavailable, try again later</string>
+    <string name="time_out_message">The request timed out, try again later, please</string>
+
+    <string name="blank_text_validation_error">%s can\'t be blank</string>
+    <string name="too_long_validation_error">%s is too long</string>
+    <string name="too_short_validation_error">%s is too short</string>
+    <string name="password_confirmation_validation_error">%s doesn\'t match the Password</string>
+
 </resources>
