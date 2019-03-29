@@ -1,11 +1,14 @@
 package com.ukma.mylibrary.managers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.ukma.mylibrary.MainActivity;
+import com.ukma.mylibrary.SignInActivity;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
@@ -157,7 +160,13 @@ public class AuthManager {
                     public void onResponse(JSONObject response) {
                         saveToken(null);
                         CURRENT_USER = null;
-                        responseListener.onResponse(response);
+                        if (responseListener != null) {
+                            responseListener.onResponse(response);
+                        }
+                        context.startActivity(new Intent(
+                            context,
+                            MainActivity.class
+                        ));
                     }
                 })
                 .catchError(responseErrorListener)

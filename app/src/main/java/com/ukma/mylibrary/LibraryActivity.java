@@ -1,7 +1,6 @@
 package com.ukma.mylibrary;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -12,7 +11,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.LibraryAdapter;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
@@ -20,8 +18,6 @@ import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.LibraryItem;
-import com.ukma.mylibrary.entities.Entity;
-import com.ukma.mylibrary.entities.SCType;
 import com.ukma.mylibrary.entities.ScientificPublication;
 import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.tools.ToastHelper;
@@ -30,7 +26,6 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class LibraryActivity extends ToolbarActivity {
@@ -122,23 +117,21 @@ public class LibraryActivity extends ToolbarActivity {
 
                         final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(error);
                         final APIResponse.Error err = errWithMsg.first;
-
-                        if (err == null || err.status() != HttpURLConnection.HTTP_UNAUTHORIZED) {
-                            ToastHelper.show(LibraryActivity.this, errWithMsg.second);
+                        if (err == null) {
+                            ToastHelper.show(context, R.string.some_error_message);
+                        } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                            ToastHelper.show(context, errWithMsg.second);
                             AuthManager.getManager(context).signOut(
                                 new APIResponse.Listener<JSONObject>() {
                                     @Override
-                                    public void onResponse(JSONObject response) {
-                                        startActivity(new Intent(
-                                            context,
-                                            SignInActivity.class
-                                        ));
+                                    public void onResponse(JSONObject __) {
+                                        finish();
                                     }
                                 },
                                 new APIResponse.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        ToastHelper.show(context, R.string.sign_out_error_message);
+                                    ToastHelper.show(context, R.string.sign_out_error_message);
                                     }
                                 });
                             return;
