@@ -92,13 +92,13 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@id/button"
+            android:layout_toStartOf="@id/take_order_btn"
             android:contentDescription="@string/item_info"
             android:gravity="center_vertical"
             app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/take_order_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -106,7 +106,8 @@
             android:gravity="center_vertical"
             android:text="@string/btn_take"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginEnd="5dp" />
 
     </RelativeLayout>
 
