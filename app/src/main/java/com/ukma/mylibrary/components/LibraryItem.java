@@ -1,51 +1,69 @@
 package com.ukma.mylibrary.components;
 
 import com.ukma.mylibrary.adapters.ItemUtils;
+import com.ukma.mylibrary.entities.SCType;
+import com.ukma.mylibrary.entities.ScientificPublication;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LibraryItem extends AbstractReaderItem {
 
-    private String itemName;
-    private int totalCopies;
-    private ItemUtils.BookState state;
-    private ItemUtils.ItemType type;
+    private ScientificPublication scientificPublication;
+    private Map<SCType, ItemUtils.ItemType> scTypeToItemType = new HashMap<SCType, ItemUtils.ItemType>() {{
+        put(SCType.Book, ItemUtils.ItemType.BOOK);
+        put(SCType.Collection, ItemUtils.ItemType.COLLECTION);
+    }};
+    private Map<ItemUtils.ItemType, SCType> itemTypeToScType = new HashMap<ItemUtils.ItemType, SCType>() {{
+        put(ItemUtils.ItemType.BOOK, SCType.Book);
+        put(ItemUtils.ItemType.COLLECTION, SCType.Collection);
+    }};
 
     // Constructor that is used to create an instance of the LibraryItem object
-    public LibraryItem(String itemName, int totalCopies, ItemUtils.BookState state, ItemUtils.ItemType type) {
-        this.itemName = itemName;
-        this.totalCopies = totalCopies;
-        this.state = state;
-        this.type = type;
+    public LibraryItem(ScientificPublication scientificPublication) {
+        this.scientificPublication = scientificPublication;
+    }
+
+    public long getId() {
+        return scientificPublication.getId();
+    }
+
+    public String getIsbn() {
+        return scientificPublication.getIsbn();
     }
 
     public String getItemName() {
-        return itemName;
+        return scientificPublication.getName();
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setItemName(String name) {
+        scientificPublication.setName(name);
+    }
+
+    public SCType getScType() {
+        return scientificPublication.getScType();
     }
 
     public int getTotalCopies() {
-        return totalCopies;
-    }
-
-    public void setTotalCopies(int totalCopies) {
-        this.totalCopies = totalCopies;
+        return scientificPublication.getSciPubCopiesCount();
     }
 
     public ItemUtils.BookState getState() {
-        return state;
-    }
-
-    public void setState(ItemUtils.ItemType type) {
-        this.type = type;
-    }
-
-    public void setState(ItemUtils.BookState state) {
-        this.state = state;
+        return scientificPublication.isFree() ? ItemUtils.BookState.FREE : ItemUtils.BookState.RESERVED;
     }
 
     public ItemUtils.ItemType getItemType() {
-        return type;
+        return scTypeToItemType.get(scientificPublication.getScType());
+    }
+
+    public void setItemType(ItemUtils.ItemType type) {
+        scientificPublication.setScType(itemTypeToScType.get(type));
+    }
+
+    @Override
+    public String toString() {
+        return "LibraryItem{" +
+                "scientificPublication=" + scientificPublication +
+                '}';
     }
 }

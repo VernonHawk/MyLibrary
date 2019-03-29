@@ -14,6 +14,7 @@ public class APIRoutes {
         routes.put(Route.SignIn, new RouteData(Request.Method.POST, "/login"));
         routes.put(Route.SignOut, new RouteData(Request.Method.DELETE, "/logout"));
         routes.put(Route.GetCurrentUser, new RouteData(Request.Method.GET, "/users/current"));
+        routes.put(Route.SearchSciPub, new RouteData(Request.Method.GET, "/scientific-publications"));
     }
 
     public static String getRoutePath(Route route) {
