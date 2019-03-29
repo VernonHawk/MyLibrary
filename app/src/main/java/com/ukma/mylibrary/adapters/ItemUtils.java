@@ -6,11 +6,6 @@ public class ItemUtils {
         RESERVED
     }
 
-    public enum ItemType {
-        BOOK,
-        COLLECTION
-    }
-
     public enum OrderType {
         ACTUAL,
         RESERVED

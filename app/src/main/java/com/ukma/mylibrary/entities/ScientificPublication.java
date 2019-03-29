@@ -18,7 +18,6 @@ public class ScientificPublication implements Entity {
     private String name;
     @JsonProperty("sc_type")
     private SCType scType;
-    @Nullable
     private int pages;
     @JsonProperty("publish_date")
     private Date publishDate;
@@ -26,6 +25,10 @@ public class ScientificPublication implements Entity {
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonProperty("sci_pub_copies")
     private List<SciPubCopy> sciPubCopies;
+
+    public enum SCType {
+        Book, Collection
+    }
 
     public ScientificPublication(){
     }
@@ -79,12 +82,11 @@ public class ScientificPublication implements Entity {
         this.scType = scType;
     }
 
-    @Nullable
     public int getPages() {
         return pages;
     }
 
-    public void setPages(@Nullable int pages) {
+    public void setPages(int pages) {
         this.pages = pages;
     }
 
