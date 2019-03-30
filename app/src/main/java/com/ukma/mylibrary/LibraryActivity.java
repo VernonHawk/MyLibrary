@@ -121,19 +121,7 @@ public class LibraryActivity extends ToolbarActivity {
                             ToastHelper.show(context, R.string.some_error_message);
                         } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                             ToastHelper.show(context, errWithMsg.second);
-                            AuthManager.getManager(context).signOut(
-                                new APIResponse.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject __) {
-                                        finish();
-                                    }
-                                },
-                                new APIResponse.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                    ToastHelper.show(context, R.string.sign_out_error_message);
-                                    }
-                                });
+                            signOut();
                             return;
                         } else {
                             ToastHelper.show(context, R.string.some_error_message);

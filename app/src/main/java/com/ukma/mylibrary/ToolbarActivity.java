@@ -1,5 +1,6 @@
 package com.ukma.mylibrary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -41,7 +42,7 @@ public class ToolbarActivity extends AppCompatActivity {
         signOut();
     }
 
-    private void signOut() {
+    protected void signOut() {
         AuthManager.getManager(this).signOut(new APIResponse.Listener<JSONObject>() {
             @Override
             public void onResponse(@SuppressWarnings("unused") final JSONObject __) {
