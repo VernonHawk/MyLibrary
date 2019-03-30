@@ -73,6 +73,7 @@ public class LibraryActivity extends ToolbarActivity {
                 CheckEnable();
             }
         });
+        findData("");
     }
 
     /**
