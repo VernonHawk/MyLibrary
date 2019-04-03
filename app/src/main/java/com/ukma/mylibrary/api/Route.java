@@ -4,6 +4,8 @@ public enum Route {
     SignUp,
     SignIn,
     SignOut,
-    GetCurrentUser
+    GetCurrentUser,
+    SearchSciPub,
+    CreateOrder
 }
 

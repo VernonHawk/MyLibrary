@@ -1,51 +1,49 @@
 package com.ukma.mylibrary.components;
 
 import com.ukma.mylibrary.adapters.ItemUtils;
+import com.ukma.mylibrary.entities.ScientificPublication;
 
 public class LibraryItem extends AbstractReaderItem {
 
-    private String itemName;
-    private int totalCopies;
-    private ItemUtils.BookState state;
-    private ItemUtils.ItemType type;
+    private ScientificPublication scientificPublication;
 
     // Constructor that is used to create an instance of the LibraryItem object
-    public LibraryItem(String itemName, int totalCopies, ItemUtils.BookState state, ItemUtils.ItemType type) {
-        this.itemName = itemName;
-        this.totalCopies = totalCopies;
-        this.state = state;
-        this.type = type;
+    public LibraryItem(ScientificPublication scientificPublication) {
+        this.scientificPublication = scientificPublication;
+    }
+
+    public long getId() {
+        return scientificPublication.getId();
+    }
+
+    public String getIsbn() {
+        return scientificPublication.getIsbn();
     }
 
     public String getItemName() {
-        return itemName;
+        return scientificPublication.getName();
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public ScientificPublication.SCType getScType() {
+        return scientificPublication.getScType();
     }
 
+    // TODO change this when backend api will be changed
+    public int getCurrentCopies() {
+        return scientificPublication.getSciPubCopiesCount();
+    }
     public int getTotalCopies() {
-        return totalCopies;
-    }
-
-    public void setTotalCopies(int totalCopies) {
-        this.totalCopies = totalCopies;
+        return scientificPublication.getSciPubCopiesCount();
     }
 
     public ItemUtils.BookState getState() {
-        return state;
+        return scientificPublication.isFree() ? ItemUtils.BookState.FREE : ItemUtils.BookState.RESERVED;
     }
 
-    public void setState(ItemUtils.ItemType type) {
-        this.type = type;
-    }
-
-    public void setState(ItemUtils.BookState state) {
-        this.state = state;
-    }
-
-    public ItemUtils.ItemType getItemType() {
-        return type;
+    @Override
+    public String toString() {
+        return "LibraryItem{" +
+                "scientificPublication=" + scientificPublication +
+                '}';
     }
 }

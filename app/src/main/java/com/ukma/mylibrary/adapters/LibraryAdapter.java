@@ -13,8 +13,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ukma.mylibrary.R;
+import com.ukma.mylibrary.api.API;
+import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
+import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.LibraryItem;
+import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.managers.AuthManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,19 +48,20 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
         if (listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_library, parent, false);
 
-        LibraryItem currentItem = itemList.get(position);
+        final LibraryItem currentItem = itemList.get(position);
 
         TextView name = listItem.findViewById(R.id.textView_name);
         name.setText(currentItem.getItemName());
 
-        TextView totalCopies = listItem.findViewById(R.id.textView_copies);
-        totalCopies.setText(String.valueOf(currentItem.getTotalCopies()));
+        final TextView totalCopies = listItem.findViewById(R.id.textView_copies);
+        final TextView bookState = listItem.findViewById(R.id.textView_state);
+        final Button takeOrderBtn = listItem.findViewById(R.id.take_order_btn);
 
-        TextView bookState = listItem.findViewById(R.id.textView_state);
-        bookState.setText(currentItem.getState().name().toLowerCase());
+        setInfoText(currentItem, totalCopies, bookState);
+        setButtonStyle(currentItem, takeOrderBtn);
 
         AppCompatImageView itemType = listItem.findViewById(R.id.item_icon);
-        if (currentItem.getItemType() == ItemUtils.ItemType.BOOK) {
+        if (currentItem.getScType() == ScientificPublication.SCType.Book) {
             itemType.setImageResource(R.drawable.ic_bookmark_black_24dp);
             TooltipCompat.setTooltipText(itemType, mContext.getString(R.string.book_tooltip));
         } else {
@@ -57,24 +69,67 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
             TooltipCompat.setTooltipText(itemType, mContext.getString(R.string.collection_tooltip));
         }
 
-        Button button = listItem.findViewById(R.id.button);
-        switch (currentItem.getState()) {
-            case FREE:
-                button.setText(R.string.btn_take);
-                button.setBackgroundColor(ResourcesCompat.getColor(
-                        getContext().getResources(),
-                        R.color.colorSuccess,
-                        null));
-                break;
-            case RESERVED:
-                button.setText(R.string.btn_order);
-                button.setBackgroundColor(ResourcesCompat.getColor(
-                        getContext().getResources(),
-                        R.color.colorPrimaryDark,
-                        null));
-                break;
-        }
+        takeOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            clickHandler(currentItem, totalCopies, bookState, takeOrderBtn);
+            }
+        });
 
         return listItem;
+    }
+
+    private void setInfoText(LibraryItem item, TextView totalCopies, TextView bookState) {
+        totalCopies.setText(String.valueOf(item.getTotalCopies()));
+        bookState.setText(item.getState().name().toLowerCase());
+    }
+
+    private void setButtonStyle(LibraryItem item, Button takeOrderBtn) {
+        switch (item.getState()) {
+            case FREE:
+                takeOrderBtn.setText(R.string.btn_take);
+                takeOrderBtn.setBackgroundColor(ResourcesCompat.getColor(
+                    getContext().getResources(),
+                    R.color.colorSuccess,
+                    null)
+                );
+                break;
+            case RESERVED:
+                takeOrderBtn.setText(R.string.btn_order);
+                takeOrderBtn.setBackgroundColor(ResourcesCompat.getColor(
+                    getContext().getResources(),
+                    R.color.colorPrimaryDark,
+                    null)
+                );
+                break;
+        }
+    }
+
+    public void clickHandler(final LibraryItem item, final TextView totalCopies, final TextView bookState, final Button takeOrderBtn) {
+        try {
+            JSONObject order = new JSONObject();
+            order.put("user_id", AuthManager.CURRENT_USER.getId());
+            order.put("scientific_publication_id", item.getId());
+            API.call(Route.CreateOrder)
+                .body("order", order)
+                .then(new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    // TODO change totalCopies Text, booksState and button if needed
+                    System.out.println("RESPONSE: " + response.toString());
+                    }
+                })
+                .catchError(new APIResponse.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                })
+                .executeWithContext(mContext);
+        } catch (APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
