@@ -31,7 +31,7 @@ public
 class SignInActivity extends AppCompatActivity {
     private static final HashMap mRoleToActivity = new HashMap<Role, Class>() {{
         put(Role.Reader, ReaderActivity.class);
-        put(Role.Librarian, null);
+        put(Role.Librarian, LibrarianMainActivity.class);
         put(Role.Archivist, null);
     }};
 

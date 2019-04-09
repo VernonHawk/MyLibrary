@@ -34,7 +34,7 @@
     <string name="orders">Orders</string>
     <string name="library">Library</string>
 
-    <string name="username">%username%</string>
+    <string name="username">%s</string>
     <string name="exit">Exit</string>
 
     <string name="actual_switch">Actual</string>
@@ -79,5 +79,7 @@
     <string name="too_long_validation_error">%s is too long</string>
     <string name="too_short_validation_error">%s is too short</string>
     <string name="password_confirmation_validation_error">%s doesn\'t match the Password</string>
+    <string name="return_string">Return</string>
+    <string name="withdrawal_string">Withdrawal</string>
 
 </resources>

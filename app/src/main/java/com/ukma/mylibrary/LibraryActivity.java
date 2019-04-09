@@ -1,6 +1,7 @@
 package com.ukma.mylibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -28,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LibraryActivity extends ToolbarActivity {
+public class LibraryActivity extends ToolbarReaderActivity {
     private static final int NUM_ITEMS_PAGE = 4;
     private ListView listView;
     private TextView title;
