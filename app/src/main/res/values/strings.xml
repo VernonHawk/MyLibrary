@@ -81,5 +81,12 @@
     <string name="password_confirmation_validation_error">%s doesn\'t match the Password</string>
     <string name="return_string">Return</string>
     <string name="withdrawal_string">Withdrawal</string>
+    <string name="search">Search</string>
+    <string name="user_id_text">User ID:</string>
+    <string name="isbn">ISBN:</string>
+    <string name="copy_id">Copy ID:</string>
+    <string name="expected_return_date">Expected return date:</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="user_id">User ID:</string>
 
 </resources>

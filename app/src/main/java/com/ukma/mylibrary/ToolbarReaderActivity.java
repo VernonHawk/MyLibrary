@@ -1,16 +1,8 @@
 package com.ukma.mylibrary;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.android.volley.VolleyError;
-import com.ukma.mylibrary.api.APIResponse;
-import com.ukma.mylibrary.managers.AuthManager;
-import com.ukma.mylibrary.tools.ToastHelper;
-
-import org.json.JSONObject;
 
 public class ToolbarReaderActivity extends ToolbarActivity {
     @Override

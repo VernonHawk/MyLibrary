@@ -90,6 +90,7 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
      *
      * @param currentPage page to load data for
      */
+    @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();
         title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));

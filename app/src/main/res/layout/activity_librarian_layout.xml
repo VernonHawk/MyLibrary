@@ -19,7 +19,6 @@
             android:id="@+id/reader_list_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title_layout"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
@@ -28,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:paddingTop="12dp"
-                android:text="User ID:"
+                android:text="@string/user_id_text"
                 android:textSize="18sp" />
 
             <TextView

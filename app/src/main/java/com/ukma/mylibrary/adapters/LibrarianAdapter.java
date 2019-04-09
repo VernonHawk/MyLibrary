@@ -10,13 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.R;
-import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.LibrarianItem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class LibrarianAdapter extends ArrayAdapter<LibrarianItem> {
     private Context mContext;

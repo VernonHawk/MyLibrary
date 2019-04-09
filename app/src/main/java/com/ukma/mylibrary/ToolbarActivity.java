@@ -31,10 +31,7 @@ public class ToolbarActivity extends AppCompatActivity {
 
     public void formatLabelWithRole(final int viewId, final int stringId) {
 
-//        ((TextView) findViewById(viewId)).setText(
-//                String.format(getString(stringId), mUserRole.name())
-//        );
-//        formatLabelWithRole(R.id.hello_label, R.string.hello_user_role);
+//TODO username in %s
     }
 
 }
