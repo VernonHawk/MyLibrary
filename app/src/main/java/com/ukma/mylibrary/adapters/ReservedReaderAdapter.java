@@ -39,10 +39,10 @@ public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
         ReservedReaderItem currentItem = itemList.get(position);
 
         TextView name = listItem.findViewById(R.id.textView_name);
-        name.setText(currentItem.getItemName());
+        name.setText(currentItem.getName());
 
         TextView reservationDate = listItem.findViewById(R.id.textView_reservationDate);
-        reservationDate.setText(sdf.format(currentItem.getItemReservationDate()));
+        reservationDate.setText(sdf.format(currentItem.getOrderDate()));
 
         return listItem;
     }

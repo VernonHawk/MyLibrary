@@ -51,7 +51,7 @@
     <string name="book_icon_content">book</string>
     <string name="total_copies_title">Total copies:</string>
     <string name="item_state">State:</string>
-    <string name="reservation_date">Reservation date:</string>
+    <string name="order_date">Order date:</string>
 
     <string name="item_info">Info</string>
 

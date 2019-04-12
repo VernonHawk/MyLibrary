@@ -6,6 +6,7 @@ public enum Route {
     SignOut,
     GetCurrentUser,
     SearchSciPub,
-    CreateOrder
+    CreateOrder,
+    GetOrdersForUser
 }
 
