@@ -18,7 +18,9 @@ import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractReaderItem;
+import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
+import com.ukma.mylibrary.entities.CopyIssue;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.tools.ToastHelper;
@@ -75,7 +77,7 @@ public class ReaderActivity extends ToolbarActivity {
             }
         });
 
-        setActiveItem(R.id.rb_reserved); // TODO: rb_actual
+        setActiveItem(R.id.rb_actual);
     }
 
     private void setActiveItem(int checkedId) {
@@ -137,7 +139,7 @@ public class ReaderActivity extends ToolbarActivity {
         }
     }
 
-    private void setData(final ArrayList<SciPubOrder> orders) {
+    private void setOrdersData(final ArrayList<SciPubOrder> orders) {
         if (orderType == ItemUtils.OrderType.ACTUAL) {
             Log.e(ReaderActivity.class.getSimpleName(), "Data and order type mismatch");
             return;
@@ -148,8 +150,26 @@ public class ReaderActivity extends ToolbarActivity {
             data.add(new ReservedReaderItem(order));
         }
 
-        pageCount = orders.size() / NUM_ITEMS_PAGE;
-        if (orders.size() % NUM_ITEMS_PAGE > 0) {
+        reloadPagination(orders.size());
+    }
+
+    private void setIssuesData(final ArrayList<CopyIssue> issues) {
+        if (orderType == ItemUtils.OrderType.RESERVED) {
+            Log.e(ReaderActivity.class.getSimpleName(), "Data and order type mismatch");
+            return;
+        }
+
+        data.clear();
+        for (CopyIssue issue: issues) {
+            data.add(new ActualReaderItem(issue));
+        }
+
+        reloadPagination(issues.size());
+    }
+
+    private void reloadPagination(final int elemCount) {
+        pageCount = elemCount / NUM_ITEMS_PAGE;
+        if (elemCount % NUM_ITEMS_PAGE > 0) {
             ++pageCount;
         }
 
@@ -166,7 +186,7 @@ public class ReaderActivity extends ToolbarActivity {
                .thenWithArray(new APIResponse.Listener<ArrayList<SciPubOrder>>() {
                    @Override
                    public void onResponse(ArrayList<SciPubOrder> orders) {
-                       setData(orders);
+                       setOrdersData(orders);
                    }
                })
                .catchError(new APIResponse.ErrorListener() {
@@ -182,13 +202,13 @@ public class ReaderActivity extends ToolbarActivity {
     }
 
     private void fetchActualItems() {
-        /*try {
+        try {
             API.call(Route.GetCopyIssuesForUser, CopyIssue.class)
                .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
                .thenWithArray(new APIResponse.Listener<ArrayList<CopyIssue>>() {
                    @Override
                    public void onResponse(ArrayList<CopyIssue> issues) {
-                       setData(issues);
+                       setIssuesData(issues);
                    }
                })
                .catchError(new APIResponse.ErrorListener() {
@@ -200,6 +220,6 @@ public class ReaderActivity extends ToolbarActivity {
                .executeWithContext(this);
         } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

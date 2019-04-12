@@ -39,13 +39,13 @@ public class ActualReaderAdapter extends ArrayAdapter<ActualReaderItem> {
         ActualReaderItem currentItem = itemList.get(position);
 
         TextView name = listItem.findViewById(R.id.textView_name);
-        name.setText(currentItem.getItemName());
+        name.setText(currentItem.getName());
 
         TextView issueDate = listItem.findViewById(R.id.textView_issueDate);
-        issueDate.setText(sdf.format(currentItem.getItemIssueDate()));
+        issueDate.setText(sdf.format(currentItem.getIssueDate()));
 
         TextView returnDate = listItem.findViewById(R.id.textView_returnDate);
-        returnDate.setText(sdf.format(currentItem.getItemReturnDate()));
+        returnDate.setText(sdf.format(currentItem.getReturnDate()));
 
         return listItem;
     }
