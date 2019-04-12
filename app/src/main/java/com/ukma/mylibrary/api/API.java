@@ -1,7 +1,5 @@
 package com.ukma.mylibrary.api;
 
-import com.ukma.mylibrary.entities.Entity;
-
 public class API {
     private final static String BASE_PATH = "https://mylibraryapplication.herokuapp.com";
 

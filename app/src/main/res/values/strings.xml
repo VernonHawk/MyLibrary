@@ -80,4 +80,6 @@
     <string name="too_short_validation_error">%s is too short</string>
     <string name="password_confirmation_validation_error">%s doesn\'t match the Password</string>
 
+    <string name="order_cancel_success">Your order was successfully canceled</string>
+
 </resources>

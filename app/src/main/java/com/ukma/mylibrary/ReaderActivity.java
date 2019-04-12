@@ -2,13 +2,13 @@ package com.ukma.mylibrary;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
 import com.ukma.mylibrary.adapters.ItemUtils;
@@ -23,7 +23,8 @@ import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.tools.ToastHelper;
 
-import java.net.HttpURLConnection;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -35,7 +36,7 @@ public class ReaderActivity extends ToolbarActivity {
     private Button btnPrev;
     private Button btnNext;
 
-    private ArrayList<AbstractReaderItem> data;
+    private ArrayList<AbstractReaderItem> data = new ArrayList<>();
     private int pageCount;
     private int currentPage = 0;
     private ItemUtils.OrderType orderType;
@@ -50,8 +51,6 @@ public class ReaderActivity extends ToolbarActivity {
         btnNext = findViewById(R.id.next);
         title = findViewById(R.id.title);
 
-        data = new ArrayList<>();
-
         // The ArrayList data contains all the list items
         RadioGroup radioGroup = findViewById(R.id.toggle);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -60,8 +59,6 @@ public class ReaderActivity extends ToolbarActivity {
                 setActiveItem(checkedId);
             }
         });
-
-        setActiveItem(R.id.rb_reserved); // TODO: rb_actual
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -77,6 +74,8 @@ public class ReaderActivity extends ToolbarActivity {
                 CheckEnable();
             }
         });
+
+        setActiveItem(R.id.rb_reserved); // TODO: rb_actual
     }
 
     private void setActiveItem(int checkedId) {
@@ -123,7 +122,18 @@ public class ReaderActivity extends ToolbarActivity {
         if (orderType == ItemUtils.OrderType.ACTUAL) {
             listView.setAdapter(new ActualReaderAdapter(this, sort));
         } else {
-            listView.setAdapter(new ReservedReaderAdapter(this, sort));
+            listView.setAdapter(new ReservedReaderAdapter(this, sort,
+            new Response.Listener<JSONObject>() {
+                @Override public void onResponse(final JSONObject response) {
+                    ToastHelper.show(ReaderActivity.this, R.string.order_cancel_success);
+                    fetchReservedItems();
+                }
+            }, new APIResponse.ErrorListener() {
+                @Override public void onErrorResponse(final VolleyError error) {
+                    handleError(error, ReaderActivity.this);
+                }
+            })
+            );
         }
     }
 
@@ -152,6 +162,7 @@ public class ReaderActivity extends ToolbarActivity {
         try {
             API.call(Route.GetOrdersForUser, SciPubOrder.class)
                .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
+               .query("status", SciPubOrder.Status.Pending.name())
                .thenWithArray(new APIResponse.Listener<ArrayList<SciPubOrder>>() {
                    @Override
                    public void onResponse(ArrayList<SciPubOrder> orders) {
@@ -161,19 +172,7 @@ public class ReaderActivity extends ToolbarActivity {
                .catchError(new APIResponse.ErrorListener() {
                    @Override
                    public void onErrorResponse(final VolleyError error) {
-                       Log.e(ReaderActivity.class.getSimpleName(), error.getMessage(), error);
-
-                       final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(error);
-                       final APIResponse.Error err = errWithMsg.first;
-
-                       if (err == null) {
-                           ToastHelper.show(ReaderActivity.this, R.string.some_error_message);
-                       } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                           ToastHelper.show(ReaderActivity.this, errWithMsg.second);
-                           signOut();
-                       } else {
-                           ToastHelper.show(ReaderActivity.this, R.string.some_error_message);
-                       }
+                       handleError(error, ReaderActivity.this);
                    }
                })
                .executeWithContext(this);
@@ -195,19 +194,7 @@ public class ReaderActivity extends ToolbarActivity {
                .catchError(new APIResponse.ErrorListener() {
                    @Override
                    public void onErrorResponse(final VolleyError error) {
-                       Log.e(ReaderActivity.class.getSimpleName(), error.getMessage(), error);
-
-                       final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(error);
-                       final APIResponse.Error err = errWithMsg.first;
-
-                       if (err == null) {
-                           ToastHelper.show(ReaderActivity.this, R.string.some_error_message);
-                       } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                           ToastHelper.show(ReaderActivity.this, errWithMsg.second);
-                           signOut();
-                       } else {
-                           ToastHelper.show(ReaderActivity.this, R.string.some_error_message);
-                       }
+                       handleError(error, ReaderActivity.this);
                    }
                })
                .executeWithContext(this);

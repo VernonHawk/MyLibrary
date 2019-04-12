@@ -6,18 +6,18 @@ import java.util.Date;
 
 public class ReservedReaderItem extends AbstractReaderItem {
 
+    private long id;
     private String name;
     private Date orderDate;
 
-    // Constructor that is used to create an instance of the ReaderItem object
-    public ReservedReaderItem(String name, Date orderDate) {
-        this.name = name;
-        this.orderDate = orderDate;
-    }
-
     public ReservedReaderItem(final SciPubOrder order) {
+        this.id = order.getId();
         this.name = order.getScientificPublication().getName();
         this.orderDate = order.getOrderDate();
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
