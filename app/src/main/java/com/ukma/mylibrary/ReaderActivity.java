@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ReaderActivity extends ToolbarActivity {
+public class ReaderActivity extends ToolbarReaderActivity {
     private static final int NUM_ITEMS_PAGE = 4;
 
     private ListView listView;
@@ -108,6 +108,7 @@ public class ReaderActivity extends ToolbarActivity {
      *
      * @param currentPage page to load data for
      */
+    @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
         title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
 
