@@ -10,9 +10,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class EntityFactoryTest {
@@ -95,6 +94,5 @@ public class EntityFactoryTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }
