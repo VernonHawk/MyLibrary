@@ -66,13 +66,13 @@ public class ReservedReaderAdapter extends ArrayAdapter<ReservedReaderItem> {
 
         final ReservedReaderItem currentItem = mItemList.get(position);
 
-        final TextView name = listItem.findViewById(R.id.textView_name);
+        final TextView name = listItem.findViewById(R.id.item_reserved_sci_pub_name);
         name.setText(currentItem.getName());
 
-        final TextView reservationDate = listItem.findViewById(R.id.textView_reservationDate);
+        final TextView reservationDate = listItem.findViewById(R.id.item_reserved_order_date);
         reservationDate.setText(sdf.format(currentItem.getOrderDate()));
 
-        final Button cancelBtn = listItem.findViewById(R.id.cancel_order_btn);
+        final Button cancelBtn = listItem.findViewById(R.id.item_reserved_cancel_order_btn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

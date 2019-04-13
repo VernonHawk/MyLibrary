@@ -7,12 +7,12 @@
     tools:context=".LibraryActivity">
 
     <RelativeLayout
-        android:id="@+id/title_layout"
+        android:id="@+id/library_item_title_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView_name"
+            android:id="@+id/item_reserved_sci_pub_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/item_icon"
+            android:id="@+id/library_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -35,10 +35,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/copies_layout"
+        android:id="@+id/library_item_copies_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_layout"
+        android:layout_below="@id/library_item_title_layout"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal">
 
@@ -51,7 +51,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView_copies"
+            android:id="@+id/library_item_copies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -62,11 +62,11 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/copies_layout"
+        android:layout_below="@+id/library_item_copies_layout"
         android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/state_caption"
+            android:id="@+id/library_item_state_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -76,29 +76,29 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView_state"
+            android:id="@+id/library_item_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/state_caption"
+            android:layout_toEndOf="@id/library_item_state_caption"
             android:gravity="center_vertical"
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/info_icon"
+            android:id="@+id/library_item_info_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@id/take_order_btn"
+            android:layout_toStartOf="@id/library_item_take_order_btn"
             android:contentDescription="@string/item_info"
             android:gravity="center_vertical"
             app:srcCompat="@drawable/ic_info_outline_black_24dp" />
 
         <Button
-            android:id="@+id/take_order_btn"
+            android:id="@+id/library_item_take_order_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
