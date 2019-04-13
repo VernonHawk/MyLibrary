@@ -38,7 +38,7 @@ public class ActualReaderAdapter extends ArrayAdapter<ActualReaderItem> {
 
         ActualReaderItem currentItem = itemList.get(position);
 
-        TextView name = listItem.findViewById(R.id.textView_name);
+        TextView name = listItem.findViewById(R.id.item_reserved_sci_pub_name);
         name.setText(currentItem.getName());
 
         TextView issueDate = listItem.findViewById(R.id.textView_issueDate);

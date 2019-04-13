@@ -50,17 +50,17 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
 
         final LibraryItem currentItem = itemList.get(position);
 
-        TextView name = listItem.findViewById(R.id.textView_name);
-        name.setText(currentItem.getItemName());
+        TextView name = listItem.findViewById(R.id.item_reserved_sci_pub_name);
+        name.setText(currentItem.getName());
 
-        final TextView totalCopies = listItem.findViewById(R.id.textView_copies);
-        final TextView bookState = listItem.findViewById(R.id.textView_state);
-        final Button takeOrderBtn = listItem.findViewById(R.id.take_order_btn);
+        final TextView totalCopies = listItem.findViewById(R.id.library_item_copies);
+        final TextView bookState = listItem.findViewById(R.id.library_item_state);
+        final Button takeOrderBtn = listItem.findViewById(R.id.library_item_take_order_btn);
 
         setInfoText(currentItem, totalCopies, bookState);
         setButtonStyle(currentItem, takeOrderBtn);
 
-        AppCompatImageView itemType = listItem.findViewById(R.id.item_icon);
+        AppCompatImageView itemType = listItem.findViewById(R.id.library_item_icon);
         if (currentItem.getScType() == ScientificPublication.SCType.Book) {
             itemType.setImageResource(R.drawable.ic_bookmark_black_24dp);
             TooltipCompat.setTooltipText(itemType, mContext.getString(R.string.book_tooltip));
@@ -122,7 +122,7 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
                 .catchError(new APIResponse.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        // TODO add something
                     }
                 })
                 .executeWithContext(mContext);
