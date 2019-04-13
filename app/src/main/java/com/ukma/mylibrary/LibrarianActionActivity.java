@@ -11,6 +11,7 @@ import com.ukma.mylibrary.adapters.LibrarianWithdrawalAdapter;
 import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.LibrarianReturnItem;
 import com.ukma.mylibrary.components.LibrarianWithdrawalItem;
+import com.ukma.mylibrary.entities.ScientificPublication;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,13 +51,17 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
         val = val == 0 ? 0 : 1;
         pageCount = TOTAL_LIST_ITEMS / NUM_ITEMS_PAGE + val;
         // The ArrayList data contains all the list items
-
-        for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
+        for (int i = 0; i < TOTAL_LIST_ITEMS; i++) {
+            ScientificPublication sp = new ScientificPublication();
+            sp.setName("Name " + (i + 1));
+            sp.setIsbn("ISBN" + i);
+            sp.setId(i);
             data.add(
                     librarianAction == LibrarianAction.RETURN ?
-                            new LibrarianReturnItem("Name " + (i + 1), "ISBN" + i, i, new Date(), new Date())
-                            : new LibrarianWithdrawalItem("Name " + (i + 1), "ISBN" + i, i, new Date())
+                            new LibrarianReturnItem(sp, new Date(), new Date())
+                            : new LibrarianWithdrawalItem(sp, new Date())
             );
+        }
         currentPage = 0;
         loadList(currentPage);
         CheckEnable();

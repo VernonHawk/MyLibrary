@@ -1,35 +1,29 @@
 package com.ukma.mylibrary.components;
 
+import com.ukma.mylibrary.entities.ScientificPublication;
+
 import java.util.Date;
 
 public class LibrarianWithdrawalItem extends AbstractReaderItem {
 
-    private String publicationName;
-
-    private String isbn;
-
-    private int copyId;
-
+    private ScientificPublication scientificPublication;
     private Date withdrawalDate;
 
-    public LibrarianWithdrawalItem(String publicationName, String isbn, int copyId,
-                                   Date withdrawalDate) {
-        this.publicationName = publicationName;
-        this.isbn = isbn;
-        this.copyId = copyId;
+    public LibrarianWithdrawalItem(ScientificPublication scientificPublication, Date withdrawalDate) {
+        this.scientificPublication = scientificPublication;
         this.withdrawalDate = withdrawalDate;
     }
 
     public String getPublicationName() {
-        return publicationName;
+        return scientificPublication.getName();
     }
 
     public String getIsbn() {
-        return isbn;
+        return scientificPublication.getIsbn();
     }
 
-    public int getCopyId() {
-        return copyId;
+    public long getCopyId() {
+        return scientificPublication.getId();
     }
 
     public Date getWithdrawalDate() {

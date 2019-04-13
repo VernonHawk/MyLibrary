@@ -32,7 +32,7 @@ class MainActivity extends AppCompatActivity {
     void onContinueClicked(final View view) {
         final int id = ((RadioGroup) findViewById(R.id.roles)).getCheckedRadioButtonId();
 
-        final Intent intent = new Intent(MainActivity.this, SignInActivity.class); //LibrarianMainActivity.class);
+        final Intent intent = new Intent(MainActivity.this, SignInActivity.class);
 
         intent.putExtra(EXTRA_MESSAGE, radio_button_to_role.get(id));
 

@@ -29,7 +29,7 @@ public class ToolbarActivity extends AppCompatActivity {
         });
     }
 
-    public void formatLabelWithRole(final int viewId, final int stringId) {
+    public void formatLabelWithUsername(final int viewId, final int stringId) {
 
 //TODO username in %s
     }
