@@ -5,20 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.ukma.mylibrary.adapters.ActualReaderAdapter;
-import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.LibrarianAdapter;
-import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
 import com.ukma.mylibrary.components.AbstractReaderItem;
-import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.LibrarianItem;
-import com.ukma.mylibrary.components.ReservedReaderItem;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class LibrarianMainActivity extends ToolbarReaderActivity {
