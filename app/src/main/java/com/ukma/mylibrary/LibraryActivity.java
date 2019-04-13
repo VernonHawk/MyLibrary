@@ -1,6 +1,7 @@
 package com.ukma.mylibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -28,7 +29,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LibraryActivity extends ToolbarActivity {
+public class LibraryActivity extends ToolbarReaderActivity {
     private static final int NUM_ITEMS_PAGE = 4;
     private ListView listView;
     private TextView title;
@@ -84,6 +85,7 @@ public class LibraryActivity extends ToolbarActivity {
         btnNext.setEnabled(currentPage + 1 < pageCount);
     }
 
+    @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
         ArrayList sort = new ArrayList<AbstractReaderItem>();
         title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
@@ -123,7 +125,6 @@ public class LibraryActivity extends ToolbarActivity {
                         } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                             ToastHelper.show(context, errWithMsg.second);
                             signOut();
-                            return;
                         } else {
                             ToastHelper.show(context, R.string.some_error_message);
                         }

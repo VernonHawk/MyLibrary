@@ -4,21 +4,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.ukma.mylibrary.adapters.ActualReaderAdapter;
-import com.ukma.mylibrary.adapters.ItemUtils;
-import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
+import com.ukma.mylibrary.adapters.LibrarianReturnAdapter;
+import com.ukma.mylibrary.adapters.LibrarianWithdrawalAdapter;
 import com.ukma.mylibrary.components.AbstractReaderItem;
-import com.ukma.mylibrary.components.ActualReaderItem;
-import com.ukma.mylibrary.components.ReservedReaderItem;
+import com.ukma.mylibrary.components.LibrarianReturnItem;
+import com.ukma.mylibrary.components.LibrarianWithdrawalItem;
+import com.ukma.mylibrary.entities.ScientificPublication;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class ReaderActivity extends ToolbarReaderActivity {
+public class LibrarianActionActivity extends ToolbarLibrarianActivity {
+    public enum LibrarianAction {
+        RETURN,
+        WITHDRAW
+    }
+
+    public static LibrarianAction librarianAction;
     static final private int NUM_ITEMS_PAGE = 4;
     public int TOTAL_LIST_ITEMS = 10;
     private ListView listView;
@@ -28,12 +33,11 @@ public class ReaderActivity extends ToolbarReaderActivity {
     private ArrayList<AbstractReaderItem> data;
     private int pageCount;
     private int currentPage = 0;
-    private ItemUtils.OrderType orderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reader_orders);
+        setContentView(R.layout.activity_librarian_layout);
 
         listView = findViewById(R.id.list);
         btnPrev = findViewById(R.id.prev);
@@ -47,14 +51,20 @@ public class ReaderActivity extends ToolbarReaderActivity {
         val = val == 0 ? 0 : 1;
         pageCount = TOTAL_LIST_ITEMS / NUM_ITEMS_PAGE + val;
         // The ArrayList data contains all the list items
-        RadioGroup radioGroup = findViewById(R.id.toggle);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setActiveItem(checkedId);
-            }
-        });
-        setActiveItem(R.id.rb_actual);
+        for (int i = 0; i < TOTAL_LIST_ITEMS; i++) {
+            ScientificPublication sp = new ScientificPublication();
+            sp.setName("Name " + (i + 1));
+            sp.setIsbn("ISBN" + i);
+            sp.setId(i);
+            data.add(
+                    librarianAction == LibrarianAction.RETURN ?
+                            new LibrarianReturnItem(sp, new Date(), new Date())
+                            : new LibrarianWithdrawalItem(sp, new Date())
+            );
+        }
+        currentPage = 0;
+        loadList(currentPage);
+        CheckEnable();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,25 +80,6 @@ public class ReaderActivity extends ToolbarReaderActivity {
                 CheckEnable();
             }
         });
-    }
-
-    private void setActiveItem(int checkedId) {
-        data.clear();
-        switch (checkedId) {
-            case R.id.rb_actual:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ActualReaderItem("Book " + (i + 1), new Date(), new Date()));
-                orderType = ItemUtils.OrderType.ACTUAL;
-                break;
-            case R.id.rb_reserved:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ReservedReaderItem("Book " + (i + 1), new Date()));
-                orderType = ItemUtils.OrderType.RESERVED;
-                break;
-        }
-        currentPage = 0;
-        loadList(currentPage);
-        CheckEnable();
     }
 
     /**
@@ -115,7 +106,10 @@ public class ReaderActivity extends ToolbarReaderActivity {
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(orderType == ItemUtils.OrderType.ACTUAL ?
-                new ActualReaderAdapter(this, sort) : new ReservedReaderAdapter(this, sort));
+        listView.setAdapter(
+                librarianAction == LibrarianAction.RETURN ?
+                        new LibrarianReturnAdapter(this, sort)
+                        : new LibrarianWithdrawalAdapter(this, sort)
+        );
     }
 }

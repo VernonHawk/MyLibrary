@@ -33,9 +33,23 @@
             android:name=".LibraryActivity"
             android:label=""
             android:launchMode="singleTop"
+            android:parentActivityName=".ReaderActivity" />
+
+        <activity
+            android:name=".LibrarianMainActivity"
+            android:label=""
+            android:launchMode="singleTop"
             android:parentActivityName=".SignInActivity" />
 
+        <activity
+            android:name=".LibrarianActionActivity"
+            android:label=""
+            android:launchMode="singleTop"
+            android:parentActivityName=".LibrarianMainActivity" />
+
         <activity android:name=".ToolbarActivity" />
+        <activity android:name=".ToolbarLibrarianActivity" />
+        <activity android:name=".ToolbarReaderActivity" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
