@@ -1,11 +1,9 @@
 package com.ukma.mylibrary;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-
 import android.util.Log;
 import android.util.Pair;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.api.APIResponse;

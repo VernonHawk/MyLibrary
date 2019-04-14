@@ -6,25 +6,21 @@ import java.util.Date;
 
 public class ActualReaderItem extends AbstractReaderItem {
 
-    private String name;
-    private Date issueDate;
-    private Date returnDate;
+    private final CopyIssue mCopyIssue;
 
     public ActualReaderItem(final CopyIssue copyIssue) {
-        this.name = copyIssue.getSciPubName();
-        this.issueDate = copyIssue.getIssueDate();
-        this.returnDate = copyIssue.getExpectedReturnDate();
+        mCopyIssue = copyIssue;
     }
 
     public String getName() {
-        return name;
+        return mCopyIssue.getSciPubName();
     }
 
     public Date getIssueDate() {
-        return issueDate;
+        return mCopyIssue.getIssueDate();
     }
 
     public Date getReturnDate() {
-        return returnDate;
+        return mCopyIssue.getExpectedReturnDate();
     }
 }
