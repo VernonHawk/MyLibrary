@@ -1,5 +1,6 @@
 package com.ukma.mylibrary;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
@@ -29,9 +30,8 @@ public class ToolbarActivity extends AppCompatActivity {
         });
     }
 
-    public void formatLabelWithUsername(final int viewId, final int stringId) {
-
-//TODO username in %s
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
-
 }

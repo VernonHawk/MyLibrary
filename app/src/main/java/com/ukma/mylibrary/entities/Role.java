@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum Role {
     Reader, Librarian, Archivist;
@@ -52,7 +53,7 @@ public enum Role {
     }
 
     @JsonCreator
-    public static Role forValue(RoleObject roleObject) {
+    public static Role forValue(final RoleObject roleObject) {
         for (Map.Entry<Role, RoleObject> entry : rolesMap.entrySet()) {
             if (entry.getValue().id == roleObject.id) {
                 return entry.getKey();
