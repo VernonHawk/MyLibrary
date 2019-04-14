@@ -13,52 +13,63 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.ukma.mylibrary.R;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.LibraryItem;
+import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
 import com.ukma.mylibrary.managers.AuthManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     private Context mContext;
-    private List<LibraryItem> itemList;
+    private List<LibraryItem> mItemList;
+    private APIResponse.Listener<SciPubOrder> mOnOrderSuccess;
+    private APIResponse.ErrorListener mOnOrderError;
 
-    public LibraryAdapter(@NonNull Context context, ArrayList<LibraryItem> list) {
+    public LibraryAdapter(@NonNull Context context, @NonNull List<LibraryItem> list) {
         super(context, 0, list);
+
         mContext = context;
-        itemList = list;
+        mItemList = list;
+    }
+
+    public LibraryAdapter(
+        @NonNull final Context context,
+        @NonNull final List<LibraryItem> list,
+        @NonNull final APIResponse.Listener<SciPubOrder> mOnOrderSuccess,
+        @NonNull final APIResponse.ErrorListener mOnOrderError
+    ) {
+        this(context, list);
+        this.mOnOrderSuccess = mOnOrderSuccess;
+        this.mOnOrderError = mOnOrderError;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View listItem = convertView;
-        if (listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_library, parent, false);
+        View view = convertView;
+        if (view == null)
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_library, parent, false);
 
-        final LibraryItem currentItem = itemList.get(position);
+        // We can't just use listItem because we need it final for the inner class
+        final View listItem = view;
+
+        final LibraryItem currentItem = mItemList.get(position);
 
         TextView name = listItem.findViewById(R.id.item_reserved_sci_pub_name);
         name.setText(currentItem.getName());
 
-        final TextView totalCopies = listItem.findViewById(R.id.library_item_copies);
-        final TextView bookState = listItem.findViewById(R.id.library_item_state);
-        final Button takeOrderBtn = listItem.findViewById(R.id.library_item_take_order_btn);
-
-        setInfoText(currentItem, totalCopies, bookState);
-        setButtonStyle(currentItem, takeOrderBtn);
+        setInfoText(currentItem, listItem);
+        setOrderButtonStyle(currentItem, listItem);
 
         AppCompatImageView itemType = listItem.findViewById(R.id.library_item_icon);
         if (currentItem.getScType() == ScientificPublication.SCType.Book) {
@@ -69,22 +80,28 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
             TooltipCompat.setTooltipText(itemType, mContext.getString(R.string.collection_tooltip));
         }
 
+        final Button takeOrderBtn = listItem.findViewById(R.id.library_item_take_order_btn);
         takeOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-            clickHandler(currentItem, totalCopies, bookState, takeOrderBtn);
+            public void onClick(final View __) {
+                clickHandler(currentItem, listItem);
             }
         });
 
         return listItem;
     }
 
-    private void setInfoText(LibraryItem item, TextView totalCopies, TextView bookState) {
+    private void setInfoText(final LibraryItem item, final View listItem) {
+        final TextView totalCopies = listItem.findViewById(R.id.library_item_copies);
+        final TextView bookState   = listItem.findViewById(R.id.library_item_state);
+
         totalCopies.setText(String.valueOf(item.getTotalCopies()));
         bookState.setText(item.getState().name().toLowerCase());
     }
 
-    private void setButtonStyle(LibraryItem item, Button takeOrderBtn) {
+    private void setOrderButtonStyle(final LibraryItem item, final View listItem) {
+        final Button takeOrderBtn = listItem.findViewById(R.id.library_item_take_order_btn);
+
         switch (item.getState()) {
             case FREE:
                 takeOrderBtn.setText(R.string.btn_take);
@@ -105,26 +122,25 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
         }
     }
 
-    public void clickHandler(final LibraryItem item, final TextView totalCopies, final TextView bookState, final Button takeOrderBtn) {
+    private void clickHandler(final LibraryItem item, final View listItem) {
         try {
             JSONObject order = new JSONObject();
             order.put("user_id", AuthManager.CURRENT_USER.getId());
             order.put("scientific_publication_id", item.getId());
-            API.call(Route.CreateOrder)
+
+            API.call(Route.CreateOrder, SciPubOrder.class)
                 .body("order", order)
-                .then(new Response.Listener<JSONObject>() {
+                .then(new APIResponse.Listener<SciPubOrder>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                    // TODO change totalCopies Text, booksState and button if needed
-                    System.out.println("RESPONSE: " + response.toString());
+                    public void onResponse(final SciPubOrder response) {
+                        item.setScientificPublication(response.getScientificPublication());
+                        setInfoText(item, listItem);
+                        setOrderButtonStyle(item, listItem);
+
+                        mOnOrderSuccess.onResponse(response);
                     }
                 })
-                .catchError(new APIResponse.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO add something
-                    }
-                })
+                .catchError(mOnOrderError)
                 .executeWithContext(mContext);
         } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();

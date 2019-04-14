@@ -38,6 +38,10 @@ public class LibraryItem extends AbstractReaderItem {
                                                               : ItemUtils.BookState.RESERVED;
     }
 
+    public void setScientificPublication(final ScientificPublication sciPub) {
+        scientificPublication = sciPub;
+    }
+
     @Override
     public String toString() {
         return "LibraryItem{" +

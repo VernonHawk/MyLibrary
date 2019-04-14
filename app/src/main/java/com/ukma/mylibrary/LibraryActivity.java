@@ -15,7 +15,9 @@ import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.LibraryItem;
+import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.tools.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -87,7 +89,18 @@ public class LibraryActivity extends ToolbarReaderActivity {
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(new LibraryAdapter(this, sort));
+
+        listView.setAdapter(new LibraryAdapter(this, sort,
+        new APIResponse.Listener<SciPubOrder>() {
+            @Override
+            public void onResponse(final SciPubOrder response) {
+                ToastHelper.show(LibraryActivity.this, R.string.order_success);
+            }
+        }, new APIResponse.ErrorListener() {
+            @Override public void onErrorResponse(final VolleyError error) {
+                handleError(error, LibraryActivity.this);
+            }
+        }));
     }
 
     private void findData(String search) {
@@ -108,7 +121,6 @@ public class LibraryActivity extends ToolbarReaderActivity {
                         btnSearch.setEnabled(true);
 
                         handleError(error, LibraryActivity.this);
-
                     }
                 })
                 .executeWithContext(this);
