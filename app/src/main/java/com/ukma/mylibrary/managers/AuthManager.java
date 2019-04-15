@@ -69,10 +69,6 @@ public class AuthManager {
         return authManager;
     }
 
-    public boolean isAuthenticated() {
-        return CURRENT_USER != null && JWT_TOKEN != null;
-    }
-
     public void fetchCurrentUser(final APIResponse.Listener<User> responseListener,
                                  final APIResponse.ErrorListener responseErrorListener) {
         try {
