@@ -137,7 +137,9 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
                         setInfoText(item, listItem);
                         setOrderButtonStyle(item, listItem);
 
-                        mOnOrderSuccess.onResponse(response);
+                        if (mOnOrderSuccess != null) {
+                            mOnOrderSuccess.onResponse(response);
+                        }
                     }
                 })
                 .catchError(mOnOrderError)
