@@ -1,8 +1,11 @@
 package com.ukma.mylibrary.components;
 
-public class LibrarianItem extends AbstractReaderItem {
+import com.ukma.mylibrary.entities.User;
 
-    private Long userId;
+public class LibrarianItem extends AbstractItem {
+
+
+    private User mUser;
 
     // Constructor that is used to create an instance of the ReaderItem object
     public LibrarianItem(Long userId) {

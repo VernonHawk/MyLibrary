@@ -8,20 +8,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.adapters.LibrarianAdapter;
-import com.ukma.mylibrary.components.AbstractReaderItem;
+import com.ukma.mylibrary.api.API;
+import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
+import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.api.Route;
+import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibrarianItem;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LibrarianMainActivity extends ToolbarReaderActivity {
-    static final private int NUM_ITEMS_PAGE = 4;
-    public int TOTAL_LIST_ITEMS = 10;
+public class LibrarianMainActivity extends ToolbarLibrarianActivity {
+    private static final int NUM_ITEMS_PAGE = 3;
     private ListView listView;
     private TextView title;
     private Button btnPrev;
     private Button btnNext;
-    private ArrayList<AbstractReaderItem> data;
+    private ArrayList<AbstractItem> data = new ArrayList<>();
     private int pageCount;
     private int currentPage = 0;
 
@@ -80,15 +83,18 @@ public class LibrarianMainActivity extends ToolbarReaderActivity {
      */
     @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
-        ArrayList sort = new ArrayList<AbstractReaderItem>();
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
+        title.setText(String.format(getString(R.string.pagination), currentPage + 1, pageCount));
 
+        ArrayList sort = new ArrayList<AbstractItem>();
         int start = currentPage * NUM_ITEMS_PAGE;
+
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
             if (i >= data.size())
                 break;
+
             sort.add(data.get(i));
         }
+
         listView.setAdapter(new LibrarianAdapter(this, sort));
     }
 

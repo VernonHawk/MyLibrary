@@ -2,7 +2,7 @@ package com.ukma.mylibrary.components;
 
 import java.util.Date;
 
-public class ReservedReaderItem extends AbstractReaderItem {
+public class ReservedReaderItem extends AbstractItem {
 
     private String itemName;
     private Date itemReservationDate;

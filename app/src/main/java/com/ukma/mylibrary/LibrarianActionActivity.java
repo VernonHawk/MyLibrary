@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.ukma.mylibrary.adapters.LibrarianReturnAdapter;
 import com.ukma.mylibrary.adapters.LibrarianWithdrawalAdapter;
-import com.ukma.mylibrary.components.AbstractReaderItem;
+import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibrarianReturnItem;
 import com.ukma.mylibrary.components.LibrarianWithdrawalItem;
 import com.ukma.mylibrary.entities.ScientificPublication;
@@ -30,16 +30,16 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
     private TextView title;
     private Button btnPrev;
     private Button btnNext;
-    private ArrayList<AbstractReaderItem> data;
+    private ArrayList<AbstractItem> data;
     private int pageCount;
     private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_librarian_layout);
+        setContentView(R.layout.activity_librarian_action);
 
-        listView = findViewById(R.id.list);
+        listView = findViewById(R.id.librarian_action_list);
         btnPrev = findViewById(R.id.prev);
         btnNext = findViewById(R.id.next);
         title = findViewById(R.id.title);
@@ -97,8 +97,8 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
      */
     @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
-        ArrayList sort = new ArrayList<AbstractReaderItem>();
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
+        ArrayList sort = new ArrayList<AbstractItem>();
+        title.setText(String.format(Locale.getDefault(), getString(R.string.pagination), currentPage + 1, pageCount));
 
         int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {

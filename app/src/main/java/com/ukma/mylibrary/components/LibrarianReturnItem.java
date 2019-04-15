@@ -4,7 +4,7 @@ import com.ukma.mylibrary.entities.ScientificPublication;
 
 import java.util.Date;
 
-public class LibrarianReturnItem extends AbstractReaderItem {
+public class LibrarianReturnItem extends AbstractItem {
     private ScientificPublication scientificPublication;
     private Date issueDate;
     private Date expectedDate;

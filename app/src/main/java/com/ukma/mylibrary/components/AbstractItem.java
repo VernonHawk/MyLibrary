@@ -1,5 +1,5 @@
 package com.ukma.mylibrary.components;
 
-public abstract class AbstractReaderItem {
+public abstract class AbstractItem {
 
 }
