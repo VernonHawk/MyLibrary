@@ -72,6 +72,11 @@ public class ReaderActivity extends ToolbarReaderActivity {
         });
     }
 
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        signOut();
+    }
+
     private void setActiveItem(int checkedId) {
         data.clear();
         switch (checkedId) {
