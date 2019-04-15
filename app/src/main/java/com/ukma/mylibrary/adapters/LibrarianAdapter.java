@@ -27,15 +27,16 @@ public class LibrarianAdapter extends ArrayAdapter<LibrarianItem> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_readers, parent, false);
 
-        LibrarianItem currentItem = itemList.get(position);
+        final LibrarianItem currentItem = itemList.get(position);
 
-        TextView name = listItem.findViewById(R.id.textUserID);
-        name.setText(String.valueOf(currentItem.getUserId()));
+        final TextView name = listItem.findViewById(R.id.list_readers_reader_name);
+        name.setText(String.format(mContext.getString(R.string.list_readers_card_header),
+                                   currentItem.getUserName(), currentItem.getUserSurname()));
 
         return listItem;
     }

@@ -8,12 +8,15 @@ public class LibrarianItem extends AbstractItem {
     private User mUser;
 
     // Constructor that is used to create an instance of the ReaderItem object
-    public LibrarianItem(Long userId) {
-        this.userId = userId;
+    public LibrarianItem(final User user) {
+        this.mUser = user;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserName() {
+        return mUser.getName();
     }
-    
+
+    public String getUserSurname() {
+        return mUser.getSurname();
+    }
 }
