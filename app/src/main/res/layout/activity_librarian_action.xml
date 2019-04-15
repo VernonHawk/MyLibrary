@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/reader_list_layout"
+            android:id="@+id/librarian_action_reader_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -31,7 +31,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textUserID"
+                android:id="@+id/librarian_action_reader_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

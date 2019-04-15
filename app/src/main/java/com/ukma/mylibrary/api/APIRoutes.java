@@ -16,6 +16,7 @@ public class APIRoutes {
         routes.put(Route.GetCurrentUser, new RouteData(Request.Method.GET, "/users/current"));
         routes.put(Route.SearchSciPub, new RouteData(Request.Method.GET, "/scientific-publications"));
         routes.put(Route.CreateOrder, new RouteData(Request.Method.POST, "/orders"));
+        routes.put(Route.GetReaders, new RouteData(Request.Method.GET, "/users/readers"));
     }
 
     public static String getRoutePath(Route route) {

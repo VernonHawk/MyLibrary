@@ -87,6 +87,7 @@
     <string name="copy_id">Copy ID:</string>
     <string name="expected_return_date">Expected return date:</string>
     <string name="withdraw">Withdraw</string>
-    <string name="user_id">User ID:</string>
+    <string name="pagination">Page %d of %d</string>
+    <string name="list_readers_card_header">%s %s</string>
 
 </resources>
