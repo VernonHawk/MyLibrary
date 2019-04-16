@@ -13,11 +13,11 @@ import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
 import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
-import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
-import com.ukma.mylibrary.api.Route;;
+import com.ukma.mylibrary.api.Route;
+import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
 import com.ukma.mylibrary.entities.CopyIssue;
@@ -38,7 +38,7 @@ public class ReaderActivity extends ToolbarReaderActivity {
     private Button btnPrev;
     private Button btnNext;
 
-    private ArrayList<AbstractItem> data;
+    private ArrayList<AbstractItem> data = new ArrayList<>();
     private int pageCount;
     private int currentPage = 0;
     private ItemUtils.OrderType orderType;
@@ -112,7 +112,7 @@ public class ReaderActivity extends ToolbarReaderActivity {
     private void loadList(int currentPage) {
         title.setText(String.format(Locale.getDefault(), getString(R.string.pagination), currentPage + 1, pageCount));
 
-        final ArrayList sort = new ArrayList<AbstractReaderItem>();
+        final ArrayList sort = new ArrayList<AbstractItem>();
 
         int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {

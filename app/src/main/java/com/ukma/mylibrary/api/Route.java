@@ -9,7 +9,7 @@ public enum Route {
     CreateOrder,
     GetOrdersForUser,
     CancelOrder,
-    GetCopyIssuesForUser
+    GetCopyIssuesForUser,
     GetReaders
 }
 

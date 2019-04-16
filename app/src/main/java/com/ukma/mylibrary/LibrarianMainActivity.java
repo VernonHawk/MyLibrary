@@ -17,9 +17,7 @@ import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibrarianItem;
 import com.ukma.mylibrary.entities.User;
-import com.ukma.mylibrary.tools.ToastHelper;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 public class LibrarianMainActivity extends ToolbarLibrarianActivity {
@@ -117,7 +115,7 @@ public class LibrarianMainActivity extends ToolbarLibrarianActivity {
                    @Override
                    public void onErrorResponse(final VolleyError error) {
                         btnSearch.setEnabled(true);
-                        handleError(error, ReaderActivity.this);
+                        handleError(error, LibrarianMainActivity.this);
                    }
                })
                .executeWithContext(this);
