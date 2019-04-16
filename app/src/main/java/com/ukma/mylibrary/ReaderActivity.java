@@ -85,11 +85,6 @@ public class ReaderActivity extends ToolbarReaderActivity {
         signOut();
     }
 
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        signOut();
-    }
-
     private void setActiveItem(int checkedId) {
         switch (checkedId) {
             case R.id.rb_actual:
