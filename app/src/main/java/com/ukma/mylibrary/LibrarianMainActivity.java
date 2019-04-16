@@ -2,8 +2,6 @@ package com.ukma.mylibrary;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -119,22 +117,7 @@ public class LibrarianMainActivity extends ToolbarLibrarianActivity {
                    @Override
                    public void onErrorResponse(final VolleyError error) {
                         btnSearch.setEnabled(true);
-                        //handleError(error, ReaderActivity.this);
-
-                        Log.e(getClass().getSimpleName(), error.getMessage(), error);
-
-                        final Pair<APIResponse.Error, Integer>
-                            errWithMsg = APIResponse.handleError(error);
-                   	    final APIResponse.Error err = errWithMsg.first;
-
-                        if (err == null) {
-                            ToastHelper.show(LibrarianMainActivity.this, R.string.some_error_message);
-                        } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                           ToastHelper.show(LibrarianMainActivity.this, errWithMsg.second);
-                           signOut();
-                        } else {
-                           ToastHelper.show(LibrarianMainActivity.this, R.string.some_error_message);
-                        }
+                        handleError(error, ReaderActivity.this);
                    }
                })
                .executeWithContext(this);

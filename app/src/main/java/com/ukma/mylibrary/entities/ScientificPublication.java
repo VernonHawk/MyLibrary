@@ -1,7 +1,5 @@
 package com.ukma.mylibrary.entities;
 
-import android.support.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,10 +19,16 @@ public class ScientificPublication implements Entity {
     private int pages;
     @JsonProperty("publish_date")
     private Date publishDate;
-    // TODO delete this and and change to integer field with name sciPubCopiesCount
+
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonProperty("sci_pub_copies")
-    private List<SciPubCopy> sciPubCopies;
+    private List<SciPubCopy> sciPubCopies; // Currently guarantied to be null
+
+    @JsonProperty("free_copies_count")
+    private int freeCopiesCount;
+
+    @JsonProperty("all_copies_count")
+    private int allCopiesCount;
 
     public enum SCType {
         Book, Collection
@@ -50,6 +54,7 @@ public class ScientificPublication implements Entity {
         this.publishDate = publishDate;
     }
 
+    // region Getters & Setters
     public long getId() {
         return id;
     }
@@ -106,13 +111,22 @@ public class ScientificPublication implements Entity {
         this.sciPubCopies = sciPubCopies;
     }
 
-    public int getSciPubCopiesCount() {
-        return sciPubCopies.size();
+    public int getFreeCopiesCount() {
+        return freeCopiesCount;
     }
 
-    public boolean isFree() {
-        return getSciPubCopiesCount() > 0;
+    public void setFreeCopiesCount(final int freeCopiesCount) {
+        this.freeCopiesCount = freeCopiesCount;
     }
+
+    public int getAllCopiesCount() {
+        return allCopiesCount;
+    }
+
+    public void setAllCopiesCount(final int allCopiesCount) {
+        this.allCopiesCount = allCopiesCount;
+    }
+    // endregion
 
     @Override
     public String toString() {

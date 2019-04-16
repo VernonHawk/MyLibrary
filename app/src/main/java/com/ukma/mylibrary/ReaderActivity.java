@@ -1,30 +1,43 @@
 package com.ukma.mylibrary;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
 import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
 import com.ukma.mylibrary.components.AbstractItem;
+import com.ukma.mylibrary.api.API;
+import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
+import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.api.Route;;
 import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
+import com.ukma.mylibrary.entities.CopyIssue;
+import com.ukma.mylibrary.entities.SciPubOrder;
+import com.ukma.mylibrary.managers.AuthManager;
+import com.ukma.mylibrary.tools.ToastHelper;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class ReaderActivity extends ToolbarReaderActivity {
-    static final private int NUM_ITEMS_PAGE = 3;
-    public int TOTAL_LIST_ITEMS = 10;
+    private static final int NUM_ITEMS_PAGE = 3;
+
     private ListView listView;
     private TextView title;
     private Button btnPrev;
     private Button btnNext;
+
     private ArrayList<AbstractItem> data;
     private int pageCount;
     private int currentPage = 0;
@@ -40,12 +53,6 @@ public class ReaderActivity extends ToolbarReaderActivity {
         btnNext = findViewById(R.id.next);
         title = findViewById(R.id.title);
 
-        data = new ArrayList<>();
-
-        //this block is for checking the number of pages
-        int val = TOTAL_LIST_ITEMS % NUM_ITEMS_PAGE;
-        val = val == 0 ? 0 : 1;
-        pageCount = TOTAL_LIST_ITEMS / NUM_ITEMS_PAGE + val;
         // The ArrayList data contains all the list items
         RadioGroup radioGroup = findViewById(R.id.toggle);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -54,7 +61,6 @@ public class ReaderActivity extends ToolbarReaderActivity {
                 setActiveItem(checkedId);
             }
         });
-        setActiveItem(R.id.rb_actual);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,25 +76,23 @@ public class ReaderActivity extends ToolbarReaderActivity {
                 CheckEnable();
             }
         });
+
+        setActiveItem(R.id.rb_actual);
     }
 
     private void setActiveItem(int checkedId) {
-        data.clear();
         switch (checkedId) {
             case R.id.rb_actual:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ActualReaderItem("Book " + (i + 1), new Date(), new Date()));
                 orderType = ItemUtils.OrderType.ACTUAL;
+                fetchActualItems();
                 break;
             case R.id.rb_reserved:
-                for (int i = 0; i < TOTAL_LIST_ITEMS; i++)
-                    data.add(new ReservedReaderItem("Book " + (i + 1), new Date()));
                 orderType = ItemUtils.OrderType.RESERVED;
+                fetchReservedItems();
                 break;
+            default:
+                Log.e(ReaderActivity.class.getSimpleName(), "Unknown checked id");
         }
-        currentPage = 0;
-        loadList(currentPage);
-        CheckEnable();
     }
 
     /**
@@ -106,16 +110,117 @@ public class ReaderActivity extends ToolbarReaderActivity {
      */
     @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
-        ArrayList sort = new ArrayList<AbstractItem>();
         title.setText(String.format(Locale.getDefault(), getString(R.string.pagination), currentPage + 1, pageCount));
+
+        final ArrayList sort = new ArrayList<AbstractReaderItem>();
 
         int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
             if (i >= data.size())
                 break;
+
             sort.add(data.get(i));
         }
-        listView.setAdapter(orderType == ItemUtils.OrderType.ACTUAL ?
-                new ActualReaderAdapter(this, sort) : new ReservedReaderAdapter(this, sort));
+
+        if (orderType == ItemUtils.OrderType.ACTUAL) {
+            listView.setAdapter(new ActualReaderAdapter(this, sort));
+        } else {
+            listView.setAdapter(new ReservedReaderAdapter(this, sort,
+            new Response.Listener<JSONObject>() {
+                @Override public void onResponse(final JSONObject response) {
+                    ToastHelper.show(ReaderActivity.this, R.string.order_cancel_success);
+                    fetchReservedItems();
+                }
+            }, new APIResponse.ErrorListener() {
+                @Override public void onErrorResponse(final VolleyError error) {
+                    handleError(error, ReaderActivity.this);
+                }
+            })
+            );
+        }
+    }
+
+    private void setOrdersData(final ArrayList<SciPubOrder> orders) {
+        if (orderType == ItemUtils.OrderType.ACTUAL) {
+            Log.e(ReaderActivity.class.getSimpleName(), "Data and order type mismatch");
+            return;
+        }
+
+        data.clear();
+        for (SciPubOrder order: orders) {
+            data.add(new ReservedReaderItem(order));
+        }
+
+        reloadPagination(orders.size());
+    }
+
+    private void setIssuesData(final ArrayList<CopyIssue> issues) {
+        if (orderType == ItemUtils.OrderType.RESERVED) {
+            Log.e(ReaderActivity.class.getSimpleName(), "Data and order type mismatch");
+            return;
+        }
+
+        data.clear();
+        for (CopyIssue issue: issues) {
+            data.add(new ActualReaderItem(issue));
+        }
+
+        reloadPagination(issues.size());
+    }
+
+    private void reloadPagination(final int elemCount) {
+        pageCount = elemCount / NUM_ITEMS_PAGE;
+        if (elemCount % NUM_ITEMS_PAGE > 0) {
+            ++pageCount;
+        }
+
+        currentPage = 0;
+        loadList(currentPage);
+        CheckEnable();
+    }
+
+    private void fetchReservedItems() {
+        try {
+            API.call(Route.GetOrdersForUser, SciPubOrder.class)
+               .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
+               .query("status", SciPubOrder.Status.Pending.name())
+               .thenWithArray(new APIResponse.Listener<ArrayList<SciPubOrder>>() {
+                   @Override
+                   public void onResponse(ArrayList<SciPubOrder> orders) {
+                       setOrdersData(orders);
+                   }
+               })
+               .catchError(new APIResponse.ErrorListener() {
+                   @Override
+                   public void onErrorResponse(final VolleyError error) {
+                       handleError(error, ReaderActivity.this);
+                   }
+               })
+               .executeWithContext(this);
+        } catch (APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchActualItems() {
+        try {
+            API.call(Route.GetCopyIssuesForUser, CopyIssue.class)
+               .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
+               .thenWithArray(new APIResponse.Listener<ArrayList<CopyIssue>>() {
+                   @Override
+                   public void onResponse(ArrayList<CopyIssue> issues) {
+                       setIssuesData(issues);
+                   }
+               })
+               .catchError(new APIResponse.ErrorListener() {
+                   @Override
+                   public void onErrorResponse(final VolleyError error) {
+                       handleError(error, ReaderActivity.this);
+                   }
+               })
+               .executeWithContext(this);
+        } catch (APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
     }
 }

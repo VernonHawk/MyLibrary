@@ -2,8 +2,6 @@ package com.ukma.mylibrary;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,6 +16,7 @@ import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibraryItem;
+import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
 import com.ukma.mylibrary.tools.ToastHelper;
 
@@ -92,13 +91,23 @@ public class LibraryActivity extends ToolbarReaderActivity {
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(new LibraryAdapter(this, sort));
+
+        listView.setAdapter(new LibraryAdapter(this, sort,
+        new APIResponse.Listener<SciPubOrder>() {
+            @Override
+            public void onResponse(final SciPubOrder response) {
+                ToastHelper.show(LibraryActivity.this, R.string.order_success);
+            }
+        }, new APIResponse.ErrorListener() {
+            @Override public void onErrorResponse(final VolleyError error) {
+                handleError(error, LibraryActivity.this);
+            }
+        }));
     }
 
     private void findData(String search) {
         btnSearch.setEnabled(false);
         try {
-            final Context context = this;
             API.call(Route.SearchSciPub, ScientificPublication.class)
                 .query("search", search)
                 .thenWithArray(new APIResponse.Listener<ArrayList<ScientificPublication>>() {
@@ -112,21 +121,11 @@ public class LibraryActivity extends ToolbarReaderActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         btnSearch.setEnabled(true);
-                        Log.e(LibraryActivity.class.getSimpleName(), error.getMessage(), error);
 
-                        final Pair<APIResponse.Error, Integer> errWithMsg = APIResponse.handleError(error);
-                        final APIResponse.Error err = errWithMsg.first;
-                        if (err == null) {
-                            ToastHelper.show(context, R.string.some_error_message);
-                        } else if (err.status() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                            ToastHelper.show(context, errWithMsg.second);
-                            signOut();
-                        } else {
-                            ToastHelper.show(context, R.string.some_error_message);
-                        }
+                        handleError(error, LibraryActivity.this);
                     }
                 })
-                .executeWithContext(context);
+                .executeWithContext(this);
         } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         }

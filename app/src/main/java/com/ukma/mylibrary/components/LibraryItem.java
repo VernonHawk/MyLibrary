@@ -20,7 +20,7 @@ public class LibraryItem extends AbstractItem {
         return scientificPublication.getIsbn();
     }
 
-    public String getItemName() {
+    public String getName() {
         return scientificPublication.getName();
     }
 
@@ -28,16 +28,18 @@ public class LibraryItem extends AbstractItem {
         return scientificPublication.getScType();
     }
 
-    // TODO change this when backend api will be changed
-    public int getCurrentCopies() {
-        return scientificPublication.getSciPubCopiesCount();
-    }
+
     public int getTotalCopies() {
-        return scientificPublication.getSciPubCopiesCount();
+        return scientificPublication.getAllCopiesCount();
     }
 
     public ItemUtils.BookState getState() {
-        return scientificPublication.isFree() ? ItemUtils.BookState.FREE : ItemUtils.BookState.RESERVED;
+        return scientificPublication.getFreeCopiesCount() > 0 ? ItemUtils.BookState.FREE
+                                                              : ItemUtils.BookState.RESERVED;
+    }
+
+    public void setScientificPublication(final ScientificPublication sciPub) {
+        scientificPublication = sciPub;
     }
 
     @Override

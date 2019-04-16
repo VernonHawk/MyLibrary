@@ -1,31 +1,26 @@
 package com.ukma.mylibrary.components;
 
+import com.ukma.mylibrary.entities.SciPubOrder;
+
 import java.util.Date;
 
 public class ReservedReaderItem extends AbstractItem {
 
-    private String itemName;
-    private Date itemReservationDate;
+    private final SciPubOrder mOrder;
 
-    // Constructor that is used to create an instance of the ReaderItem object
-    public ReservedReaderItem(String itemName, Date itemReservationDate) {
-        this.itemName = itemName;
-        this.itemReservationDate = itemReservationDate;
+    public ReservedReaderItem(final SciPubOrder order) {
+        mOrder = order;
     }
 
-    public String getItemName() {
-        return itemName;
+    public long getId() {
+        return mOrder.getId();
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public String getName() {
+        return mOrder.getScientificPublication().getName();
     }
 
-    public Date getItemReservationDate() {
-        return itemReservationDate;
-    }
-
-    public void setItemReservedDate(Date itemReservationDate) {
-        this.itemReservationDate = itemReservationDate;
+    public Date getOrderDate() {
+        return mOrder.getOrderDate();
     }
 }
