@@ -14,7 +14,7 @@ import com.ukma.mylibrary.components.LibrarianItem;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LibrarianMainActivity extends ToolbarReaderActivity {
+public class LibrarianMainActivity extends ToolbarLibrarianActivity {
     static final private int NUM_ITEMS_PAGE = 4;
     public int TOTAL_LIST_ITEMS = 10;
     private ListView listView;

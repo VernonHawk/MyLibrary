@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ukma.mylibrary.managers.AuthManager;
+
 public class ToolbarReaderActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reader_menu, menu);
+        menu.findItem(R.id.name_reader).setTitle(AuthManager.CURRENT_USER.getName());
+
         return true;
     }
 

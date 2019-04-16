@@ -1,7 +1,6 @@
 package com.ukma.mylibrary;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -20,10 +19,7 @@ import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractReaderItem;
 import com.ukma.mylibrary.components.LibraryItem;
 import com.ukma.mylibrary.entities.ScientificPublication;
-import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.tools.ToastHelper;
-
-import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
