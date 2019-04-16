@@ -19,11 +19,6 @@ public class ToolbarActivity extends AppCompatActivity {
     public void onBackPressed() {
         signOut();
     }
-  
-    public void formatLabelWithUsername(final int viewId, final int stringId) {
-
-      //TODO username in %s
-    }
 
     protected void signOut() {
         AuthManager.getManager(this).signOut(new APIResponse.Listener<JSONObject>() {

@@ -1,5 +1,6 @@
 package com.ukma.mylibrary;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
 import com.ukma.mylibrary.tools.ToastHelper;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Locale;
 
