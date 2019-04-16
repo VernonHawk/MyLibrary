@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LibraryActivity">
+    tools:context=".LibrarianActionActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -13,29 +13,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:focusableInTouchMode="true"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
-            android:id="@+id/search_view"
+        <LinearLayout
+            android:id="@+id/librarian_action_reader_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
             android:layout_marginBottom="8dp"
-            android:orientation="horizontal" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/sci_pub_search_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:background="@color/colorSuccess"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:paddingTop="12dp"
+                android:text="@string/user_id"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/librarian_action_reader_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:paddingTop="12dp"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <ListView
-            android:id="@+id/list"
+            android:id="@+id/librarian_action_list"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

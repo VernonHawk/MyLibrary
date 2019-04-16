@@ -13,14 +13,16 @@ import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
-import com.ukma.mylibrary.components.AbstractReaderItem;
+import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibraryItem;
+import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.tools.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LibraryActivity extends ToolbarActivity {
+public class LibraryActivity extends ToolbarReaderActivity {
     private static final int NUM_ITEMS_PAGE = 4;
     private ListView listView;
     private TextView title;
@@ -28,7 +30,7 @@ public class LibraryActivity extends ToolbarActivity {
     private Button btnSearch;
     private Button btnPrev;
     private Button btnNext;
-    private ArrayList<AbstractReaderItem> data;
+    private ArrayList<AbstractItem> data;
     private int pageCount;
     private int currentPage = 0;
 
@@ -38,7 +40,7 @@ public class LibraryActivity extends ToolbarActivity {
         setContentView(R.layout.activity_reader_library);
 
         listView = findViewById(R.id.list);
-        searchItem = findViewById(R.id.search_item);
+        searchItem = findViewById(R.id.search_view);
         btnSearch = findViewById(R.id.sci_pub_search_btn);
         btnPrev = findViewById(R.id.prev);
         btnNext = findViewById(R.id.next);
@@ -76,9 +78,10 @@ public class LibraryActivity extends ToolbarActivity {
         btnNext.setEnabled(currentPage + 1 < pageCount);
     }
 
+    @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
-        ArrayList sort = new ArrayList<AbstractReaderItem>();
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
+        ArrayList sort = new ArrayList<AbstractItem>();
+        title.setText(String.format(Locale.getDefault(), getString(R.string.pagination), currentPage + 1, pageCount));
 
         int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {
@@ -86,7 +89,18 @@ public class LibraryActivity extends ToolbarActivity {
                 break;
             sort.add(data.get(i));
         }
-        listView.setAdapter(new LibraryAdapter(this, sort));
+
+        listView.setAdapter(new LibraryAdapter(this, sort,
+        new APIResponse.Listener<SciPubOrder>() {
+            @Override
+            public void onResponse(final SciPubOrder response) {
+                ToastHelper.show(LibraryActivity.this, R.string.order_success);
+            }
+        }, new APIResponse.ErrorListener() {
+            @Override public void onErrorResponse(final VolleyError error) {
+                handleError(error, LibraryActivity.this);
+            }
+        }));
     }
 
     private void findData(String search) {

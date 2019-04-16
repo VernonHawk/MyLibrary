@@ -15,11 +15,11 @@ public class SciPubOrder implements Entity {
     @JsonProperty("sci_pub_copy")
     private SciPubCopy sciPubCopy;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("scientific_publication")
     private ScientificPublication scientificPublication;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("user")
     private User user; // Currently guarantied to be null
 
@@ -28,6 +28,9 @@ public class SciPubOrder implements Entity {
 
     @JsonProperty("withdrawal_date")
     private Date withdrawalDate;
+
+    @JsonProperty("status")
+    private Status status;
 
     public enum Status {
         Pending, Canceled, Given
@@ -41,9 +44,10 @@ public class SciPubOrder implements Entity {
         final ScientificPublication scientificPublication,
         final User user,
         final Date orderDate,
-        final Date withdrawalDate
+        final Date withdrawalDate,
+        final Status status
     ) {
-        this(sciPubCopy, scientificPublication, user, orderDate, withdrawalDate);
+        this(sciPubCopy, scientificPublication, user, orderDate, withdrawalDate, status);
         this.id = id;
     }
 
@@ -52,13 +56,15 @@ public class SciPubOrder implements Entity {
         final ScientificPublication scientificPublication,
         final User user,
         final Date orderDate,
-        final Date withdrawalDate
+        final Date withdrawalDate,
+        final Status status
     ) {
         this.sciPubCopy = sciPubCopy;
         this.scientificPublication = scientificPublication;
         this.user = user;
         this.orderDate = orderDate;
         this.withdrawalDate = withdrawalDate;
+        this.status = status;
     }
 
     public long getId() {
@@ -111,6 +117,14 @@ public class SciPubOrder implements Entity {
         this.withdrawalDate = withdrawalDate;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(final Status status) {
+        this.status = status;
+    }
+
     @Override public String toString() {
         return "SciPubOrder{" +
                "id=" + id +
@@ -119,6 +133,7 @@ public class SciPubOrder implements Entity {
                ", user=" + user +
                ", orderDate=" + orderDate +
                ", withdrawalDate=" + withdrawalDate +
+               ", status=" + status +
                '}';
     }
 }

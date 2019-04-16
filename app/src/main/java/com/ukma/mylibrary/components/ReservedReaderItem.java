@@ -4,27 +4,23 @@ import com.ukma.mylibrary.entities.SciPubOrder;
 
 import java.util.Date;
 
-public class ReservedReaderItem extends AbstractReaderItem {
+public class ReservedReaderItem extends AbstractItem {
 
-    private long id;
-    private String name;
-    private Date orderDate;
+    private final SciPubOrder mOrder;
 
     public ReservedReaderItem(final SciPubOrder order) {
-        this.id = order.getId();
-        this.name = order.getScientificPublication().getName();
-        this.orderDate = order.getOrderDate();
+        mOrder = order;
     }
 
     public long getId() {
-        return id;
+        return mOrder.getId();
     }
 
     public String getName() {
-        return name;
+        return mOrder.getScientificPublication().getName();
     }
 
     public Date getOrderDate() {
-        return orderDate;
+        return mOrder.getOrderDate();
     }
 }

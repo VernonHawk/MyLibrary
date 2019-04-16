@@ -34,7 +34,7 @@
     <string name="orders">Orders</string>
     <string name="library">Library</string>
 
-    <string name="username">%username%</string>
+    <string name="username">%s</string>
     <string name="exit">Exit</string>
 
     <string name="actual_switch">Actual</string>
@@ -79,7 +79,19 @@
     <string name="too_long_validation_error">%s is too long</string>
     <string name="too_short_validation_error">%s is too short</string>
     <string name="password_confirmation_validation_error">%s doesn\'t match the Password</string>
+    <string name="return_string">Return</string>
+    <string name="withdrawal_string">Withdrawal</string>
+    <string name="search">Search</string>
+    <string name="isbn">ISBN:</string>
+    <string name="copy_id">Copy ID:</string>
+    <string name="expected_return_date">Expected return date:</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="user_id">User ID:</string>
+
+    <string name="pagination">Page %d of %d</string>
+    <string name="list_readers_card_header">%s %s</string>
 
     <string name="order_cancel_success">Your order was successfully canceled</string>
+    <string name="order_success">Your order was successful! You can see it on the Orders page</string>
 
 </resources>

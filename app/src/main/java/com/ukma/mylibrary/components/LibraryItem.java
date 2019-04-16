@@ -3,7 +3,7 @@ package com.ukma.mylibrary.components;
 import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.entities.ScientificPublication;
 
-public class LibraryItem extends AbstractReaderItem {
+public class LibraryItem extends AbstractItem {
 
     private ScientificPublication scientificPublication;
 
@@ -36,6 +36,10 @@ public class LibraryItem extends AbstractReaderItem {
     public ItemUtils.BookState getState() {
         return scientificPublication.getFreeCopiesCount() > 0 ? ItemUtils.BookState.FREE
                                                               : ItemUtils.BookState.RESERVED;
+    }
+
+    public void setScientificPublication(final ScientificPublication sciPub) {
+        scientificPublication = sciPub;
     }
 
     @Override
