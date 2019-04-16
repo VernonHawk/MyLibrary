@@ -29,7 +29,7 @@
         android:layout_marginBottom="8dp">
 
         <Button
-            android:id="@+id/return_btn"
+            android:id="@+id/list_readers_return_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -38,18 +38,16 @@
             android:gravity="center_vertical"
             android:text="@string/return_string"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:onClick="OnReturnClick"/>
+            android:textColor="@color/white"/>
 
         <Button
-            android:id="@+id/withdraw_btn"
+            android:id="@+id/list_readers_withdraw_btn"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="125dp"
             android:background="@color/colorSuccess"
             android:gravity="center_vertical"
-            android:onClick="OnWithdrawClick"
             android:text="@string/withdrawal_string"
             android:textAlignment="center"
             android:textColor="@color/white" />
