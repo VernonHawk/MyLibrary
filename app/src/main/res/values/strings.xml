@@ -51,7 +51,7 @@
     <string name="book_icon_content">book</string>
     <string name="total_copies_title">Total copies:</string>
     <string name="item_state">State:</string>
-    <string name="reservation_date">Reservation date:</string>
+    <string name="order_date">Order date:</string>
 
     <string name="item_info">Info</string>
 
@@ -87,5 +87,8 @@
     <string name="expected_return_date">Expected return date:</string>
     <string name="withdraw">Withdraw</string>
     <string name="user_id">User ID:</string>
+
+    <string name="order_cancel_success">Your order was successfully canceled</string>
+    <string name="order_success">Your order was successful! You can see it on the Orders page</string>
 
 </resources>
