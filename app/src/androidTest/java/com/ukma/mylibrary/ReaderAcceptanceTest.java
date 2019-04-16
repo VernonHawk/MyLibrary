@@ -48,7 +48,7 @@ public class ReaderAcceptanceTest {
         clickOn("Library");
 
         // search for a sci pub
-        inputText(R.id.search_item, "A ");
+        inputText(R.id.search_view, "A ");
         clickOn(R.id.sci_pub_search_btn);
 
         final String firstBookName = "A Scanner Darkly";
