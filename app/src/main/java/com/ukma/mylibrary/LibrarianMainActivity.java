@@ -65,6 +65,11 @@ public class LibrarianMainActivity extends ToolbarLibrarianActivity {
         });
     }
 
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        signOut();
+    }
+
     /**
      * Method for enabling and disabling pagination Buttons
      */

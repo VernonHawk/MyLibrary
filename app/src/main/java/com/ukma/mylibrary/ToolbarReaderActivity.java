@@ -24,9 +24,6 @@ public class ToolbarReaderActivity extends ToolbarActivity {
             case R.id.action_library:
                 startActivity(new Intent(this, LibraryActivity.class));
                 return true;
-            case android.R.id.home:
-                signOut();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

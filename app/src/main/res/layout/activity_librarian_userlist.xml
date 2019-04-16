@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LibrarianMainActivity">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,17 +21,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:iconifiedByDefault="false"
             android:orientation="horizontal" />
 
         <Button
             android:id="@+id/sci_pub_search_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search"
-            android:background="@color/colorSuccess"
-            android:textColor="@color/white"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:background="@color/colorSuccess"
+            android:text="@string/search"
+            android:textColor="@color/white" />
 
         <ListView
             android:id="@+id/list"
