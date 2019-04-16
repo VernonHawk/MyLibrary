@@ -4,7 +4,7 @@ import com.ukma.mylibrary.entities.CopyIssue;
 
 import java.util.Date;
 
-public class ActualReaderItem extends AbstractReaderItem {
+public class ActualReaderItem extends AbstractItem {
 
     private final CopyIssue mCopyIssue;
 

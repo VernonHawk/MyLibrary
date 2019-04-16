@@ -4,7 +4,7 @@ import com.ukma.mylibrary.entities.SciPubOrder;
 
 import java.util.Date;
 
-public class ReservedReaderItem extends AbstractReaderItem {
+public class ReservedReaderItem extends AbstractItem {
 
     private final SciPubOrder mOrder;
 

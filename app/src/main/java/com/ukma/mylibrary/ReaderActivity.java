@@ -17,7 +17,7 @@ import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
-import com.ukma.mylibrary.components.AbstractReaderItem;
+import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
 import com.ukma.mylibrary.entities.CopyIssue;
@@ -31,14 +31,14 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class ReaderActivity extends ToolbarReaderActivity {
-    private static final int NUM_ITEMS_PAGE = 4;
+    private static final int NUM_ITEMS_PAGE = 3;
 
     private ListView listView;
     private TextView title;
     private Button btnPrev;
     private Button btnNext;
 
-    private ArrayList<AbstractReaderItem> data = new ArrayList<>();
+    private ArrayList<AbstractItem> data = new ArrayList<>();
     private int pageCount;
     private int currentPage = 0;
     private ItemUtils.OrderType orderType;
@@ -115,9 +115,9 @@ public class ReaderActivity extends ToolbarReaderActivity {
      */
     @SuppressWarnings("unchecked")
     private void loadList(int currentPage) {
-        title.setText(String.format(Locale.getDefault(), "Page %d of %d", currentPage + 1, pageCount));
+        title.setText(String.format(Locale.getDefault(), getString(R.string.pagination), currentPage + 1, pageCount));
 
-        ArrayList sort = new ArrayList<AbstractReaderItem>();
+        final ArrayList sort = new ArrayList<AbstractItem>();
 
         int start = currentPage * NUM_ITEMS_PAGE;
         for (int i = start; i < start + NUM_ITEMS_PAGE; i++) {

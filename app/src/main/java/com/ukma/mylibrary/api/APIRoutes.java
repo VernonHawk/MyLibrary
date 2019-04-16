@@ -19,6 +19,7 @@ public class APIRoutes {
         routes.put(Route.GetOrdersForUser, new RouteData(Request.Method.GET, "/orders/{user_id}")); // ?status=:status&is_ready=:is_ready
         routes.put(Route.CancelOrder, new RouteData(Request.Method.PATCH, "/orders/{id}/cancel"));
         routes.put(Route.GetCopyIssuesForUser, new RouteData(Request.Method.GET, "/issues/{user_id}"));
+        routes.put(Route.GetReaders, new RouteData(Request.Method.GET, "/users/readers"));
     }
 
     public static String getRoutePath(Route route) {
