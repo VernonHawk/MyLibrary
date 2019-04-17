@@ -38,8 +38,7 @@
             android:gravity="center_vertical"
             android:text="@string/return_string"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:onClick="OnReturnClick"/>
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/withdraw_btn"
@@ -49,7 +48,6 @@
             android:layout_marginEnd="125dp"
             android:background="@color/colorSuccess"
             android:gravity="center_vertical"
-            android:onClick="OnWithdrawClick"
             android:text="@string/withdrawal_string"
             android:textAlignment="center"
             android:textColor="@color/white" />

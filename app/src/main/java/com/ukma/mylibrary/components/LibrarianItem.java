@@ -12,6 +12,10 @@ public class LibrarianItem extends AbstractItem {
         this.mUser = user;
     }
 
+    public long getUserId() {
+        return mUser.getId();
+    }
+
     public String getUserName() {
         return mUser.getName();
     }

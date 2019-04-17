@@ -3,7 +3,6 @@ package com.ukma.mylibrary.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.TooltipCompat;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.api.Route;
+import com.ukma.mylibrary.components.ItemUtils;
 import com.ukma.mylibrary.components.LibraryItem;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
@@ -34,7 +34,7 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     private APIResponse.Listener<SciPubOrder> mOnOrderSuccess;
     private APIResponse.ErrorListener mOnOrderError;
 
-    public LibraryAdapter(@NonNull Context context, @NonNull List<LibraryItem> list) {
+    private LibraryAdapter(@NonNull Context context, @NonNull List<LibraryItem> list) {
         super(context, 0, list);
 
         mContext = context;
@@ -42,10 +42,10 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     }
 
     public LibraryAdapter(
-        @NonNull final Context context,
-        @NonNull final List<LibraryItem> list,
-        @NonNull final APIResponse.Listener<SciPubOrder> mOnOrderSuccess,
-        @NonNull final APIResponse.ErrorListener mOnOrderError
+            @NonNull final Context context,
+            @NonNull final List<LibraryItem> list,
+            @NonNull final APIResponse.Listener<SciPubOrder> mOnOrderSuccess,
+            @NonNull final APIResponse.ErrorListener mOnOrderError
     ) {
         this(context, list);
         this.mOnOrderSuccess = mOnOrderSuccess;
@@ -93,7 +93,7 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
 
     private void setInfoText(final LibraryItem item, final View listItem) {
         final TextView totalCopies = listItem.findViewById(R.id.library_item_copies);
-        final TextView bookState   = listItem.findViewById(R.id.library_item_state);
+        final TextView bookState = listItem.findViewById(R.id.library_item_state);
 
         totalCopies.setText(String.valueOf(item.getTotalCopies()));
         bookState.setText(item.getState().name().toLowerCase());
@@ -105,19 +105,11 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
         switch (item.getState()) {
             case FREE:
                 takeOrderBtn.setText(R.string.btn_take);
-                takeOrderBtn.setBackgroundColor(ResourcesCompat.getColor(
-                    getContext().getResources(),
-                    R.color.colorSuccess,
-                    null)
-                );
+                takeOrderBtn.setBackgroundColor(ItemUtils.ResourceColorToColor(getContext(), R.color.colorSuccess));
                 break;
             case RESERVED:
                 takeOrderBtn.setText(R.string.btn_order);
-                takeOrderBtn.setBackgroundColor(ResourcesCompat.getColor(
-                    getContext().getResources(),
-                    R.color.colorPrimaryDark,
-                    null)
-                );
+                takeOrderBtn.setBackgroundColor(ItemUtils.ResourceColorToColor(getContext(), R.color.colorPrimaryDark));
                 break;
         }
     }
@@ -129,21 +121,21 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
             order.put("scientific_publication_id", item.getId());
 
             API.call(Route.CreateOrder, SciPubOrder.class)
-                .body("order", order)
-                .then(new APIResponse.Listener<SciPubOrder>() {
-                    @Override
-                    public void onResponse(final SciPubOrder response) {
-                        item.setScientificPublication(response.getScientificPublication());
-                        setInfoText(item, listItem);
-                        setOrderButtonStyle(item, listItem);
+                    .body("order", order)
+                    .then(new APIResponse.Listener<SciPubOrder>() {
+                        @Override
+                        public void onResponse(final SciPubOrder response) {
+                            item.setScientificPublication(response.getScientificPublication());
+                            setInfoText(item, listItem);
+                            setOrderButtonStyle(item, listItem);
 
-                        if (mOnOrderSuccess != null) {
-                            mOnOrderSuccess.onResponse(response);
+                            if (mOnOrderSuccess != null) {
+                                mOnOrderSuccess.onResponse(response);
+                            }
                         }
-                    }
-                })
-                .catchError(mOnOrderError)
-                .executeWithContext(mContext);
+                    })
+                    .catchError(mOnOrderError)
+                    .executeWithContext(mContext);
         } catch (APIRequestNoListenerSpecifiedException e) {
             e.printStackTrace();
         } catch (JSONException e) {

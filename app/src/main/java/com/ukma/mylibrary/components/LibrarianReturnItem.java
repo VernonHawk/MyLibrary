@@ -1,30 +1,30 @@
 package com.ukma.mylibrary.components;
 
-import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.entities.SciPubCopy;
 
 import java.util.Date;
 
 public class LibrarianReturnItem extends AbstractItem {
-    private ScientificPublication scientificPublication;
+    private SciPubCopy sciPubCopy;
     private Date issueDate;
     private Date expectedDate;
 
-    public LibrarianReturnItem(ScientificPublication scientificPublication, Date issueDate, Date expectedDate) {
-        this.scientificPublication = scientificPublication;
+    public LibrarianReturnItem(SciPubCopy sciPubCopy, Date issueDate, Date expectedDate) {
+        this.sciPubCopy = sciPubCopy;
         this.issueDate = issueDate;
         this.expectedDate = expectedDate;
     }
 
     public String getPublicationName() {
-        return scientificPublication.getName();
+        return sciPubCopy.getScientificPublication().getName();
     }
 
     public String getIsbn() {
-        return scientificPublication.getIsbn();
+        return sciPubCopy.getScientificPublication().getIsbn();
     }
 
     public long getCopyId() {
-        return scientificPublication.getId();
+        return sciPubCopy.getScientificPublication().getId();
     }
 
     public Date getIssueDate() {

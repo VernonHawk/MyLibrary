@@ -143,27 +143,15 @@ public class LibrarianMainActivity extends ToolbarLibrarianActivity {
 
     private void setData(final ArrayList<User> users) {
         data.clear();
-        for (final User user: users) {
+        for (final User user: users)
             data.add(new LibrarianItem(user));
-        }
 
         pageCount = data.size() / NUM_ITEMS_PAGE;
-        if (data.size() % NUM_ITEMS_PAGE > 0) {
+        if (data.size() % NUM_ITEMS_PAGE > 0)
             ++pageCount;
-        }
 
         currentPage = 0;
         loadList(currentPage);
         CheckEnable();
-    }
-
-    public void OnReturnClick(final View view) {
-        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.RETURN;
-        startActivity(new Intent(this, LibrarianActionActivity.class));
-    }
-
-    public void OnWithdrawClick(final View view) {
-        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.WITHDRAW;
-        startActivity(new Intent(this, LibrarianActionActivity.class));
     }
 }

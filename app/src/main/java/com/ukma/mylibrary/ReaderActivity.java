@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
-import com.ukma.mylibrary.adapters.ItemUtils;
+import com.ukma.mylibrary.components.ItemUtils;
 import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
 import com.ukma.mylibrary.api.API;
 import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;

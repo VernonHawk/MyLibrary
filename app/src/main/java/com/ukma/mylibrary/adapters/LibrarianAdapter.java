@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.LibrarianActionActivity;
@@ -39,7 +38,27 @@ public class LibrarianAdapter extends ArrayAdapter<LibrarianItem> {
 
         final TextView name = listItem.findViewById(R.id.list_readers_reader_name);
         name.setText(String.format(mContext.getString(R.string.list_readers_card_header),
-                                   currentItem.getUserName(), currentItem.getUserSurname()));
+                currentItem.getUserName(), currentItem.getUserSurname()));
+
+        listItem.findViewById(R.id.withdraw_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View __) {
+                        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.WITHDRAW;
+                        LibrarianActionActivity.readerId = currentItem.getUserId();
+                        mContext.startActivity(new Intent(mContext, LibrarianActionActivity.class));
+                    }
+                });
+
+        listItem.findViewById(R.id.return_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View __) {
+                        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.RETURN;
+                        LibrarianActionActivity.readerId = currentItem.getUserId();
+                        mContext.startActivity(new Intent(mContext, LibrarianActionActivity.class));
+                    }
+                });
 
         return listItem;
     }
