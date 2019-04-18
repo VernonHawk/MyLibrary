@@ -12,6 +12,10 @@ public class LibrarianWithdrawalItem extends AbstractItem {
         mOrder = order;
     }
 
+    public long getOrderId() {
+        return mOrder.getId();
+    }
+
     public String getPublicationName() {
         return mOrder.getScientificPublication().getName();
     }

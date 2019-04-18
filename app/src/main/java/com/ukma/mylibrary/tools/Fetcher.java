@@ -57,4 +57,38 @@ public class Fetcher {
             e.printStackTrace();
         }
     }
+
+    public static void withdrawCopy(
+        final Context context,
+        final long orderId,
+        final APIResponse.Listener<SciPubOrder> onSuccess,
+        final APIResponse.ErrorListener onError
+    ) {
+        try {
+            API.call(Route.WithdrawCopy, SciPubOrder.class)
+               .params("id", String.valueOf(orderId))
+               .then(onSuccess)
+               .catchError(onError)
+               .executeWithContext(context);
+        } catch (final APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void returnCopy(
+        final Context context,
+        final long issueId,
+        final APIResponse.Listener<CopyIssue> onSuccess,
+        final APIResponse.ErrorListener onError
+    ) {
+        try {
+            API.call(Route.WithdrawCopy, CopyIssue.class)
+               .params("id", String.valueOf(issueId))
+               .then(onSuccess)
+               .catchError(onError)
+               .executeWithContext(context);
+        } catch (final APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -93,5 +93,6 @@
 
     <string name="order_cancel_success">Your order was successfully canceled</string>
     <string name="order_success">Your order was successful! You can see it on the Orders page</string>
+    <string name="copy_withdraw_success">Copy was successfully withdrawn</string>
 
 </resources>

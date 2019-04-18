@@ -12,7 +12,7 @@
         android:layout_below="@id/title_layout">
 
         <TextView
-            android:id="@+id/publicationName"
+            android:id="@+id/list_librarian_withdrawal_publicationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -68,7 +68,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/copy_id"
+            android:id="@+id/list_librarian_withdrawal_copy_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

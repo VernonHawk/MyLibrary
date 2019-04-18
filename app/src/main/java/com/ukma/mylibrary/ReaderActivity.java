@@ -184,18 +184,18 @@ public class ReaderActivity extends ToolbarReaderActivity {
 
     private void fetchReservedItems() {
         Fetcher.fetchOrdersForUser(this,
-           AuthManager.CURRENT_USER.getId(), SciPubOrder.Status.Pending, null,
-           new APIResponse.Listener<ArrayList<SciPubOrder>>() {
-               @Override
-               public void onResponse(ArrayList<SciPubOrder> orders) {
-                   setOrdersData(orders);
-               }
-           },
-           new APIResponse.ErrorListener() {
-               @Override
-               public void onErrorResponse(final VolleyError error) {
-                   handleError(error, ReaderActivity.this);
-               }
+            AuthManager.CURRENT_USER.getId(), SciPubOrder.Status.Pending, null,
+            new APIResponse.Listener<ArrayList<SciPubOrder>>() {
+                @Override
+                public void onResponse(final ArrayList<SciPubOrder> orders) {
+                    setOrdersData(orders);
+                }
+            },
+            new APIResponse.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    handleError(error, ReaderActivity.this);
+                }
             }
         );
     }

@@ -37,19 +37,19 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     public LibraryAdapter(@NonNull Context context, @NonNull List<LibraryItem> list) {
         super(context, 0, list);
 
-        mContext = context;
+        mContext  = context;
         mItemList = list;
     }
 
     public LibraryAdapter(
         @NonNull final Context context,
         @NonNull final List<LibraryItem> list,
-        @NonNull final APIResponse.Listener<SciPubOrder> mOnOrderSuccess,
-        @NonNull final APIResponse.ErrorListener mOnOrderError
+        @NonNull final APIResponse.Listener<SciPubOrder> onOrderSuccess,
+        @NonNull final APIResponse.ErrorListener onOrderError
     ) {
         this(context, list);
-        this.mOnOrderSuccess = mOnOrderSuccess;
-        this.mOnOrderError = mOnOrderError;
+        mOnOrderSuccess = onOrderSuccess;
+        mOnOrderError   = onOrderError;
     }
 
     @NonNull

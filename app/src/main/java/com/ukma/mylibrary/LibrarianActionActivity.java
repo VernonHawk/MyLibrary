@@ -17,6 +17,7 @@ import com.ukma.mylibrary.entities.CopyIssue;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.tools.Fetcher;
+import com.ukma.mylibrary.tools.ToastHelper;
 
 import java.util.ArrayList;
 
@@ -113,9 +114,27 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
             sort.add(data.get(i));
         }
 
-        listView.setAdapter( IsReturnAction() ? new LibrarianReturnAdapter(this, sort)
-                                              : new LibrarianWithdrawalAdapter(this, sort)
-        );
+        final APIResponse.ErrorListener errorListener = new APIResponse.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                handleError(error, LibrarianActionActivity.this);
+            }
+        };
+
+        if (IsReturnAction()) {
+            listView.setAdapter(new LibrarianReturnAdapter(this, sort));
+        } else {
+            listView.setAdapter(new LibrarianWithdrawalAdapter(this, sort,
+                new APIResponse.Listener<SciPubOrder>() {
+                    @Override
+                    public void onResponse(final SciPubOrder __) {
+                        ToastHelper.show(LibrarianActionActivity.this, R.string.copy_withdraw_success);
+                        fetchWithdrawalItems();
+                    }
+                },
+                errorListener
+            ));
+        }
     }
 
     private void setWithdrawalData(final ArrayList<SciPubOrder> orders) {

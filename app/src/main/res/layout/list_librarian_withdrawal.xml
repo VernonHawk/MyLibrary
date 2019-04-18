@@ -12,7 +12,7 @@
         android:layout_below="@id/title_layout">
 
         <TextView
-            android:id="@+id/publicationName"
+            android:id="@+id/list_librarian_withdrawal_publicationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -68,7 +68,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/copy_id"
+            android:id="@+id/list_librarian_withdrawal_copy_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -91,7 +91,7 @@
         android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/order_date"
+            android:id="@+id/list_librarian_withdrawal_order_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -101,7 +101,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/withdrawal_approve"
+            android:id="@+id/list_librarian_withdrawal_withdrawal_approve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
