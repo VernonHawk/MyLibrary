@@ -21,7 +21,7 @@ public class APIRoutes {
         routes.put(Route.GetCopyIssuesForUser, new RouteData(Request.Method.GET, "/issues/{user_id}"));
         routes.put(Route.GetReaders, new RouteData(Request.Method.GET, "/users/readers"));
         routes.put(Route.WithdrawCopy, new RouteData(Request.Method.PATCH, "/orders/{id}/withdraw"));
-        routes.put(Route.ReturnCopy, new RouteData(Request.Method.PATCH, "/issues/{id}/return"));
+        routes.put(Route.ReturnCopy, new RouteData(Request.Method.PUT, "/issues/{id}/return"));
     }
 
     public static String getRoutePath(Route route) {

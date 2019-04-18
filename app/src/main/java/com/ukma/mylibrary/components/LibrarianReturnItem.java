@@ -11,6 +11,10 @@ public class LibrarianReturnItem extends AbstractItem {
         mCopyIssue = copyIssue;
     }
 
+    public long getIssueId() {
+        return mCopyIssue.getId();
+    }
+
     public String getPublicationName() {
         return mCopyIssue.getSciPub().getName();
     }

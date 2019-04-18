@@ -122,7 +122,16 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
         };
 
         if (IsReturnAction()) {
-            listView.setAdapter(new LibrarianReturnAdapter(this, sort));
+            listView.setAdapter(new LibrarianReturnAdapter(this, sort,
+                new APIResponse.Listener<CopyIssue>() {
+                    @Override
+                    public void onResponse(final CopyIssue __) {
+                        ToastHelper.show(LibrarianActionActivity.this, R.string.copy_return_success);
+                        fetchReturnItems();
+                    }
+                },
+                errorListener
+            ));
         } else {
             listView.setAdapter(new LibrarianWithdrawalAdapter(this, sort,
                 new APIResponse.Listener<SciPubOrder>() {

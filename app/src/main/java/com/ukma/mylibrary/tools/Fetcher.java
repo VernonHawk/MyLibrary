@@ -82,7 +82,7 @@ public class Fetcher {
         final APIResponse.ErrorListener onError
     ) {
         try {
-            API.call(Route.WithdrawCopy, CopyIssue.class)
+            API.call(Route.ReturnCopy, CopyIssue.class)
                .params("id", String.valueOf(issueId))
                .then(onSuccess)
                .catchError(onError)

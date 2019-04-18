@@ -19,7 +19,7 @@ class MainActivity extends AppCompatActivity {
         new HashMap<Integer, Role>() {{
             put(R.id.reader, Role.Reader);
             put(R.id.librarian, Role.Librarian);
-            put(R.id.archivist, Role.Archivist);
+            //put(R.id.archivist, Role.Archivist);
         }};
 
     @Override protected
