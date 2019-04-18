@@ -30,25 +30,26 @@ public class LibrarianWithdrawalAdapter extends ArrayAdapter<LibrarianWithdrawal
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
         View listItem = convertView;
-        if (listItem == null)
+        if (listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_librarian_withdrawal, parent, false);
+        }
 
-        LibrarianWithdrawalItem currentItem = itemList.get(position);
+        final LibrarianWithdrawalItem currentItem = itemList.get(position);
 
-        TextView name = listItem.findViewById(R.id.publicationName);
+        final TextView name = listItem.findViewById(R.id.publicationName);
         name.setText(currentItem.getPublicationName());
 
-        name = listItem.findViewById(R.id.isbn);
-        name.setText(currentItem.getIsbn());
+        final TextView isbn = listItem.findViewById(R.id.isbn);
+        isbn.setText(currentItem.getIsbn());
 
-        name = listItem.findViewById(R.id.copy_id);
-        name.setText(String.valueOf(currentItem.getCopyId()));
+        final TextView copyId = listItem.findViewById(R.id.copy_id);
+        copyId.setText(String.valueOf(currentItem.getCopyId()));
 
-        name = listItem.findViewById(R.id.withdraw_date);
-        name.setText(sdf.format(currentItem.getOrderDate()));
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        final TextView orderDate = listItem.findViewById(R.id.order_date);
+        orderDate.setText(sdf.format(currentItem.getOrderDate()));
 
         return listItem;
     }
