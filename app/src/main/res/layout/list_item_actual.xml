@@ -48,6 +48,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/list_item_actual_exp_return_date_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
@@ -56,7 +57,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView_returnDate"
+            android:id="@+id/list_item_actual_exp_return_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

@@ -20,7 +20,7 @@ public class ActualReaderItem extends AbstractItem {
         return mCopyIssue.getIssueDate();
     }
 
-    public Date getReturnDate() {
+    public Date getExpectedReturnDate() {
         return mCopyIssue.getExpectedReturnDate();
     }
 }
