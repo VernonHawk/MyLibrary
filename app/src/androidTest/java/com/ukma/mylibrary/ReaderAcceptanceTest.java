@@ -36,12 +36,12 @@ public class ReaderAcceptanceTest {
         clickOn(R.id.continue_button);
 
         // fill the form
-        inputText(R.id.input_phone, "+380111111111");
-        inputText(R.id.input_password, "secret");
+        inputText(R.id.input_phone, "11111111");
+        inputText(R.id.input_password, "TEST");
 
         // sign in
         clickOn(R.id.sign_in_btn);
-        TestsHelper.wait(1000);
+        TestsHelper.wait(1500);
 
         // go to library
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -50,6 +50,8 @@ public class ReaderAcceptanceTest {
         // search for a sci pub
         inputText(R.id.search_view, "A ");
         clickOn(R.id.sci_pub_search_btn);
+
+        TestsHelper.wait(1000);
 
         final String firstBookName = "A Scanner Darkly";
         final String secondBookName = "A Time of Gifts";
@@ -67,6 +69,8 @@ public class ReaderAcceptanceTest {
         clickOn(R.id.action_orders);
         clickOn(R.id.rb_reserved);
 
+        TestsHelper.wait(1000);
+
         // see that sci pubs are here and have order date as today
         final DataInteraction firstOrder = onFirstListItem(
             ReservedReaderItem.class,
@@ -82,6 +86,7 @@ public class ReaderAcceptanceTest {
 
         // cancel them
         clickOnChild(firstOrder, R.id.item_reserved_cancel_order_btn);
+        TestsHelper.wait(500);
         clickOnChild(secondOrder, R.id.item_reserved_cancel_order_btn);
     }
 }
