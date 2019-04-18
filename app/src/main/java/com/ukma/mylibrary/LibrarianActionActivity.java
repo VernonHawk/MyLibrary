@@ -6,16 +6,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.LibrarianReturnAdapter;
 import com.ukma.mylibrary.adapters.LibrarianWithdrawalAdapter;
+import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.LibrarianReturnItem;
 import com.ukma.mylibrary.components.LibrarianWithdrawalItem;
-import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.entities.CopyIssue;
+import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.User;
+import com.ukma.mylibrary.tools.Fetcher;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class LibrarianActionActivity extends ToolbarLibrarianActivity {
     public enum LibrarianAction {
@@ -23,8 +26,8 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
         WITHDRAW
     }
 
-    static final private int NUM_ITEMS_PAGE = 4;
-    public int TOTAL_LIST_ITEMS = 10;
+    private static final int NUM_ITEMS_PAGE = 2;
+
     private ListView listView;
     private TextView paginationTitle;
     private Button btnPrev;
@@ -33,8 +36,8 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
     private int pageCount;
     private int currentPage = 0;
 
-    private LibrarianAction action = LibrarianAction.RETURN;
-    private User currentReader;
+    private LibrarianAction mAction = LibrarianAction.RETURN;
+    private User mCurrentReader;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -44,43 +47,22 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
         final Bundle extras = getIntent().getExtras();
         assert extras != null;
 
-        currentReader = (User) extras.getSerializable("User");
-        assert currentReader != null;
+        mCurrentReader = (User) extras.getSerializable("User");
+        assert mCurrentReader != null;
 
-        action = (LibrarianAction) extras.getSerializable("Action");
-        assert action != null;
+        mAction = (LibrarianAction) extras.getSerializable("Action");
+        assert mAction != null;
 
 
         ((TextView) findViewById(R.id.librarian_action_reader_name)).setText(
             String.format(getString(R.string.reader_header),
-                          currentReader.getName(), currentReader.getSurname())
+                          mCurrentReader.getName(), mCurrentReader.getSurname())
         );
 
         listView = findViewById(R.id.librarian_action_list);
-        btnPrev = findViewById(R.id.prev);
-        btnNext = findViewById(R.id.next);
+        btnPrev  = findViewById(R.id.prev);
+        btnNext  = findViewById(R.id.next);
         paginationTitle = findViewById(R.id.title);
-
-        //this block is for checking the number of pages
-        int val = TOTAL_LIST_ITEMS % NUM_ITEMS_PAGE;
-        val = val == 0 ? 0 : 1;
-        pageCount = TOTAL_LIST_ITEMS / NUM_ITEMS_PAGE + val;
-        // The ArrayList data contains all the list items
-        for (int i = 0; i < TOTAL_LIST_ITEMS; i++) {
-            ScientificPublication sp = new ScientificPublication();
-            sp.setName("Name " + (i + 1));
-            sp.setIsbn("ISBN" + i);
-            sp.setId(i);
-
-            data.add(
-                    action == LibrarianAction.RETURN ?
-                            new LibrarianReturnItem(sp, new Date(), new Date())
-                            : new LibrarianWithdrawalItem(sp, new Date())
-            );
-        }
-        currentPage = 0;
-        loadList(currentPage);
-        CheckEnable();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -96,6 +78,12 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
                 CheckEnable();
             }
         });
+
+        if (IsReturnAction()) {
+            fetchReturnItems();
+        } else {
+            fetchWithdrawalItems();
+        }
     }
 
     /**
@@ -125,10 +113,76 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
             sort.add(data.get(i));
         }
 
-        listView.setAdapter(
-                action == LibrarianAction.RETURN ?
-                        new LibrarianReturnAdapter(this, sort)
-                        : new LibrarianWithdrawalAdapter(this, sort)
+        listView.setAdapter( IsReturnAction() ? new LibrarianReturnAdapter(this, sort)
+                                              : new LibrarianWithdrawalAdapter(this, sort)
         );
+    }
+
+    private void setWithdrawalData(final ArrayList<SciPubOrder> orders) {
+        data.clear();
+        for (final SciPubOrder order : orders) {
+            data.add(new LibrarianWithdrawalItem(order));
+        }
+
+        reloadPagination(orders.size());
+    }
+
+    private void setReturnData(final ArrayList<CopyIssue> issues) {
+        data.clear();
+        for (final CopyIssue issue : issues) {
+            data.add(new LibrarianReturnItem(issue));
+        }
+
+        reloadPagination(issues.size());
+    }
+
+    private void fetchWithdrawalItems() {
+        Fetcher.fetchOrdersForUser(this,
+           mCurrentReader.getId(), SciPubOrder.Status.Pending, true,
+           new APIResponse.Listener<ArrayList<SciPubOrder>>() {
+               @Override
+               public void onResponse(final ArrayList<SciPubOrder> orders) {
+                   setWithdrawalData(orders);
+               }
+           },
+           new APIResponse.ErrorListener() {
+               @Override
+               public void onErrorResponse(final VolleyError error) {
+                   handleError(error, LibrarianActionActivity.this);
+               }
+            }
+        );
+    }
+
+    private void fetchReturnItems() {
+        Fetcher.fetchCopyIssuesForUser(this, mCurrentReader.getId(),
+            new APIResponse.Listener<ArrayList<CopyIssue>>() {
+                @Override
+                public void onResponse(final ArrayList<CopyIssue> issues) {
+                    setReturnData(issues);
+                }
+            }, new APIResponse.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    handleError(error, LibrarianActionActivity.this);
+                }
+            }
+        );
+    }
+
+    private void reloadPagination(final int elemCount) {
+        pageCount = elemCount / NUM_ITEMS_PAGE;
+
+        if (elemCount % NUM_ITEMS_PAGE > 0) {
+            ++pageCount;
+        }
+
+        currentPage = 0;
+        loadList(currentPage);
+        CheckEnable();
+    }
+
+    private boolean IsReturnAction() {
+        return mAction == LibrarianAction.RETURN;
     }
 }

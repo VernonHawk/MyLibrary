@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.ukma.mylibrary.R;
 import com.ukma.mylibrary.components.LibrarianReturnItem;
+import com.ukma.mylibrary.tools.ItemUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,28 +32,35 @@ public class LibrarianReturnAdapter extends ArrayAdapter<LibrarianReturnItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
         View listItem = convertView;
-        if (listItem == null)
+        if (listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_librarian_return, parent, false);
+        }
 
-        LibrarianReturnItem currentItem = itemList.get(position);
+        final LibrarianReturnItem currentItem = itemList.get(position);
 
-        TextView name = listItem.findViewById(R.id.publicationName);
+        final TextView name = listItem.findViewById(R.id.publicationName);
         name.setText(currentItem.getPublicationName());
 
-        name = listItem.findViewById(R.id.isbn);
-        name.setText(currentItem.getIsbn());
+        final TextView isbn = listItem.findViewById(R.id.isbn);
+        isbn.setText(currentItem.getIsbn());
 
-        name = listItem.findViewById(R.id.copy_id);
-        name.setText(String.valueOf(currentItem.getCopyId()));
+        final TextView copyId = listItem.findViewById(R.id.copy_id);
+        copyId.setText(String.valueOf(currentItem.getCopyId()));
 
-        name = listItem.findViewById(R.id.issueDate);
-        name.setText(sdf.format(currentItem.getIssueDate()));
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        final TextView issueDate = listItem.findViewById(R.id.issueDate);
+        issueDate.setText(sdf.format(currentItem.getIssueDate()));
 
-        name = listItem.findViewById(R.id.expectedDate);
-        name.setText(sdf.format(currentItem.getExpectedDate()));
+        final TextView expectedDate = listItem.findViewById(R.id.expectedDate);
+        expectedDate.setText(sdf.format(currentItem.getExpectedDate()));
+
+        if (currentItem.getExpectedDate().before(Calendar.getInstance().getTime())) {
+            ((TextView) listItem.findViewById(R.id.expectedDateTitle))
+                .setTextColor(ItemUtils.ResourceColorToColor(getContext(), R.color.colorAccent));
+
+            expectedDate.setTextColor(ItemUtils.ResourceColorToColor(getContext(), R.color.colorAccent));
+        }
 
         return listItem;
     }

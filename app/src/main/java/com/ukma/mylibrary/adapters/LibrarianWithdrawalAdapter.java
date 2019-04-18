@@ -48,7 +48,7 @@ public class LibrarianWithdrawalAdapter extends ArrayAdapter<LibrarianWithdrawal
         name.setText(String.valueOf(currentItem.getCopyId()));
 
         name = listItem.findViewById(R.id.withdraw_date);
-        name.setText(sdf.format(currentItem.getWithdrawalDate()));
+        name.setText(sdf.format(currentItem.getOrderDate()));
 
         return listItem;
     }
