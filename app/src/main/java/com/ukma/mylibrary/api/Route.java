@@ -10,6 +10,8 @@ public enum Route {
     GetOrdersForUser,
     CancelOrder,
     GetCopyIssuesForUser,
-    GetReaders
+    GetReaders,
+    WithdrawCopy,
+    ReturnCopy
 }
 

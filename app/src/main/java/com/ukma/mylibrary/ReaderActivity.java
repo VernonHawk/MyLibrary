@@ -11,18 +11,16 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.adapters.ActualReaderAdapter;
-import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.adapters.ReservedReaderAdapter;
-import com.ukma.mylibrary.api.API;
-import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
-import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.AbstractItem;
 import com.ukma.mylibrary.components.ActualReaderItem;
 import com.ukma.mylibrary.components.ReservedReaderItem;
 import com.ukma.mylibrary.entities.CopyIssue;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.managers.AuthManager;
+import com.ukma.mylibrary.tools.Fetcher;
+import com.ukma.mylibrary.tools.ItemUtils;
 import com.ukma.mylibrary.tools.ToastHelper;
 
 import org.json.JSONObject;
@@ -185,47 +183,36 @@ public class ReaderActivity extends ToolbarReaderActivity {
     }
 
     private void fetchReservedItems() {
-        try {
-            API.call(Route.GetOrdersForUser, SciPubOrder.class)
-               .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
-               .query("status", SciPubOrder.Status.Pending.name())
-               .thenWithArray(new APIResponse.Listener<ArrayList<SciPubOrder>>() {
-                   @Override
-                   public void onResponse(ArrayList<SciPubOrder> orders) {
-                       setOrdersData(orders);
-                   }
-               })
-               .catchError(new APIResponse.ErrorListener() {
-                   @Override
-                   public void onErrorResponse(final VolleyError error) {
-                       handleError(error, ReaderActivity.this);
-                   }
-               })
-               .executeWithContext(this);
-        } catch (APIRequestNoListenerSpecifiedException e) {
-            e.printStackTrace();
-        }
+        Fetcher.fetchOrdersForUser(this,
+            AuthManager.CURRENT_USER.getId(), SciPubOrder.Status.Pending, null,
+            new APIResponse.Listener<ArrayList<SciPubOrder>>() {
+                @Override
+                public void onResponse(final ArrayList<SciPubOrder> orders) {
+                    setOrdersData(orders);
+                }
+            },
+            new APIResponse.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    handleError(error, ReaderActivity.this);
+                }
+            }
+        );
     }
 
     private void fetchActualItems() {
-        try {
-            API.call(Route.GetCopyIssuesForUser, CopyIssue.class)
-               .params("user_id", String.valueOf(AuthManager.CURRENT_USER.getId()))
-               .thenWithArray(new APIResponse.Listener<ArrayList<CopyIssue>>() {
-                   @Override
-                   public void onResponse(ArrayList<CopyIssue> issues) {
-                       setIssuesData(issues);
-                   }
-               })
-               .catchError(new APIResponse.ErrorListener() {
-                   @Override
-                   public void onErrorResponse(final VolleyError error) {
-                       handleError(error, ReaderActivity.this);
-                   }
-               })
-               .executeWithContext(this);
-        } catch (APIRequestNoListenerSpecifiedException e) {
-            e.printStackTrace();
-        }
+        Fetcher.fetchCopyIssuesForUser(this, AuthManager.CURRENT_USER.getId(),
+            new APIResponse.Listener<ArrayList<CopyIssue>>() {
+                @Override
+                public void onResponse(final ArrayList<CopyIssue> issues) {
+                    setIssuesData(issues);
+                }
+            }, new APIResponse.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    handleError(error, ReaderActivity.this);
+                }
+            }
+        );
     }
 }

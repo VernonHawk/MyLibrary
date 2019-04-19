@@ -13,14 +13,14 @@ import java.util.HashMap;
 public
 class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "com.ukma.mylybrary.extra.MESSAGE";
+    public static final String EXTRA_MESSAGE = "com.ukma.mylibrary.MainActivity.extra.MESSAGE";
 
-    final static
-    HashMap<Integer, Role> radio_button_to_role = new HashMap<Integer, Role>() {{
-        put(R.id.reader, Role.Reader);
-        put(R.id.librarian, Role.Librarian);
-        put(R.id.archivist, Role.Archivist);
-    }};
+    private static final  HashMap<Integer, Role> radio_button_to_role =
+        new HashMap<Integer, Role>() {{
+            put(R.id.reader, Role.Reader);
+            put(R.id.librarian, Role.Librarian);
+            //put(R.id.archivist, Role.Archivist);
+        }};
 
     @Override protected
     void onCreate(final Bundle savedInstanceState) {

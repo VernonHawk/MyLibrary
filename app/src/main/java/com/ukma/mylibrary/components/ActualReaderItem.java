@@ -13,14 +13,14 @@ public class ActualReaderItem extends AbstractItem {
     }
 
     public String getName() {
-        return mCopyIssue.getSciPubName();
+        return mCopyIssue.getSciPub().getName();
     }
 
     public Date getIssueDate() {
         return mCopyIssue.getIssueDate();
     }
 
-    public Date getReturnDate() {
+    public Date getExpectedReturnDate() {
         return mCopyIssue.getExpectedReturnDate();
     }
 }

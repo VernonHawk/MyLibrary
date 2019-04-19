@@ -1,32 +1,34 @@
 package com.ukma.mylibrary.components;
 
-import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.entities.SciPubOrder;
 
 import java.util.Date;
 
 public class LibrarianWithdrawalItem extends AbstractItem {
 
-    private ScientificPublication scientificPublication;
-    private Date withdrawalDate;
+    private final SciPubOrder mOrder;
 
-    public LibrarianWithdrawalItem(ScientificPublication scientificPublication, Date withdrawalDate) {
-        this.scientificPublication = scientificPublication;
-        this.withdrawalDate = withdrawalDate;
+    public LibrarianWithdrawalItem(final SciPubOrder order) {
+        mOrder = order;
+    }
+
+    public long getOrderId() {
+        return mOrder.getId();
     }
 
     public String getPublicationName() {
-        return scientificPublication.getName();
+        return mOrder.getScientificPublication().getName();
     }
 
     public String getIsbn() {
-        return scientificPublication.getIsbn();
+        return mOrder.getScientificPublication().getIsbn();
     }
 
     public long getCopyId() {
-        return scientificPublication.getId();
+        return mOrder.getSciPubCopy().getId();
     }
 
-    public Date getWithdrawalDate() {
-        return withdrawalDate;
+    public Date getOrderDate() {
+        return mOrder.getOrderDate();
     }
 }

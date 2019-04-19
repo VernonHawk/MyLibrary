@@ -69,12 +69,12 @@
             android:text="@string/role_librarian"
             android:textSize="18sp" />
 
-        <RadioButton
+        <!--<RadioButton
             android:id="@+id/archivist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/role_archivist"
-            android:textSize="18sp" />
+            android:textSize="18sp" />-->
     </RadioGroup>
 
     <Button
