@@ -14,12 +14,4 @@ public class LibrarianItem extends AbstractItem {
     public User getUser() {
         return mUser;
     }
-
-    public String getUserName() {
-        return mUser.getName();
-    }
-
-    public String getUserSurname() {
-        return mUser.getSurname();
-    }
 }

@@ -41,8 +41,7 @@ public class LibrarianAdapter extends ArrayAdapter<LibrarianItem> {
         final LibrarianItem currentItem = itemList.get(position);
 
         final TextView name = listItem.findViewById(R.id.list_readers_reader_name);
-        name.setText(String.format(mContext.getString(R.string.reader_header),
-                                   currentItem.getUserName(), currentItem.getUserSurname()));
+        name.setText(currentItem.getUser().getFullName());
 
         final Button toWithdrawBtn = listItem.findViewById(R.id.list_readers_withdraw_btn);
         toWithdrawBtn.setOnClickListener(new View.OnClickListener() {

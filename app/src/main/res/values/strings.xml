@@ -89,7 +89,6 @@
     <string name="user_id">User ID:</string>
 
     <string name="pagination">Page %d of %d</string>
-    <string name="reader_header">%s %s</string>
 
     <string name="order_cancel_success">Your order was successfully canceled</string>
     <string name="order_success">Your order was successful! You can see it on the Orders page</string>
