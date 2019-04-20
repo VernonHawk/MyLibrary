@@ -23,7 +23,11 @@ public class LibrarianAcceptanceTest {
 
     private static final String mReaderPhoneNumber = "11111111";
     private static final String mReaderPassword = "TEST";
+
     private static final long mOrderedSciPubId = 1;
+    private static String mOrderedSciPubName = "";
+    
+    private static final String mSearch = "1111";
 
     @ClassRule
     public static ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
@@ -47,7 +51,8 @@ public class LibrarianAcceptanceTest {
                         context, AuthManager.CURRENT_USER.getId(), mOrderedSciPubId,
                         new APIResponse.Listener<SciPubOrder>() {
                             @Override
-                            public void onResponse(final SciPubOrder __) {
+                            public void onResponse(final SciPubOrder response) {
+                                mOrderedSciPubName = response.getScientificPublication().getName();
                                 authManager.signOut(null, errorListener);
                             }
                         },
