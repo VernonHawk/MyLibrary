@@ -18,6 +18,7 @@ import java.util.Date;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.Espresso.pressBack;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOn;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOnChild;
 import static com.ukma.mylibrary.helpers.TestsHelper.inputText;
@@ -91,5 +92,7 @@ public class ReaderAcceptanceTest {
         clickOnChild(firstOrder, R.id.item_reserved_cancel_order_btn);
         TestsHelper.wait(500);
         clickOnChild(secondOrder, R.id.item_reserved_cancel_order_btn);
+
+        pressBack();
     }
 }
