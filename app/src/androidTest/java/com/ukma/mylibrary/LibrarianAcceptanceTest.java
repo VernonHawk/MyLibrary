@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.pressBack;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOn;
 import static com.ukma.mylibrary.helpers.TestsHelper.inputText;
 
@@ -28,6 +29,9 @@ public class LibrarianAcceptanceTest {
 
     private static final String mReaderPhoneNumber = "11111111";
     private static final String mReaderPassword = "TEST";
+    private static String mReaderName = "";
+    private static String mReaderSurname = "";
+
     private static final String mLibrarianPhoneNumber = "12345678";
     private static final String mLibrarianPassword = "secret";
 
@@ -54,6 +58,9 @@ public class LibrarianAcceptanceTest {
             mReaderPhoneNumber, mReaderPassword,
             new APIResponse.Listener<User>() {
                 @Override public void onResponse(final User response) {
+                    mReaderName = response.getName();
+                    mReaderSurname = response.getSurname();
+
                     Fetcher.orderSciPub(
                         context, AuthManager.CURRENT_USER.getId(), mOrderedSciPubId,
                         new APIResponse.Listener<SciPubOrder>() {
@@ -87,5 +94,16 @@ public class LibrarianAcceptanceTest {
         // sign in
         clickOn(R.id.sign_in_btn);
         TestsHelper.wait(1500);
+
+        // search for the reader
+        // open readers withdraw
+        // give sci pub
+        // return
+        // open readers return
+        // return sci pub
+        // return
+
+        // sign out
+        pressBack();
     }
 }

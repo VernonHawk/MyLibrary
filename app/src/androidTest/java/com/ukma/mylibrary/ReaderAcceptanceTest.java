@@ -94,6 +94,7 @@ public class ReaderAcceptanceTest {
         TestsHelper.wait(500);
         clickOnChild(secondOrder, R.id.item_reserved_cancel_order_btn);
 
+        // sign out
         pressBack();
     }
 }
