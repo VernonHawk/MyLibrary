@@ -8,12 +8,16 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.api.APIResponse;
 import com.ukma.mylibrary.components.LibrarianItem;
+import com.ukma.mylibrary.components.LibrarianReturnItem;
+import com.ukma.mylibrary.components.LibrarianWithdrawalItem;
 import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.helpers.TestsHelper;
 import com.ukma.mylibrary.managers.AuthManager;
 import com.ukma.mylibrary.matchers.LibrarianItemMatchers;
+import com.ukma.mylibrary.matchers.LibrarianReturnItemMatchers;
+import com.ukma.mylibrary.matchers.LibrarianWithdrawalItemMatchers;
 import com.ukma.mylibrary.tools.Fetcher;
 
 import org.junit.BeforeClass;
@@ -26,6 +30,7 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOn;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOnChild;
 import static com.ukma.mylibrary.helpers.TestsHelper.inputText;
+import static com.ukma.mylibrary.helpers.TestsHelper.onFirstListItem;
 import static com.ukma.mylibrary.helpers.TestsHelper.onListItem;
 
 
@@ -101,14 +106,24 @@ public class LibrarianAcceptanceTest {
         inputText(R.id.librarian_userlist_search_view, mSearch);
         clickOn(R.id.librarian_userlist_search_btn);
 
+        // open reader's withdraw page
         TestsHelper.wait(100);
 
-        // open reader's withdraw page
         clickOnChild(
             onListItem(LibrarianItem.class, LibrarianItemMatchers.withFullName(mReader.getFullName())),
-            R.id.list_readers_withdraw_btn);
+            R.id.list_readers_withdraw_btn
+        );
+
         // give sci pub
         TestsHelper.wait(500);
+
+        clickOnChild(
+            onFirstListItem(
+                LibrarianWithdrawalItem.class,
+                LibrarianWithdrawalItemMatchers.withName(mOrderedSciPubName)
+            ),
+            R.id.list_librarian_withdrawal_withdrawal_approve
+        );
 
         // return
         pressBack();
@@ -116,10 +131,19 @@ public class LibrarianAcceptanceTest {
         // open reader's return page
         clickOnChild(
             onListItem(LibrarianItem.class, LibrarianItemMatchers.withFullName(mReader.getFullName())),
-            R.id.list_readers_return_btn);
+            R.id.list_readers_return_btn
+        );
+
         // return sci pub
         TestsHelper.wait(500);
 
+        clickOnChild(
+            onFirstListItem(
+                LibrarianReturnItem.class,
+                LibrarianReturnItemMatchers.withName(mOrderedSciPubName)
+            ),
+            R.id.list_librarian_return_return_approve
+        );
 
         // return and sign out
         pressBack();
