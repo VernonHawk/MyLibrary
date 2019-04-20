@@ -35,7 +35,8 @@ public class ReaderAcceptanceTest {
     private static final String mFirstBookName = "A Scanner Darkly";
     private static final String mSecondBookName = "A Time of Gifts";
 
-    @Rule public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void signIn_OrderTwoSciPubs_CancelBoth() {
