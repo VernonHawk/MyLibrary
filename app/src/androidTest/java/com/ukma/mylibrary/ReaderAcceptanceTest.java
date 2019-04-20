@@ -28,6 +28,12 @@ import static com.ukma.mylibrary.helpers.TestsHelper.onListItem;
 @RunWith(AndroidJUnit4.class)
 public class ReaderAcceptanceTest {
 
+    private static final String mReaderPhoneNumber = "11111111";
+    private static final String mReaderPassword = "TEST";
+    private static final String mSearch = "A ";
+    private static final String mFirstBookName = "A Scanner Darkly";
+    private static final String mSecondBookName = "A Time of Gifts";
+
     @Rule public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
@@ -36,8 +42,8 @@ public class ReaderAcceptanceTest {
         clickOn(R.id.continue_button);
 
         // fill the form
-        inputText(R.id.input_phone, "11111111");
-        inputText(R.id.input_password, "TEST");
+        inputText(R.id.input_phone, mReaderPhoneNumber);
+        inputText(R.id.input_password, mReaderPassword);
 
         // sign in
         clickOn(R.id.sign_in_btn);
@@ -48,21 +54,18 @@ public class ReaderAcceptanceTest {
         clickOn("Library");
 
         // search for a sci pub
-        inputText(R.id.search_view, "A ");
+        inputText(R.id.search_view, mSearch);
         clickOn(R.id.sci_pub_search_btn);
 
         TestsHelper.wait(1000);
 
-        final String firstBookName = "A Scanner Darkly";
-        final String secondBookName = "A Time of Gifts";
-
         // order two sci pubs
         clickOnChild(
-            onListItem(LibraryItem.class, LibraryItemMatchers.withName(firstBookName)),
+            onListItem(LibraryItem.class, LibraryItemMatchers.withName(mFirstBookName)),
             R.id.library_item_take_order_btn);
 
         clickOnChild(
-            onListItem(LibraryItem.class, LibraryItemMatchers.withName(secondBookName)),
+            onListItem(LibraryItem.class, LibraryItemMatchers.withName(mSecondBookName)),
             R.id.library_item_take_order_btn);
 
         // go to orders
@@ -74,13 +77,13 @@ public class ReaderAcceptanceTest {
         // see that sci pubs are here and have order date as today
         final DataInteraction firstOrder = onFirstListItem(
             ReservedReaderItem.class,
-            ReservedReaderItemMatchers.withName(firstBookName),
+            ReservedReaderItemMatchers.withName(mFirstBookName),
             ReservedReaderItemMatchers.withOrderDate(new Date())
         );
 
         final DataInteraction secondOrder = onFirstListItem(
             ReservedReaderItem.class,
-            ReservedReaderItemMatchers.withName(secondBookName),
+            ReservedReaderItemMatchers.withName(mSecondBookName),
             ReservedReaderItemMatchers.withOrderDate(new Date())
         );
 
