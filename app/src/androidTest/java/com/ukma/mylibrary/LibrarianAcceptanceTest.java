@@ -107,7 +107,7 @@ public class LibrarianAcceptanceTest {
         clickOn(R.id.librarian_userlist_search_btn);
 
         // open reader's withdraw page
-        TestsHelper.wait(100);
+        TestsHelper.wait(1000);
 
         clickOnChild(
             onListItem(LibrarianItem.class, LibrarianItemMatchers.withFullName(mReader.getFullName())),
