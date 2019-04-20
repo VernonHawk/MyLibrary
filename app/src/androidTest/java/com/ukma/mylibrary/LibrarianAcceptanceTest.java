@@ -7,10 +7,13 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.ukma.mylibrary.api.APIResponse;
+import com.ukma.mylibrary.components.LibrarianItem;
+import com.ukma.mylibrary.entities.Role;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.User;
 import com.ukma.mylibrary.helpers.TestsHelper;
 import com.ukma.mylibrary.managers.AuthManager;
+import com.ukma.mylibrary.matchers.LibrarianItemMatchers;
 import com.ukma.mylibrary.tools.Fetcher;
 
 import org.junit.BeforeClass;
@@ -21,16 +24,15 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.pressBack;
 import static com.ukma.mylibrary.helpers.TestsHelper.clickOn;
+import static com.ukma.mylibrary.helpers.TestsHelper.clickOnChild;
 import static com.ukma.mylibrary.helpers.TestsHelper.inputText;
+import static com.ukma.mylibrary.helpers.TestsHelper.onListItem;
 
 
 @RunWith(AndroidJUnit4.class)
 public class LibrarianAcceptanceTest {
 
-    private static final String mReaderPhoneNumber = "11111111";
-    private static final String mReaderPassword = "TEST";
-    private static String mReaderName = "";
-    private static String mReaderSurname = "";
+    private static final User mReader = new User("", "", "11111111", Role.Reader, "TEST");
 
     private static final String mLibrarianPhoneNumber = "12345678";
     private static final String mLibrarianPassword = "secret";
@@ -55,11 +57,11 @@ public class LibrarianAcceptanceTest {
         };
 
         authManager.signIn(
-            mReaderPhoneNumber, mReaderPassword,
+            mReader.getPhoneNum(), mReader.getPassword(),
             new APIResponse.Listener<User>() {
                 @Override public void onResponse(final User response) {
-                    mReaderName = response.getName();
-                    mReaderSurname = response.getSurname();
+                    mReader.setName(response.getName());
+                    mReader.setSurname(response.getSurname());
 
                     Fetcher.orderSciPub(
                         context, AuthManager.CURRENT_USER.getId(), mOrderedSciPubId,
@@ -96,14 +98,31 @@ public class LibrarianAcceptanceTest {
         TestsHelper.wait(1500);
 
         // search for the reader
-        // open readers withdraw
-        // give sci pub
-        // return
-        // open readers return
-        // return sci pub
-        // return
+        inputText(R.id.librarian_userlist_search_view, mSearch);
+        clickOn(R.id.librarian_userlist_search_btn);
 
-        // sign out
+        TestsHelper.wait(100);
+
+        // open reader's withdraw page
+        clickOnChild(
+            onListItem(LibrarianItem.class, LibrarianItemMatchers.withFullName(mReader.getFullName())),
+            R.id.list_readers_withdraw_btn);
+        // give sci pub
+        TestsHelper.wait(500);
+
+        // return
+        pressBack();
+
+        // open reader's return page
+        clickOnChild(
+            onListItem(LibrarianItem.class, LibrarianItemMatchers.withFullName(mReader.getFullName())),
+            R.id.list_readers_return_btn);
+        // return sci pub
+        TestsHelper.wait(500);
+
+
+        // return and sign out
+        pressBack();
         pressBack();
     }
 }
