@@ -10,6 +10,7 @@ public enum Route {
     GetOrdersForUser,
     CancelOrder,
     GetCopyIssuesForUser,
-    GetReaders
+    GetReaders,
+    UpdateFCMToken
 }
 

@@ -20,6 +20,7 @@ public class APIRoutes {
         routes.put(Route.CancelOrder, new RouteData(Request.Method.PATCH, "/orders/{id}/cancel"));
         routes.put(Route.GetCopyIssuesForUser, new RouteData(Request.Method.GET, "/issues/{user_id}"));
         routes.put(Route.GetReaders, new RouteData(Request.Method.GET, "/users/readers"));
+        routes.put(Route.UpdateFCMToken, new RouteData(Request.Method.PUT, "/users/current/fcm_token"));
     }
 
     public static String getRoutePath(Route route) {

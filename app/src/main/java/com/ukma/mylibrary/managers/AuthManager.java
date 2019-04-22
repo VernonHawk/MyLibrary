@@ -25,10 +25,19 @@ public class AuthManager {
     public static String JWT_TOKEN;
     private Context context;
     private SharedPreferences sPref;
+    private SignInListener signInListener = null;
+
+    public interface SignInListener {
+        public void onUserSignedIn();
+    }
 
     private AuthManager(Context context) {
         this.context = context;
         loadToken();
+    }
+
+    public void setSignInListener(SignInListener signInListener) {
+        this.signInListener = signInListener;
     }
 
     private void loadToken() {
@@ -105,6 +114,10 @@ public class AuthManager {
                             String token = (String) response.get("access_token");
                             saveToken(token);
                             CURRENT_USER = (User) entityFactory.getEntity(response.getString("user"), User.class);
+                            if (signInListener != null) {
+                                signInListener.onUserSignedIn();
+                                signInListener = null;
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
