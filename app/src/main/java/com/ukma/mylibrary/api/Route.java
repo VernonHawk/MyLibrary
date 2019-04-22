@@ -11,6 +11,8 @@ public enum Route {
     CancelOrder,
     GetCopyIssuesForUser,
     GetReaders,
+    WithdrawCopy,
+    ReturnCopy,
     UpdateFCMToken
 }
 

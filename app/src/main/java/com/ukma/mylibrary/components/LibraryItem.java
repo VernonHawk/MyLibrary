@@ -1,7 +1,7 @@
 package com.ukma.mylibrary.components;
 
-import com.ukma.mylibrary.adapters.ItemUtils;
 import com.ukma.mylibrary.entities.ScientificPublication;
+import com.ukma.mylibrary.tools.ItemUtils;
 
 public class LibraryItem extends AbstractItem {
 

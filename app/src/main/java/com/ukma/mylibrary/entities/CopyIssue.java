@@ -57,10 +57,11 @@ public class CopyIssue implements Entity {
         this.actualReturnDate = actualReturnDate;
     }
 
-    public String getSciPubName() {
-        return getSciPubCopy().getScientificPublication().getName();
+    public ScientificPublication getSciPub() {
+        return getSciPubCopy().getScientificPublication();
     }
 
+    // region Getters & Setters
     public long getId() {
         return id;
     }
@@ -108,6 +109,7 @@ public class CopyIssue implements Entity {
     public void setActualReturnDate(final Date actualReturnDate) {
         this.actualReturnDate = actualReturnDate;
     }
+    // endregion
 
     @Override public String toString() {
         return "CopyIssue{" +

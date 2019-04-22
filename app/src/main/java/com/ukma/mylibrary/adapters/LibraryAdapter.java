@@ -14,17 +14,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ukma.mylibrary.R;
-import com.ukma.mylibrary.api.API;
-import com.ukma.mylibrary.api.APIRequestNoListenerSpecifiedException;
 import com.ukma.mylibrary.api.APIResponse;
-import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.components.LibraryItem;
 import com.ukma.mylibrary.entities.SciPubOrder;
 import com.ukma.mylibrary.entities.ScientificPublication;
 import com.ukma.mylibrary.managers.AuthManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.ukma.mylibrary.tools.Fetcher;
 
 import java.util.List;
 
@@ -37,19 +32,19 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     public LibraryAdapter(@NonNull Context context, @NonNull List<LibraryItem> list) {
         super(context, 0, list);
 
-        mContext = context;
+        mContext  = context;
         mItemList = list;
     }
 
     public LibraryAdapter(
         @NonNull final Context context,
         @NonNull final List<LibraryItem> list,
-        @NonNull final APIResponse.Listener<SciPubOrder> mOnOrderSuccess,
-        @NonNull final APIResponse.ErrorListener mOnOrderError
+        @NonNull final APIResponse.Listener<SciPubOrder> onOrderSuccess,
+        @NonNull final APIResponse.ErrorListener onOrderError
     ) {
         this(context, list);
-        this.mOnOrderSuccess = mOnOrderSuccess;
-        this.mOnOrderError = mOnOrderError;
+        mOnOrderSuccess = onOrderSuccess;
+        mOnOrderError   = onOrderError;
     }
 
     @NonNull
@@ -123,31 +118,21 @@ public class LibraryAdapter extends ArrayAdapter<LibraryItem> {
     }
 
     private void clickHandler(final LibraryItem item, final View listItem) {
-        try {
-            JSONObject order = new JSONObject();
-            order.put("user_id", AuthManager.CURRENT_USER.getId());
-            order.put("scientific_publication_id", item.getId());
+        Fetcher.orderSciPub(
+            mContext, AuthManager.CURRENT_USER.getId(), item.getId(),
+            new APIResponse.Listener<SciPubOrder>() {
+                @Override
+                public void onResponse(final SciPubOrder response) {
+                    item.setScientificPublication(response.getScientificPublication());
+                    setInfoText(item, listItem);
+                    setOrderButtonStyle(item, listItem);
 
-            API.call(Route.CreateOrder, SciPubOrder.class)
-                .body("order", order)
-                .then(new APIResponse.Listener<SciPubOrder>() {
-                    @Override
-                    public void onResponse(final SciPubOrder response) {
-                        item.setScientificPublication(response.getScientificPublication());
-                        setInfoText(item, listItem);
-                        setOrderButtonStyle(item, listItem);
-
-                        if (mOnOrderSuccess != null) {
-                            mOnOrderSuccess.onResponse(response);
-                        }
+                    if (mOnOrderSuccess != null) {
+                        mOnOrderSuccess.onResponse(response);
                     }
-                })
-                .catchError(mOnOrderError)
-                .executeWithContext(mContext);
-        } catch (APIRequestNoListenerSpecifiedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                }
+            },
+            mOnOrderError
+        );
     }
 }

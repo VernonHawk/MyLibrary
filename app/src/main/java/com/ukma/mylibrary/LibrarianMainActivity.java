@@ -1,6 +1,5 @@
 package com.ukma.mylibrary;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -155,15 +154,5 @@ public class LibrarianMainActivity extends ToolbarLibrarianActivity {
         currentPage = 0;
         loadList(currentPage);
         CheckEnable();
-    }
-
-    public void OnReturnClick(final View view) {
-        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.RETURN;
-        startActivity(new Intent(this, LibrarianActionActivity.class));
-    }
-
-    public void OnWithdrawClick(final View view) {
-        LibrarianActionActivity.librarianAction = LibrarianActionActivity.LibrarianAction.WITHDRAW;
-        startActivity(new Intent(this, LibrarianActionActivity.class));
     }
 }

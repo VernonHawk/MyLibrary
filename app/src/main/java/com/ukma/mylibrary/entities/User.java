@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ukma.mylibrary.entities.filters.EmptyIdFilter;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User implements Entity {
+public class User implements Entity, Serializable {
     @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = EmptyIdFilter.class)
     private long id;
     private String name;
@@ -66,6 +68,10 @@ public class User implements Entity {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", getName(), getSurname());
     }
 
     public String getPhoneNum() {

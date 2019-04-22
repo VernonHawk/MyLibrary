@@ -4,7 +4,6 @@ import com.ukma.mylibrary.entities.User;
 
 public class LibrarianItem extends AbstractItem {
 
-
     private User mUser;
 
     // Constructor that is used to create an instance of the ReaderItem object
@@ -12,11 +11,7 @@ public class LibrarianItem extends AbstractItem {
         this.mUser = user;
     }
 
-    public String getUserName() {
-        return mUser.getName();
-    }
-
-    public String getUserSurname() {
-        return mUser.getSurname();
+    public User getUser() {
+        return mUser;
     }
 }
