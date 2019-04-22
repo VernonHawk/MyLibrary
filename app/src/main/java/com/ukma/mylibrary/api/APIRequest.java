@@ -23,6 +23,7 @@ public class APIRequest {
     private int method;
     private Map<String, String> routeParams = new HashMap<>();
     private Map<String, String> queryParams = new HashMap<>();
+    private Map<String, String> bodyStringParams = new HashMap<>();
     private Map<String, JSONObject> bodyObjectParams = new HashMap<>();
     private Map<String, JSONArray> bodyArrayParams = new HashMap<>();
     private JSONObject requestObject = null;
@@ -82,6 +83,13 @@ public class APIRequest {
                 e.printStackTrace();
             }
         }
+        for (Map.Entry<String, String> entry : bodyStringParams.entrySet()) {
+            try {
+                requestObject.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public APIRequest params(Map<String, String> routeParams) {
@@ -91,6 +99,11 @@ public class APIRequest {
 
     public APIRequest params(String key, String value) {
         this.routeParams.put(key, value);
+        return this;
+    }
+
+    public APIRequest body(String key, String value) {
+        this.bodyStringParams.put(key, value);
         return this;
     }
 
