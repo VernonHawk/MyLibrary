@@ -28,7 +28,7 @@ public class LibraryNotificationManager {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-         this.notificationBuilder = new NotificationCompat.Builder(context, this.channelId)
+        this.notificationBuilder = new NotificationCompat.Builder(context, this.channelId)
                                         .setSmallIcon(this.icon)
                                         .setContentTitle(this.title)
                                         .setContentText(this.text)
