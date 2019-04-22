@@ -55,10 +55,7 @@ public class LibrarianActionActivity extends ToolbarLibrarianActivity {
         assert mAction != null;
 
 
-        ((TextView) findViewById(R.id.librarian_action_reader_name)).setText(
-            String.format(getString(R.string.reader_header),
-                          mCurrentReader.getName(), mCurrentReader.getSurname())
-        );
+        ((TextView) findViewById(R.id.librarian_action_reader_name)).setText(mCurrentReader.getFullName());
 
         listView = findViewById(R.id.librarian_action_list);
         btnPrev  = findViewById(R.id.prev);

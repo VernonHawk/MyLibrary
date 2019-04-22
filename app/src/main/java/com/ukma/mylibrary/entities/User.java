@@ -70,6 +70,10 @@ public class User implements Entity, Serializable {
         this.surname = surname;
     }
 
+    public String getFullName() {
+        return String.format("%s %s", getName(), getSurname());
+    }
+
     public String getPhoneNum() {
         return phoneNum;
     }

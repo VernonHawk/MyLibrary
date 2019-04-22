@@ -10,9 +10,14 @@ import com.ukma.mylibrary.api.Route;
 import com.ukma.mylibrary.entities.CopyIssue;
 import com.ukma.mylibrary.entities.SciPubOrder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Fetcher {
+    private Fetcher() {}
+
     public static void fetchOrdersForUser(
         final Context context,
         final long userId,
@@ -88,6 +93,30 @@ public class Fetcher {
                .catchError(onError)
                .executeWithContext(context);
         } catch (final APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void orderSciPub(
+        final Context context,
+        final long userId,
+        final long sciPubId,
+        final APIResponse.Listener<SciPubOrder> onSuccess,
+        final APIResponse.ErrorListener onError
+    ) {
+        try {
+            final JSONObject order = new JSONObject();
+            order.put("user_id", userId);
+            order.put("scientific_publication_id", sciPubId);
+
+            API.call(Route.CreateOrder, SciPubOrder.class)
+               .body("order", order)
+               .then(onSuccess)
+               .catchError(onError)
+               .executeWithContext(context);
+        } catch (final APIRequestNoListenerSpecifiedException e) {
+            e.printStackTrace();
+        } catch (final JSONException e) {
             e.printStackTrace();
         }
     }
