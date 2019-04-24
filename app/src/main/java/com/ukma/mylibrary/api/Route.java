@@ -12,6 +12,7 @@ public enum Route {
     GetCopyIssuesForUser,
     GetReaders,
     WithdrawCopy,
-    ReturnCopy
+    ReturnCopy,
+    UpdateFCMToken
 }
 
