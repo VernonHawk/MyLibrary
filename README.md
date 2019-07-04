@@ -9,11 +9,9 @@ We use [Git](https://git-scm.com) for versioning.
 
 ## Authors
 
-- **Igor Morenec** - [VernonHawk](https://github.com/VernonHawk)
+- **Igor Morenets** - [VernonHawk](https://github.com/VernonHawk)
 - **Anna Tsukanova** - [AnnabellFlem](https://github.com/AnnabellFlem)
 - **Max Nedashkovsky** - [MaximNd](https://github.com/MaximNd)
-
-See also the list of [contributors](https://github.com/VernonHawk/MyLibrary/contributors) who participated in this project.
 
 ## License
 
